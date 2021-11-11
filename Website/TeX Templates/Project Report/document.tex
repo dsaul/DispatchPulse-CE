@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{wasysym}
+\usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage{parskip}
+
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\newcommand\mydotfill{\cftdotfill{\cftdotsep}}
+\newcommand{\subhead}[1]{{\Large #1 \vspace{1ex}}}
+
+\begin{document}
+	\section*{Wire a house.}
+		
+		Name\enspace\mydotfill\enspace Wire a house. \\
+		Parent Project\enspace\mydotfill\enspace None \\
+		Status\enspace\mydotfill\enspace In Progress \\
+		Last Activity\enspace\mydotfill\enspace February 2, 2020, 9:53 AM CST by Dan Saul \\
+		
+		\subhead{Address}\\
+		Home\enspace\mydotfill\enspace\shortstack[l]{240 Quail Ridge Road\\
+			Suite 312} \\
+		
+		\subhead{Companies}\\
+		General Contractor\enspace\mydotfill\enspace\shortstack[l]{Test Company} \\
+		
+		\subhead{Contacts} \\
+		Homeowner\enspace\mydotfill\enspace\shortstack[l]{Dan Saul}\\
+		Designer\enspace\mydotfill\enspace\shortstack[l]{Keith Johnson}\\
+		Manager\enspace\mydotfill\enspace\shortstack[l]{Matthew Schiller}\\
+		Homeowner\enspace\mydotfill\enspace\shortstack[l]{Lindsey Childs} \\
+		
+		\subhead{Schedule} \\
+		Start\enspace\mydotfill\enspace\shortstack[l]{Jan 06, 2020 Morning First Thing}\\
+		End\enspace\mydotfill\enspace\shortstack[l]{Jan 31, 2020} \\
+		
+		\subhead{Notes} \\
+		\textbf{Dan Saul at Feb 2, 2020, 9:53 AM CST:}\\
+		\normalsize	\blindtext
+		
+		\textbf{Dan Saul at Feb 3, 2020, 9:53 AM CST:}\\
+		\normalsize	\blindtext
+		
+\end{document}

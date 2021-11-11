@@ -1,0 +1,112 @@
+\documentclass[10pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{adjustbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tocloft}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{blindtext}
+\setlength\parindent{0pt}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\newcommand\mydotfill{\cftdotfill{\cftdotsep}}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{document}
+	
+	
+	
+	
+	\begin{flushleft}
+		\begin{tabularx}{\textwidth}{lYr}
+			\begin{tabular}[t]{l}
+				 \textbf{Coll-West Electric}\medskip \\
+				 
+			\end{tabular}& 
+			
+			\begin{tabular}[t]{l}
+				\small Phone\enspace\mydotfill\enspace \href{tel:2048887195}{204-888-7195} \\
+				\small EMail\enspace\mydotfill\enspace \href{mailto:bob@collwestelectric.com}{bob@collwestelectric.com} \\
+				Mail\enspace\mydotfill\enspace\shortstack[r]{
+					261 Wallasey Street \\ Winnipeg, MB, R3J 3C2
+				}
+			\end{tabular}
+			
+			& 
+			\begin{tabular}[t]{r}
+				\textbf{Assignment}\medskip \\
+				Number\enspace\mydotfill\enspace 123456 \\
+				Date\enspace\mydotfill\enspace\today \\
+				
+			\end{tabular}
+			 \\
+		\end{tabularx}
+	\end{flushleft}
+	\vspace{-1.4\baselineskip}
+	\textbf{Project}\hrulefill
+	\begin{multicols}{2}
+		\begin{minipage}{\columnwidth}
+		Name\enspace\mydotfill\enspace Wire a house.  \\
+		Status\enspace\mydotfill\enspace In Progress \\
+		Last Modified\enspace\mydotfill\enspace 2/4/2020, 5:04 PM by Dan Saul \\
+		\end{minipage}
+		\begin{minipage}{\columnwidth}
+		\textbf{Addresses:} \\
+		Jobsite\enspace\mydotfill\enspace 240 Quail Ridge Road Suite 312 \\
+		\end{minipage}
+		\begin{minipage}{\columnwidth}
+		\textbf{Companies:} \\
+		General Contractor\enspace\mydotfill\enspace  Test Company  \\
+		\end{minipage}
+		\begin{minipage}{\columnwidth}
+		\textbf{Contacts:} \\
+		Homeowner\enspace\mydotfill\enspace Dan Saul \\
+		Designer\enspace\mydotfill\enspace Keith Johnson \\
+		Manager\enspace\mydotfill\enspace Matthew Schiller \\
+		Homeowner\enspace\mydotfill\enspace Lindsey Childs \\
+		\end{minipage}
+		\begin{minipage}{\columnwidth}
+		\textbf{Project Schedule:} \\
+		Start Date \& Time\enspace\mydotfill\enspace 1/6/2020 First Thing in the Morning
+		End Date \& Time\enspace\mydotfill\enspace 1/31/2020
+		\end{minipage}
+	\end{multicols}
+	\vspace{-.7\baselineskip}
+	\textbf{Assignment}\hrulefill
+	\begin{multicols}{2}
+		Agent\enspace\mydotfill\enspace Dan  \\
+		Status\enspace\mydotfill\enspace To Be Scheduled \\
+		\begin{minipage}{\columnwidth}
+			\textbf{Schedule:} \\
+			Start Date \& Time\enspace\mydotfill\enspace 1/6/2020 First Thing in the Morning
+			End Date \& Time\enspace\mydotfill\enspace 1/31/2020
+		\end{minipage}
+	\end{multicols}
+	\vspace{-.7\baselineskip}
+	\textbf{Work Requested}\hrulefill\medskip \\
+	\blindtext \medskip\\
+	\textbf{Work Performed}\hrulefill\medskip \\
+	\blindtext \medskip\\
+	\textbf{Internal Comments}\hrulefill\medskip \\
+	\blindtext \medskip
+
+	
+	\textbf{Notes}\hrulefill\medskip \\
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	\textcolor{black!20}{\underline{\hspace{\textwidth}}}
+	
+	
+	\vfill
+	\hrulefill \\
+	
+\end{document}

@@ -1,0 +1,172 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{array}% http://ctan.org/pkg/array
+\usepackage{booktabs}
+\usepackage{rotating}
+\usepackage{dashrule}
+\usepackage{amssymb}
+\usepackage{pdfrender}
+\usepackage[skip=0pt]{caption}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{arydshln}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+
+\newcommand*{\boldcheckmark}{%
+	\textpdfrender{
+		TextRenderingMode=FillStroke,
+		LineWidth=.5pt, % half of the line width is outside the normal glyph
+	}{\checkmark}%
+}
+
+
+\begin{document}
+ %\rowcolors{2}{gray!10}{white}
+
+
+
+\newcolumntype{P}[2]{%
+	>{\begin{turn}{#1}\begin{minipage}{#2}\small\raggedright\hspace{0pt}}l%
+			<{\end{minipage}\end{turn}}%
+}
+
+
+	\begin{table}
+		\centering
+		\caption*{Labour}
+		\begin{tabular}{rcccc:c:c:c:c:c:c}
+			\toprule
+			Date&
+			Agent&
+			Description& 
+			Hours& 
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Billable}& 
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Travel}&
+			\multicolumn{1}{P{90}{1.8cm}@{}}{On Site}&
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Remote}&
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Extra}&
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Billed}&
+			\multicolumn{1}{P{90}{1.8cm}@{}}{Paid Out}\\[4ex]
+			\midrule
+			
+			\cellcolor{gray!10}Sep 29, 2019& 
+			\cellcolor{gray!10}Dan& 
+			\cellcolor{gray!10}\shortstack{312-240 Quail Ridge Road \\ Test Project}& 
+			\cellcolor{gray!10}6h 00m& 
+			\cellcolor{gray!10}\boldcheckmark& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}\\
+			
+			Dec 29, 2019 & 
+			Dan & 
+			\shortstack{312-240 Quail Ridge Road \\ Wire a house} & 
+			0h 30m & 
+			\boldcheckmark & 
+			\boldcheckmark &  
+			&  
+			&  
+			&  
+			&  
+			\\
+			
+			\cellcolor{gray!10}Dec 29, 2019& 
+			\cellcolor{gray!10}Dan& 
+			\cellcolor{gray!10}\shortstack{312-240 Quail Ridge Road \\ Wire a house}& 
+			\cellcolor{gray!10}0h 45m& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}& 
+			\cellcolor{gray!10}\boldcheckmark
+			\cellcolor{gray!10}&
+			\cellcolor{gray!10}&
+			\cellcolor{gray!10}&
+			\cellcolor{gray!10}&
+			\cellcolor{gray!10}\\
+			
+			Dec 29, 2019&
+			Dan&
+			\shortstack{312-240 Quail Ridge Road \\ Wire a house}&
+			3h 20m&
+			&
+			&
+			&
+			\boldcheckmark&
+			\boldcheckmark&
+			\boldcheckmark&
+			\boldcheckmark\\
+			
+			Jan 3, 2020 & Dan & Exception: Bereavement & 8h 00m &&&&&&& \\
+			Jan 3, 2020 & Dan & Holiday: Boxing Day & 8h 00m &&&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			System 3 & X &    & X & &&&&&& \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\begin{table}
+		\centering
+		\caption*{Some properties}
+		\begin{tabular}{rccc}
+			\toprule
+			& \multicolumn{1}{P{60}{2cm}}{Date} &
+			\multicolumn{1}{P{60}{2cm}}{Agent} &
+			\multicolumn{1}{P{60}{2cm}@{}}{Description} \\
+			\midrule
+			System 1 &     &     & X \\
+			System 2 & X & X & X \\
+			System 3 & X &    & X \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+\end{document}

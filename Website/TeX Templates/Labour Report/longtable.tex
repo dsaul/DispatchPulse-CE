@@ -1,0 +1,635 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{longtable}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{booktabs}
+\usepackage{rotating}
+\usepackage{dashrule}
+\usepackage{amssymb}
+\usepackage{pdfrender}
+\usepackage[skip=0pt]{caption}
+\usepackage[table]{xcolor}
+\usepackage{arydshln}
+\usepackage[utf8]{inputenc}
+
+\newcommand*{\boldcheckmark}{%
+	\textpdfrender{
+		TextRenderingMode=FillStroke,
+		LineWidth=.5pt, % half of the line width is outside the normal glyph
+	}{\checkmark}%
+}
+
+\begin{document}
+	
+	\newcolumntype{P}[2]{%
+		>{\begin{turn}{#1}\begin{minipage}{#2}\small\raggedright\hspace{0pt}}l%
+				<{\end{minipage}\end{turn}}%
+	}
+	
+	\begin{center}
+		\begin{longtable}{|r:c:l:l:l:l:l:l:l:l:l|}
+			\caption*{Labour} \\
+			
+			\hline
+			\multicolumn{1}{|c|}{\textbf{Date}} &
+			\multicolumn{1}{c|}{\textbf{Agent}} &
+			\multicolumn{1}{c|}{\textbf{Description}} &
+			\multicolumn{1}{c|}{\textbf{Hours}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Billable} \\ \smallskip}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Travel} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{On Site} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Remote} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Extra} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Billed} \\ \smallskip}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Paid Out} \\ \smallskip}}\\
+			\hline 
+			\endfirsthead
+			
+			\multicolumn{11}{c}{{Labour -- continued from previous page}} \\
+			\hline
+			\multicolumn{1}{|c|}{\textbf{Date}} &
+			\multicolumn{1}{c|}{\textbf{Agent}} &
+			\multicolumn{1}{c|}{\textbf{Description}} &
+			\multicolumn{1}{c|}{\textbf{Hours}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Billable} \\ \smallskip}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Travel} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{On Site} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Remote} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Extra} \\ \smallskip}}&
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Billed} \\ \smallskip}} &
+			\multicolumn{1}{P{90}{2cm}@{}|}{\shortstack{\textbf{Paid Out} \\ \smallskip}}\\
+			\hline 
+			\endhead
+			
+			\hline
+			\multicolumn{11}{r}{{Continued on next page}} \\
+			%\hline
+			\endfoot
+			
+			\hline
+			\endlastfoot
+			
+			
+			\shortstack{\smallskip \\ Sep 29, 2019}& 
+			\shortstack{\smallskip \\ Dan}& 
+			\shortstack[l]{\smallskip \\ 312-240 Quail Ridge Road \\ Test Project}& 
+			\shortstack{\smallskip \\ 6h 00m}& 
+			\shortstack{\smallskip \\ \boldcheckmark}& 
+			& 
+			& 
+			& 
+			& 
+			& 
+			\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Dec 29, 2019}& 
+			\shortstack{\smallskip \\ Dan}& 
+			\shortstack[l]{\smallskip \\ 312-240 Quail Ridge Road \\ Wire a house}& 
+			\shortstack{\smallskip \\ 0h 30m}& 
+			\shortstack{\smallskip \\ \boldcheckmark}& 
+			\shortstack{\smallskip \\ \boldcheckmark}&  
+			&  
+			&  
+			&  
+			&  
+			\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Dec 29, 2019}& 
+			\shortstack{\smallskip \\ Dan}& 
+			\shortstack[l]{\smallskip \\ 312-240 Quail Ridge Road \\ Wire a house}& 
+			\shortstack{\smallskip \\ 0h 45m}& 
+			& 
+			& 
+			\shortstack{\smallskip \\ \boldcheckmark}&
+			&
+			&
+			&
+			\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Dec 29, 2019}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ 312-240 Quail Ridge Road \\ Wire a house}&
+			\shortstack{\smallskip \\ 3h 20m}&
+			&
+			&
+			&
+			\shortstack{\smallskip \\ \boldcheckmark}&
+			\shortstack{\smallskip \\ \boldcheckmark}&
+			\shortstack{\smallskip \\ \boldcheckmark}&
+			\shortstack{\smallskip \\ \boldcheckmark}\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Exception: Bereavement}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			\\
+			\hline
+			
+			\shortstack{\smallskip \\ Jan 3, 2020}&
+			\shortstack{\smallskip \\ Dan}&
+			\shortstack[l]{\smallskip \\ Holiday: Boxing Day}&
+			\shortstack{\smallskip \\ 8h 00m}
+			&
+			&
+			&
+			&
+			&
+			&
+			&
+			%\\ DO NOT PUT THE LAST DOUBLE BACKSLASH IT WILL BREAK THINGS
+		\end{longtable}
+	\end{center}
+	
+\end{document}
