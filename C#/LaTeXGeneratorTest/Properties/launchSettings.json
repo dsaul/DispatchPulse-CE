@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "LaTeXGeneratorTest": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NPGSQL_CONNECTION_STRING": "Host=toronto.docker.dispatchpulse.com;Port=32123;Username=root;",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf"
+      }
+    }
+  }
+}

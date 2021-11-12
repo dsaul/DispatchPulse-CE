@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "JobRunnerEnsureCompanyS3Buckets": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-manage-client-buckets-access-key-1.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-manage-client-buckets-secret-key-1.txt"
+      }
+    }
+  }
+}

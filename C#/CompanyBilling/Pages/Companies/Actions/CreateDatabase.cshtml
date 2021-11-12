@@ -1,0 +1,36 @@
+﻿@page "/companies/{CompanyId}/actions/create-database/"
+@model CompanyBilling.Pages.Companies.Actions.CreateDatabaseModel
+@{
+}
+
+@if (null == Model.Company)
+{
+	<div>Company not found.</div>
+}
+else
+{
+	<div>
+		<a href="/">Home</a> &#187; <a href="/companies">Companies</a> &#187; <a href="/companies/@(Model.CompanyId)">@Model.Company.FullName</a> &#187; <a href="">Add Subscription</a>
+	</div>
+
+	<h1>Create database for @(Model.Company.FullName):</h1>
+
+	@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+	{
+		<p style="color: red;">@Model.ErrorMessage</p>
+	}
+
+	<form method="post">
+		<dl>
+			<dt>Database Name Fragment</dt>
+			<dd class="expandinput">
+				<input type="text" asp-for="DatabaseNameUniqueSearchFragment" />
+			</dd>
+			<dt></dt>
+			<dd class="expandinput"><input type="submit" value="Create" /></dd>
+		</dl>
+
+
+	</form>
+
+}

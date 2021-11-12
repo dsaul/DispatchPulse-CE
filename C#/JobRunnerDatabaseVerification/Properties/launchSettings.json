@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "JobRunnerDatabaseVerification": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf"
+      }
+    }
+  }
+}

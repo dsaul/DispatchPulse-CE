@@ -1,0 +1,57 @@
+﻿@page "/companies/create"
+@model ManuallyProcessPreAuthorizedPayments.Pages.Company.CreateCompanyModel
+@{
+}
+
+<p>
+	<a href="/">Home</a> &#187; <a href="/companies">Companies</a> &#187; <a href="">Create Company</a>
+</p>
+<h1>Create New Company</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage)) { 
+	<div style="color: red;">@Model.ErrorMessage</div>
+}
+
+<form method="post">
+	<h2>General Information:</h2>
+	<dl>
+		<dt>Full Name</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyFullName" /></dd>
+		<dt>Abbreviation</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAbbreviation" /></dd>
+		<dt>Industry</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyIndustry" /></dd>
+		<dt>Marketing Campaign</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyMarketingCampaign" /></dd>
+		<dt>Address City</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressCity" /></dd>
+		<dt>Address Country</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressCountry" /></dd>
+		<dt>Address Line 1</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressLine1" /></dd>
+		<dt>Address Line 2</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressLine2" /></dd>
+		<dt>Address Postal Code</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressPostalCode" /></dd>
+		<dt>Address Province</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyAddressProvince" /></dd>
+		<dt>Payment Method</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyPaymentMethod" disabled="disabled" /></dd>
+		<dt>Invoice Contact Id</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyInvoiceContactId" disabled="disabled" /></dd>
+		<dt>Payment Frequency</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyPaymentFrequency" /></dd>
+		<dt>Phone Id</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyPhoneId" /></dd>
+		<dt>S3 Bucket Name</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyS3BucketName" disabled="disabled" /></dd>
+		<dt>Square Customer Id</dt>
+		<dd class="expandinput"><input type="text" asp-for="SquareCustomerId" disabled="disabled" /></dd>
+		<dt>Currency</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyCurrency" /></dd>
+		<dt></dt>
+		<dd class="expandinput">
+			<input type="submit" value="Save" />
+		</dd>
+	</dl>
+	
+</form>

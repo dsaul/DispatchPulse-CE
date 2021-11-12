@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/webfonts/literata/Literata.css" />
+	<script src="https://cdn.polyfill.io/v3/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc,Math.sign,Object.is"></script>
+	<script src="~/js/require.js"></script>
+</head>
+<body>
+	<script>
+		require.config({
+			baseUrl: "/js",
+			//paths: {
+			//	"some": "some/v1.0"
+			//},
+			//waitSeconds: 15
+		});
+		require(["/js/Website.js", "luxon"], (website, luxon) => {
+			website.Global.Start();
+		})
+	</script>
+	<main>
+		<header><a href="/">Saul and Partners</a></header>
+		<nav>
+			<a href="/companies">Companies</a>
+			<a href="/contacts">Contacts</a>
+		</nav>
+		<article>
+			@RenderBody()
+		</article>
+		<footer>&copy; Saul and Partners</footer>
+	</main>
+</body>
+</html>

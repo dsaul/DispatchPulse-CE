@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "JobRunnerContactsReport": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "S3_PDFLATEX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-pdflatex-generator-access-key-1.txt",
+        "S3_PDFLATEX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-pdflatex-generator-secret-key-1.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf"
+      }
+    }
+  }
+}

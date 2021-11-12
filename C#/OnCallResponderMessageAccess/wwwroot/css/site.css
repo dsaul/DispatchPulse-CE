@@ -1,0 +1,47 @@
+﻿body {
+	background: rgb(50, 50, 66);
+	padding: 40px;
+	font-family:'Times New Roman', Times, serif;
+}
+main {
+	border: 2px solid black;
+	max-width: 500px;
+	margin: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	background: white;
+}
+header {
+	background: rgb(116, 115, 137);
+	color: white;
+	font-weight: bold;
+	padding: 10px;
+}
+article {
+	padding: 20px;
+
+}
+footer {
+	background: #747389;
+	color: white;
+	padding: 10px;
+	font-size: 0.8rem;
+}
+footer a {
+	color: white;
+}
+article dt {
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+dd.actions button[type="submit"] {
+	padding: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+div.postSaved {
+	border: 1px solid rgb(60, 108, 73);
+	background: rgba(60, 108, 73, 0.1);
+	padding: 10px;
+}

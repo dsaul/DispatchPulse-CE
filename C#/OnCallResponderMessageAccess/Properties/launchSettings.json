@@ -1,0 +1,43 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:63159",
+      "sslPort": 44319
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+
+        "S3_PBX_SERVICE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\S3_PBX_SERVICE_URI.txt",
+        "S3_PBX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-secret-key-2.txt",
+        "S3_PBX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-access-key-2.txt",
+
+        "SMTP_HOST_FQDN_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SMTP_HOST_FQDN.txt",
+        "SMTP_PASSWORD_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-password-1.txt",
+        "SMTP_USERNAME_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-username-1.txt",
+        "SMTP_HOST_PORT_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SMTP_HOST_PORT.txt",
+
+
+
+        "ASPNETCORE_ENVIRONMENT": "Development"
+
+      }
+    },
+    "OnCallResponderMessageAccess": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    }
+  }
+}

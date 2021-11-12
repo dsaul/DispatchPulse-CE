@@ -1,0 +1,47 @@
+﻿@page "/contacts/create"
+@model ManuallyProcessPreAuthorizedPayments.Pages.Contacts.CreateContactModel
+@{
+}
+<p>
+	<a href="/">Home</a> &#187; <a href="/contacts">All Contacts</a> &#187; <a href="">Create Contact</a>
+</p>
+<h1>Create New Company</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<div style="color: red;">@Model.ErrorMessage</div>
+}
+<form method="post">
+	<h2>General Information:</h2>
+	<dl>
+		<dt>Full Name</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactFullName" /></dd>
+		<dt>E-Mail</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactEMail" /></dd>
+		<dt>Initial Password</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactInitialPassword" /></dd>
+		<dt>Email List Marketing</dt>
+		<dd class="expandinput"><input type="checkbox" asp-for="ContactEMailListMarketing" /></dd>
+		<dt>Email List Tutorials</dt>
+		<dd class="expandinput"><input type="checkbox" asp-for="ContactEMailListTutorials" /></dd>
+		<dt>Marketing Campaign</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactMarketingCampaign" /></dd>
+		<dt>Phone Number</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactPhoneNumber" /></dd>
+		<dt>Company Id</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactCompanyId" disabled="disabled" /></dd>
+		<dt>DispatchPulseContactId</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactDispatchPulseContactId" disabled="disabled" /></dd>
+		<dt>DispatchPulseAgentId</dt>
+		<dd class="expandinput"><input type="text" asp-for="ContactDispatchPulseAgentId" disabled="disabled" /></dd>
+		<dt>License Assigned On Call</dt>
+		<dd class="expandinput"><input type="checkbox" asp-for="LicenseAssignedOnCall" /></dd>
+		<dt>License Assigned Projects Scheduling Time</dt>
+		<dd class="expandinput"><input type="checkbox" asp-for="LicenseAssignedProjectsSchedulingTime" /></dd>
+		<dt>Groups</dt>
+		<dd class="expandinput">
+			<select asp-for="SelectedGroups" asp-items="Model.GroupListOptions"></select>
+		</dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>

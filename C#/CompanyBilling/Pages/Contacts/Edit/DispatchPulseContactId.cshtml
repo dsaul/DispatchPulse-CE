@@ -1,0 +1,21 @@
+﻿@page "/contacts/{Id}/edit/dp-contact-id"
+@model CompanyBilling.Pages.Contacts.Edit.DispatchPulseContactIdModel
+@{
+}
+<div>
+	<a href="/">Home</a> &#187; <a href="/contacts">Contacts</a> &#187; <a href="/Contacts/@Model.Contact.Uuid">@Model.Contact.FullName</a>
+</div>
+
+<h1>Change @(Model.Contact.FullName)'s dp contact id.</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<p style="color: red;">@Model.ErrorMessage</p>
+}
+<form method="post">
+	<dl>
+		<dt>New Value</dt>
+		<dd class="expandinput"><input type="text" asp-for="Value" /></dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>

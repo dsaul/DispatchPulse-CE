@@ -1,0 +1,33 @@
+﻿@page "/contacts"
+@using Databases.Records.Billing;
+@model ManuallyProcessPreAuthorizedPayments.Pages.Contacts.IndexModel
+@{
+	ViewData["Title"] = "Contacts";
+}
+<p>
+	<a href="/">Home</a> &#187; <a href="">Companies</a>
+</p>
+<p>
+	<a href="/contacts/create"><button>Create new Contact</button></a>
+</p>
+
+<h1>All Contacts</h1>
+@if (null == Model.AllContacts || 0 == Model.AllContacts.Count)
+{
+	<p>No contacts to list.</p>
+}
+else
+{
+	<ul>
+		@foreach (var obj in Model.AllContacts)
+		{
+			<li>
+				<a href="/contacts/@obj.Contact.Uuid">@obj.Contact.FullName</a>
+				@if (null != obj.Company)
+				{
+					<span>(@obj.Company.FullName)</span>
+				} 
+			</li>
+		}
+	</ul>
+}

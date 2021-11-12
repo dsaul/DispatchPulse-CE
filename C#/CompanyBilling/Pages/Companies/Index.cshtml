@@ -1,0 +1,64 @@
+﻿@page "/companies"
+@using Databases.Records.Billing;
+@model ManuallyProcessPreAuthorizedPayments.Pages.Company.IndexModel
+@{
+	ViewData["Title"] = "Companies";
+}
+
+<div><a href="/">Home</a> &#187; <a href="">Companies</a></div>
+
+
+<p>
+	<a href="/companies/create"><button>Create new Company</button></a>
+</p>
+
+<h1>All Companies</h1>
+@if (null == Model.AllCompanies || 0 == Model.AllCompanies.Count)
+{
+	<p>No companies to list.</p>
+}
+else
+{
+	<ul>
+		@foreach (KeyValuePair<Guid, BillingCompanies> kvp in Model.AllCompanies)
+		{
+			<li><a href="/companies/@kvp.Value.Uuid">@kvp.Value.FullName</a></li>
+		}
+	</ul>
+}
+
+<h1>Companies with Pre-Authorized Payments</h1>
+@if (null == Model.CompaniesPreAuth || 0 == Model.CompaniesPreAuth.Count)
+{
+	<div>No companies to list.</div>
+}
+else
+{
+	<ul>
+		@foreach (KeyValuePair<Guid, BillingCompanies> kvp in Model.CompaniesPreAuth)
+		{
+			<li><a href="/companies/@kvp.Value.Uuid">@kvp.Value.FullName</a></li>
+		}
+	</ul>
+}
+<h1>Invoice Companies</h1>
+@if (null == Model.CompaniesInvoice || 0 == Model.CompaniesInvoice.Count)
+{
+	<div>No companies to list.</div>
+}
+else
+{
+	<ul>
+		@foreach (KeyValuePair<Guid, BillingCompanies> kvp in Model.CompaniesInvoice)
+		{
+			<li><a href="/companies/@kvp.Value.Uuid">@kvp.Value.FullName</a></li>
+		}
+	</ul>
+}
+
+
+<script>
+	require(["/js/companies/Index.js", "luxon"], (website, luxon) => {
+		website.Index.Start();
+	})
+</script>

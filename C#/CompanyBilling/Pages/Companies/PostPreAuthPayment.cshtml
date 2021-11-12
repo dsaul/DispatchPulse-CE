@@ -1,0 +1,14 @@
+﻿@page "/companies/PostPreAuthPayment"
+@model ManuallyProcessPreAuthorizedPayments.Pages.PostPaymentModel
+@{
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+<div>Error Message: Model.ErrorMessage</div>
+} 
+
+@if (Model.PostSuccess)
+{
+<div>Success</div>
+}

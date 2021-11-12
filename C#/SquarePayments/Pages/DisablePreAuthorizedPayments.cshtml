@@ -1,0 +1,37 @@
+﻿@page
+@model SquarePayments.Pages.DisablePreAuthorizedPaymentsModel
+@{
+}
+
+@if (Model.CanAccessPreAuthorizedPayments)
+{
+	@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+	{
+		<div class="errorMessage" style="display: none;">@Model.ErrorMessage</div>
+	}
+
+	@if (Model.IsPostSuccess)
+	{
+		<div style="text-align: center;"><img src="~/img/checkmark.svg" style="width: 100px; height: 100px;" /></div>
+		<div style="text-align: center; font-weight: bold; margin:10px;">Succesfully disabled pre-authorized payments.</div>
+	}
+	else
+	{
+		<form action="" method="post">
+			<button type="submit" id="sq-creditcard" class="button-credit-card">Disable Pre-Authorized Payments</button>
+
+			<input type="hidden" value="true" name="flag" />
+		</form>
+	}
+
+}
+else
+{
+	<div>You don't have access to pre-authorized payments.</div>
+}
+
+<script>
+	require(["/js/DisablePreAuthorizedPayments.js", "luxon"], (website, luxon) => {
+		website.DisablePreAuthorizedPayments.Start();
+	})
+</script>

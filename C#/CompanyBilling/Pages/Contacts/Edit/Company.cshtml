@@ -1,0 +1,32 @@
+﻿@page "/contacts/{Id}/edit/company"
+@using Databases.Records.Billing;
+@model CompanyBilling.Pages.Contacts.Edit.CompanyModel
+@{
+	if (null == Model.Contact)
+		throw new Exception("null == Model.Company");
+}
+<div>
+	<a href="/">Home</a> &#187; <a href="/contacts">Contacts</a> &#187; <a href="/contacts/@Model.Contact.Uuid">@Model.Contact.FullName</a>
+</div>
+<h1>Change @(Model.Contact.FullName)'s company.</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<p style="color: red;">@Model.ErrorMessage</p>
+}
+
+<form method="post">
+
+	<dl>
+		<dt>New Value</dt>
+		<dd class="expandinput">
+			<ul>
+				@foreach (KeyValuePair<Guid, BillingCompanies> kvp in Model.AllCompanies)
+				{
+					<li style="list-style: none;"><input type="radio" asp-for="Value" value="@kvp.Value.Uuid" /> @kvp.Value.FullName</li>
+				}
+			</ul>
+		</dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>

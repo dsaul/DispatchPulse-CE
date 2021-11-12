@@ -1,0 +1,38 @@
+﻿{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:55742",
+      "sslPort": 44376
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SIGNAL_R_HUB_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SIGNAL_R_HUB_URI-local-dev.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "SQUARE_SANDBOX_ACCESS_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-sandbox-access-token-1.txt",
+        "SQUARE_PRODUCTION_ACCESS_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-production-access-token-1.txt"
+      }
+    },
+    "ManuallyProcessPreAuthorizedPayments": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SIGNAL_R_HUB_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SIGNAL_R_HUB_URI-local-dev.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "SQUARE_SANDBOX_ACCESS_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-sandbox-access-token-1.txt",
+        "SQUARE_PRODUCTION_ACCESS_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-production-access-token-1.txt"
+      }
+    }
+  }
+}

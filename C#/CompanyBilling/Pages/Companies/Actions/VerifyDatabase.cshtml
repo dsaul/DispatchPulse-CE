@@ -1,0 +1,33 @@
+﻿@page "/companies/{CompanyId}/actions/verify-database/{DatabaseName}"
+@model CompanyBilling.Pages.Companies.Actions.VerifyDatabaseModel
+@{
+}
+<div>
+	<a href="/">Home</a> &#187; <a href="/companies">Companies</a> &#187; <a href="/companies/@Model.Company.Uuid">@Model.Company.FullName</a>
+</div>
+@*THIS IS TOO LONG RUNNING TO EXPOSE ON THE WEB UI*@
+<h1>Change @(Model.Company.FullName)'s abbreviation.</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<p style="color: red;">@Model.ErrorMessage</p>
+}
+<form method="post">
+	<dl>
+		<dt>Company Id</dt>
+		<dd class="expandinput"><input type="text" asp-for="CompanyId" /></dd>
+		<dt>Database Name</dt>
+		<dd class="expandinput"><input type="text" asp-for="DatabaseName" /></dd>
+		<dt>Insert Default Contents</dt>
+		<dd class="expandinput"><input type="checkbox" asp-for="InsertDefaultContents" /></dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>
+
+@if (Model.Log.Count > 0)
+{
+	foreach (string line in Model.Log)
+	{
+		<p>@(line)</p>
+	}
+} 

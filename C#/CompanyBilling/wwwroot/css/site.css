@@ -1,0 +1,122 @@
+﻿body {
+	background: rgb(50, 50, 66);
+	padding: 40px;
+	font-family: 'Literata Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+main {
+	background: white;
+	max-width: 1000px;
+	border: 2px solid black;
+	margin: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+article {
+	padding: 10px;
+}
+header {
+	margin: 0px;
+	background: rgb(116, 115, 137);
+	color: white;
+	font-weight: bold;
+	padding: 10px;
+	font-size: 24px;
+}
+header a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+nav {
+	display: flex;
+	border-bottom: 1px solid black;
+	background: #747389;
+	color: white;
+}
+nav a {
+	display: inline-block;
+	margin: 10px;
+	color: inherit;
+}
+
+footer {
+	background: #747389;
+	color: white;
+	padding: 10px;
+	font-size: 0.8rem;
+}
+
+/* Definition Lists Side by Side */
+dt {
+	float: left;
+	width: 30%;
+	text-align: right;
+	padding: .25em;
+	clear: left;
+}
+
+dd {
+	float: left;
+	width: 60%;
+	padding: .25em 0;
+}
+
+dl:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+dd.expandinput {
+	display: flex;
+}
+dd.expandinput input:not([type=radio]):not([type=checkbox]) {
+	width: 100%;
+	padding: 5px;
+	font-family: 'Literata Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 16px;
+}
+dd.expandinput textarea {
+	width: 100%;
+	padding: 5px;
+	font-family: 'Literata Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 16px;
+}
+dd.expandinput ul {
+	padding: 0px;
+}
+dd.expandinput a {
+	margin-left: 5px;
+	display: block;
+	color: inherit;
+	text-decoration: inherit;
+}
+dd.expandinput a button {
+	display: block;
+	padding: 5px;
+	height:100%;
+}
+dd.expandinput select {
+	width: 100%;
+	padding: 5px;
+	font-family: 'Literata Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 16px;
+	min-height: 300px;
+}
+
+table.journal-entries {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+table.journal-entries td, th {
+	padding: 5px;
+}
+
+table.journal-entries tr:nth-child(even) {
+	background: rgba(0,0,0,0.05);
+}
+
+table.journal-entries tr:nth-child(odd) {
+	background: transparent;
+}

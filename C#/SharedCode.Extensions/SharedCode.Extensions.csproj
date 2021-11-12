@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Npgsql" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharedCode.Konstants\SharedCode.Konstants.csproj" />
+    <ProjectReference Include="..\SharedCode.Regex\SharedCode.RegexUtils.csproj" />
+    <ProjectReference Include="..\SharedCode.SQLUtility\SharedCode.SQLUtility.csproj" />
+  </ItemGroup>
+
+</Project>

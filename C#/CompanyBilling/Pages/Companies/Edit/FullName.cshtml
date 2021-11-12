@@ -1,0 +1,22 @@
+﻿@page "/companies/{Id}/edit/full-name"
+@model ManuallyProcessPreAuthorizedPayments.Pages.Company.Edit.FullNameModel
+@{
+	if (null == Model.Company)
+		throw new Exception("null == Model.Company");
+}
+<div>
+	<a href="/">Home</a> &#187; <a href="/companies">Companies</a> &#187; <a href="/companies/@Model.Company.Uuid">@Model.Company.FullName</a>
+</div>
+<h1>Change @(Model.Company.FullName)'s full name.</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<p style="color: red;">@Model.ErrorMessage</p>
+}
+<form method="post">
+	<dl>
+		<dt>New Value</dt>
+		<dd class="expandinput"><input type="text" asp-for="Value" /></dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>

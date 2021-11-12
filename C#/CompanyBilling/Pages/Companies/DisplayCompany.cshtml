@@ -1,0 +1,306 @@
+﻿@page "/companies/{Id}"
+@using Databases.Records.Billing;
+@model ManuallyProcessPreAuthorizedPayments.Pages.CompanyModel
+@{
+
+}
+
+
+
+@if (null == Model.Company)
+{
+	<div>Company not found.</div>
+}
+else
+{
+	<div>
+		<a href="/">Home</a> &#187; <a href="/companies">Companies</a> &#187; <a href="">@Model.Company.FullName</a>
+	</div>
+
+	<h1>@Model.Company.FullName</h1>
+
+	<ul>
+		<li><a href="#Information">Information</a></li>
+		<li><a href="#PaymentProcessing">Payment Processing</a></li>
+		<li><a href="#JournalEntries">Journal Entries</a></li>
+		<li><a href="#Subscriptions">Subscriptions</a></li>
+	</ul>
+	<h2><a name="Contacts" href="#Contacts">Contacts</a></h2>
+	if (null == Model.Contacts)
+	{
+		<span>There are no contacts on this account.</span>
+	}
+	else
+	{
+		<ul>
+			@foreach (KeyValuePair<Guid, BillingContacts> kvp in Model.Contacts)
+			{
+				<li><a href="/contacts/@kvp.Value.Uuid">@kvp.Value.FullName</a></li>
+			}
+		</ul>
+	}
+
+	<h2><a name="Information" href="#Information">Information</a></h2>
+	<h3>General</h3>
+	<dl>
+		<dt>Full Name</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.FullName" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/full-name"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Address</dt>
+		<dd class="expandinput">
+			<textarea type="text" readonly="readonly" asp-for="AddressForDisplay" onClick="this.setSelectionRange(0, this.value.length)"></textarea>
+			<a href="/companies/@Model.Company.Uuid/edit/address"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Industry</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.Industry" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/industry"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Marketing Campaign</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.MarketingCampaign" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/marketing-campaign"><button style="width: 100px;">Edit</button></a>
+		</dd>
+	</dl>
+	<h3>Payment</h3>
+	<dl>
+		<dt>Invoice Contact ID</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="InvoiceContact.FullName" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/invoice-contact"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Payment Method</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.PaymentMethod" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+		<dt>Payment Frequency</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.PaymentFrequency" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/payment-frequency"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Square Customer Id</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.SquareCustomerId" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+		<dt>Stripe Customer ID</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.StripeCustomerId" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+		<dt>Currency</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.Currency" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+	</dl>
+	<h3>Service</h3>
+	<dl>
+		<dt>Login Abbreviation</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.Abbreviation" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/abbreviation"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>Phone Id</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.PhoneId" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/companies/@Model.Company.Uuid/edit/phone-id"><button style="width: 100px;">Edit</button></a>
+		</dd>
+		<dt>S3 Bucket Name</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.S3BucketName" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="https://cloud.linode.com/object-storage/buckets/us-east-1/@(Model.Company.S3BucketName)" target="_blank"><button style="width: 100px;">View</button></a>
+		</dd>
+	</dl>
+	<h3>Advanced</h3>
+	<dl>
+		<dt>Unique ID</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Company.Uuid" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+	</dl>
+
+	<h2><a name="PaymentProcessing" href="#PaymentProcessing">Payment Processing</a></h2>
+	@if (string.IsNullOrWhiteSpace(Model.Company.SquareCardId))
+	{
+		<p>There is no card stored on this account.</p>
+	}
+	else
+	{
+		<dl>
+			<dt>Card Brand</dt>
+			<dd class="expandinput">
+				<input type="text" readonly="readonly" asp-for="Company.SquareCardBrand" onClick="this.setSelectionRange(0, this.value.length)" />
+			</dd>
+			<dt>Card Exp Month</dt>
+			<dd class="expandinput">
+				<input type="text" readonly="readonly" asp-for="Company.SquareCardExpMonth" onClick="this.setSelectionRange(0, this.value.length)" />
+			</dd>
+			<dt>Card Exp Year</dt>
+			<dd class="expandinput">
+				<input type="text" readonly="readonly" asp-for="Company.SquareCardExpYear" onClick="this.setSelectionRange(0, this.value.length)" />
+			</dd>
+			<dt>Card Last 4</dt>
+			<dd class="expandinput">
+				<input type="text" readonly="readonly" asp-for="Company.SquareCardLast4" onClick="this.setSelectionRange(0, this.value.length)" />
+			</dd>
+			<dt>Square Card Id</dt>
+			<dd class="expandinput">
+				<input type="text" readonly="readonly" asp-for="Company.SquareCardId" onClick="this.setSelectionRange(0, this.value.length)" />
+			</dd>
+		</dl>
+
+		<form method="post" action="/companies/PostPreAuthPayment">
+			<input type="hidden" name="billingCompanyId" value="@Model.Id" />
+			<dl>
+				<dt>Amount</dt>
+				<dd class="expandinput"><input type="number" name="amount" step="0.01" value="0" /></dd>
+				<dt></dt>
+				<dd class="expandinput"><input type="submit" value="Post Payment" /></dd>
+			</dl>
+		</form>
+	}
+
+	<h2><a name="JournalEntries" href="#JournalEntries">Journal Entries</a></h2>
+
+	@if (null == Model.JournalEntries)
+	{
+		<p>There are no journal entries on this file.</p>
+	}
+	else
+	{
+		<table class="journal-entries">
+			<tr>
+				<th>Date &amp; Time</th>
+				<th>Description</th>
+				<th>Line Total</th>
+				<th>Actions</th>
+			</tr>
+			@{
+				var e = from obj in Model.JournalEntries
+						orderby obj.Value.Timestamp descending
+						select obj.Value;
+			}
+			@foreach (var obj in e)
+			{
+
+				<tr>
+					<td class="convertToLocalTimeJournalEntries">@(obj.Timestamp.Value.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture))Z</td>
+					<td>@obj.Description</td>
+					<td style="text-align: right;">@(obj.Total.Value.ToString("C", SharedCode.Culture.Konstants.DevelopmentCulture)) @obj.Currency</td>
+					<td>
+						<div style="display: flex;">
+							<a href="/journal-entries/@obj.Uuid"><button style="width: 80px;">Details</button></a>
+							@if (null != obj.InvoiceId)
+							{
+								<a href="/invoices/@obj.InvoiceId"><button style="width: 80px;">Invoice</button></a>
+							}
+							@if (null != obj.PackageId)
+							{
+								<a href="/packages/@obj.PackageId"><button style="width: 80px;">Package</button></a>
+							}
+						</div>
+					</td>
+				</tr>
+			}
+		</table>
+	}
+
+	<h2><a name="Subscriptions" href="#Subscriptions">Subscriptions</a></h2>
+
+	<a href="/companies/@Model.Company.Uuid/actions/add-subscription">
+		<button style="width: 200px;">Add Subscription</button>
+	</a>
+
+	@if (null == Model.Subscriptions || 0 == Model.Subscriptions.Count)
+	{
+		<p>There are no subscriptions on this file.</p>
+	}
+	else
+	{
+		var e = from obj in Model.Subscriptions
+				orderby obj.Package.DisplayName ascending
+				select obj;
+
+
+
+
+		<table class="journal-entries">
+			<tr>
+				<th style="text-align: left;">Package</th>
+				<th style="text-align: right;">Cost</th>
+				<th style="text-align: left;">Provisions</th>
+				<th style="text-align: left;">Databases</th>
+				<th style="text-align: left;">Actions</th>
+			</tr>
+
+			@foreach (var obj in e)
+			{
+
+				<tr>
+					<td>
+						<abbr title="@(obj.Package.DisplayName)">@(obj.Package.PackageName)</abbr>
+						@if (obj.Package.AllowNewAssignment == false)
+						{
+							<abbr title="Grandfathered"> GF </abbr>
+						}
+					</td>
+					<td style="text-align: right;">
+						@{
+							decimal costPerMonth = 0m;
+							if (null != obj.Package.CostPerMonth)
+							{
+								costPerMonth = obj.Package.CostPerMonth.Value;
+							}
+						}
+						@(costPerMonth.ToString("C", SharedCode.Culture.Konstants.DevelopmentCulture)) @obj.Package.Currency
+					</td>
+
+					<td>
+						@if (obj.Package.ProvisionDispatchPulse == true)
+						{
+							<div><abbr title="Projects, Scheduling, Time">PST</abbr></div>
+						}
+						@if (obj.Package.ProvisionDispatchPulseUsers > 0)
+						{
+							<div><abbr title="Max users that can log in.">PST Users: @(obj.Package.ProvisionDispatchPulseUsers)</abbr></div>
+						}
+						@if (obj.Package.ProvisionOnCallAutoAttendants == true)
+						{
+							<div><abbr title="On Call Auto Attendant">On Call</abbr></div>
+						}
+						@if (obj.Package.ProvisionOnCallResponders > 0)
+						{
+							<div><abbr title="Max auto attendant menus.">On Call Responders: @(obj.Package.ProvisionOnCallResponders)</abbr></div>
+						}
+						@if (obj.Package.ProvisionOnCallUsers > 0)
+						{
+							<div><abbr title="Max users that can log in.">On Call Users: @(obj.Package.ProvisionOnCallUsers)</abbr></div>
+						}
+
+					</td>
+					<td>
+						<!-- Databases -->
+						@if (false == string.IsNullOrWhiteSpace(obj.Subscription.ProvisionedDatabaseName))
+						{
+							<div>@(obj.Subscription.ProvisionedDatabaseName)</div>
+						}
+					</td>
+					<td>
+						<!-- Actions -->
+						@*<a href="/companies/@Model.Company.Uuid/actions/verify-database/@obj.Subscription.ProvisionedDatabaseName">
+								<button style="width: 100px;">Verify Database</button>
+							</a>*@
+
+						<a href="/companies/@Model.Company.Uuid/actions/create-database/?SubscriptionId=@obj.Subscription.Uuid">
+							<button style="width: 100px;">Create Database</button>
+						</a>
+					</td>
+				</tr>
+			}
+
+
+		</table>
+	}
+
+
+}

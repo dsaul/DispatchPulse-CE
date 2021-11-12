@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		main {
+			border: 2px solid rgb(50, 50, 66);
+			max-width: 500px;
+			margin: 10px;
+			margin-left: auto;
+			margin-right: auto;
+			background: white;
+		}
+
+		header {
+			background: rgb(116, 115, 137);
+			color: white;
+			font-weight: bold;
+			padding: 10px;
+		}
+
+		article {
+			padding: 20px;
+		}
+
+		footer {
+			background: #747389;
+			color: white;
+			padding: 10px;
+			font-size: 0.8rem;
+		}
+
+			footer a {
+				color: white;
+			}
+
+		article dt {
+			font-weight: bold;
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<main>
+		<header>On-Call Responder for @Model.BillingCompanyName</header>
+		<article>
+			<p>You are recieving this email because the below on call message has been marked as handled.</p>
+			<dl>
+				@if (!string.IsNullOrWhiteSpace(Model.DateString)) {
+				<dt>Message left at:</dt>
+				<dd>@Model.DateString</dd>
+				}
+				@if (!string.IsNullOrWhiteSpace(Model.CallerIdName)) {
+				<dt>Caller ID Name:</dt>
+				<dd>@Model.CallerIdName</dd>
+				}
+				@if (!string.IsNullOrWhiteSpace(Model.CallerIdNumber)) {
+				<dt>Caller ID Number:</dt>
+				<dd><a href="tel:@Model.CallerIdNumber">@Model.CallerIdNumber</a></dd>
+				}
+				@if (!string.IsNullOrWhiteSpace(Model.CallbackNumber)) {
+				<dt>Callback Number:</dt>
+				<dd><a href="tel:@Model.CallbackNumber">@Model.CallbackNumber</a></dd>
+				}
+				<dt>Recording:</dt>
+				<dd>
+					Attached to this e-mail. <br /><a href="@Model.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI@Model.BillingCompanyId/@Model.MessageId/@Model.AdditionalDataBase64">You can also listen to it here</a>.
+				</dd>
+				<dt>Actions:</dt>
+				<dd class="actions">
+					<p><a href="@Model.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI@Model.BillingCompanyId/@Model.MessageId/@Model.AdditionalDataBase64">Click here</a> to mark this message as handled.</p>
+				</dd>
+			</dl>
+
+
+
+		</article>
+		<footer>Powered by <a href="https://www.dispatchpulse.com">Dispatch Pulse - On Call Responder</a></footer>
+
+	</main>
+</body>
+</html>

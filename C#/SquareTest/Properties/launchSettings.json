@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "SquareTest": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SQUARE_SANDBOX_ACCESS_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-sandbox-access-token.txt",
+        "NPGSQL_CONNECTION_STRING": "Host=toronto.docker.dispatchpulse.com;Port=32123;Username=root;",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf"
+      }
+    }
+  }
+}

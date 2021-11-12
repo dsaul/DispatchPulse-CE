@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "AWSPollyTest": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AWS_POLLY_SECRET_ACCESS_KEY_FILE": "%userprofile%\\Documents\\aws-polly-secret-access-key-1.txt",
+        "AWS_SHARED_CREDENTIALS_FILE": "%userprofile%\\.aws\\credentials",
+        "FFMPEG_PATH": "%userprofile%\\Documents\\Source Code\\DispatchPulseDotNet\\AWSPollyTest\\bin\\Debug\\net5.0\\ffmpeg.exe",
+        "S3_TTS_CACHE_ACCESS_KEY_FILE": "%userprofile%\\Documents\\s3-linode-tts-cache-access-key-1.txt",
+        "AWS_POLLY_ACCESS_KEY_ID_FILE": "%userprofile%\\Documents\\aws-polly-access-key-id-1.txt",
+        "AWS_PROFILE": "ari-dispatchpulse",
+        "NPGSQL_CONNECTION_STRING": "Host=toronto.docker.dispatchpulse.com;Port=32123;Username=root;",
+        "S3_TTS_CACHE_SECRET_KEY_FILE": "%userprofile%\\Documents\\s3-linode-tts-cache-secret-key-1.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf"
+      }
+    }
+  }
+}

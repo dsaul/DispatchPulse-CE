@@ -1,0 +1,26 @@
+{
+  "profiles": {
+    "ARI-DispatchPulse": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AWS_POLLY_SECRET_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\aws-polly-secret-access-key-1.txt",
+        "S3_PBX_SERVICE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\S3_PBX_SERVICE_URI.txt",
+        "FFMPEG_PATH": "Y:\\ffmpeg.exe",
+        "AWS_POLLY_ACCESS_KEY_ID_FILE": "%USERPROFILE%\\Desktop\\Secrets\\aws-polly-access-key-id-1.txt",
+        "ARI_TO_PBX_SSH_IDRSA_FILE": "%USERPROFILE%\\Desktop\\Secrets\\ari-to-pbx-idrsa-1.txt",
+        "PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY": "/var/spool/asterisk/outgoing",
+        "AWS_PROFILE": "ari-dispatchpulse",
+        "S3_PBX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-secret-key-2.txt",
+        "S3_PBX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-access-key-2.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "SERILOG_LOG_FILE": "%USERPROFILE%\\Desktop\\Secrets\\Logs\\ARI-DispatchPulse.log",
+        "PBX_SSH_PORT": "22",
+        "PBX_LOCAL_TTS_CACHE_BUCKET_DIRECTORY": "/srv/tts-cache/",
+        "PBX_FQDN_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\PBX_FQDN.txt",
+        "ARI_AND_API_SHARED_SECRET_FILE": "%USERPROFILE%\\Desktop\\Secrets\\ari-and-api-shared-secret-1.txt",
+        "SIGNAL_R_HUB_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SIGNAL_R_HUB_URI-staging.txt"
+      }
+    }
+  }
+}

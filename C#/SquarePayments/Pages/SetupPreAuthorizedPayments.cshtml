@@ -1,0 +1,84 @@
+﻿@page
+@using Databases.Records.Billing
+@model SquarePayments.Pages.SetupPreAuthorizedPaymentsModel
+@{
+	ViewData["Title"] = "Setup Pre-Authorized Payments";
+}
+
+@if (false == Model.CanAccessPreAuthorizedPayments)
+{
+	<div>You don't have access to pre-authorized payments.</div>
+}
+else
+{
+	// If we don't have a credit card token.
+	@if (string.IsNullOrWhiteSpace(Model.Nonce))
+	{
+		if (null != Model.BillingCompany && Model.BillingCompany.PaymentMethod == BillingPaymentMethod.kValueSquarePreAuthorized)
+		{
+			<div>You are already on pre-authorized payments.</div>
+		}
+		else
+		{
+			<div style="margin-bottom: 20px;">Pre-authorized payments provided by <a href="https://squareup.com/i/SAULANDPAR" target="_blank"><img src="~/img/Square,_Inc._logo.svg" style="height: 20px; vertical-align: bottom;" /></a>.</div>
+			<div class="errorMessage cc-authorization-form" style="display: none;">You must provide a credit card authorization form.</div>
+			<div class="errorMessage cc-n" style="display: none;">Card Number is not valid.</div>
+			<div class="errorMessage cc-exp" style="display: none;">Expiration date is not valid.</div>
+			<div class="errorMessage cc-cvv" style="display: none;">CVV is not valid.</div>
+			<div class="errorMessage cc-postal" style="display: none;">Postal Code is not valid.</div>
+			@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+			{
+				<div class="errorMessage" style="display: none;">@Model.ErrorMessage</div>
+			}
+
+			<div style="margin-bottom: 20px;">
+				Please fill out the pre-authorized credit card payment form:
+				
+				<a href="@Konstants.PADFORM_URI_DOCX" target="_blank">Word</a>
+				<a href="@Konstants.PADFORM_URI_PDF" target="_blank">PDF</a>
+			</div>
+
+
+
+
+			<form method="post" action="" enctype="multipart/form-data" id="NonceForm" style="margin-bottom: 20px;">
+				<label for="myfile">Select the completed form:</label>
+				<input type="file" name="authorizationFormFile">
+				<input type="hidden" value="" name="Nonce" />
+			</form>
+
+			<div>
+				<div id="sq-card-number"></div>
+				<div class="third" id="sq-expiration-date"></div>
+				<div class="third" id="sq-cvv"></div>
+				<div class="third" id="sq-postal-code"></div>
+				<button id="sq-creditcard" class="button-credit-card">Setup Pre-Authorized Payments</button>
+			</div>
+		}
+
+
+	}
+	// If we have a credit card token then work with it.
+	else
+	{
+		@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+		{
+			<div style="margin: 20px; border: 1px solid black;">
+				<div style="padding: 10px;border-bottom: 1px solid black;">There was an error setting up pre-authorized payments:</div>
+				<div style="padding: 10px;">@Model.ErrorMessage</div>
+			</div>
+			<div style="text-align: center;"><a href="">Click here to try again.</a></div>
+		}
+		else
+		{
+			<div style="text-align: center;"><img src="~/img/checkmark.svg" style="width: 100px; height: 100px;" /></div>
+			<div style="text-align: center; font-weight: bold; margin:10px;">Succesfully setup pre-authorized payments.</div>
+		}
+	}
+}
+
+<script>
+	require(["/js/PageSetupPreAuthorizedPayments.js", "luxon"], (website, luxon) => {
+		website.PageSetupPreAuthorizedPayments.Start();
+	})
+</script>

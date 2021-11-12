@@ -1,0 +1,16 @@
+﻿@page
+@using Databases.Records.Billing;
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+
+<p>Please select from the above navigation.</p>
+
+
+<script>
+	require(["/js/Index.js", "luxon"], (website, luxon) => {
+		website.Index.Start();
+	})
+</script>

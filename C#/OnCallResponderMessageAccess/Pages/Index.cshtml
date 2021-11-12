@@ -1,0 +1,95 @@
+﻿@page "{BillingCompanyId?}/{VoicemailId?}/{AdditionalDataBase64?}"
+@model IndexModel
+@{
+	ViewData["Title"] = "";
+}
+
+<div>
+
+	@if (
+		null == Model.BillingCompanyId || 
+		null == Model.VoicemailId ||
+		null == Model.BillingDB ||
+		null == Model.BillingCompany ||
+		0 == Model.DPPackageKeys.Count ||
+		null == Model.BillingSubscription ||
+		null == Model.DPDatabaseName ||
+		null == Model.DPDB ||
+		null == Model.Voicemail
+		)
+	{
+	<main>
+		<header>On-Call Responder Message Access</header>
+		<article>Sorry, we weren't able to find a voicemail with the information provided.</article>
+		<footer>Powered by <a href="https://www.dispatchpulse.com">Dispatch Pulse - On Call Responder</a></footer>
+	</main>
+	}
+	else
+	{
+		
+
+
+	<main>
+		<header>On-Call Responder for @Model.BillingCompany.FullName</header>
+		<article>
+			@if (Model.PostSuccess)
+			{
+				<div class="postSaved">Saved</div>
+			}
+
+			<dl>
+				<dt>Message left at:</dt>
+				<dd class="convertToLocalTime">@Model.Voicemail.MessageLeftAtISO8601</dd>
+				@if (!string.IsNullOrWhiteSpace(Model.Voicemail.CallerIdName))
+				{
+					<dt>Caller ID Name:</dt>
+					<dd>@Model.Voicemail.CallerIdName</dd>
+				}
+				@if (!string.IsNullOrWhiteSpace(Model.Voicemail.CallerIdNumber))
+				{
+					<dt>Caller ID Number:</dt>
+					<dd><a href="tel:@Model.Voicemail.CallerIdNumber">@Model.Voicemail.CallerIdNumber</a></dd>
+				}
+				@if (!string.IsNullOrWhiteSpace(Model.Voicemail.CallbackNumber))
+				{
+					<dt>Callback Number:</dt>
+					<dd><a href="tel:@Model.Voicemail.CallbackNumber">@Model.Voicemail.CallbackNumber</a></dd>
+				}
+				<dt>Recording:</dt>
+				<dd>
+					<audio controls preload="none">
+						<source src="/AudioFile/@Model.BillingCompanyId/@Model.VoicemailId/@Model.AdditionalDataBase64">
+						Your browser does not support the audio element.
+					</audio>
+				</dd>
+				<dt>Actions:</dt>
+				<dd class="actions">
+
+					<form method="post">
+						<input type="hidden" name="markAsHandled" value="true" />
+						@if (null != Model.Voicemail.IsMarkedHandled && Model.Voicemail.IsMarkedHandled.Value)
+						{
+							<button type="submit" disabled>Already Marked as Handled</button>
+						}
+						else
+						{
+							<button type="submit">Mark as Handled</button>
+						}
+
+					</form>
+				</dd>
+			</dl>
+
+
+
+		</article>
+		<footer>Powered by <a href="https://www.dispatchpulse.com">Dispatch Pulse - On Call Responder</a></footer>
+
+	</main>
+	} 
+</div>
+<script>
+	require(["/js/Website.js", "luxon"], (website, luxon) => {
+		website.Index.Start();
+	})
+</script>

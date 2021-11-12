@@ -1,0 +1,54 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:56356/",
+      "sslPort": 44343
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "SMTP_PASSWORD_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-password-1.txt",
+        "TWILIO_ACCOUNT_SID_FILE": "%USERPROFILE%\\Desktop\\Secrets\\twilio-account-sid-1.txt",
+        "TWILIO_AUTH_TOKEN_FILE": "%USERPROFILE%\\Desktop\\Secrets\\twilio-auth-token-1.txt",
+        "S3_PDFLATEX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-pdflatex-generator-secret-key-1.txt",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "FFMPEG_PATH": "%USERPROFILE%\\Downloads\\ffmpeg-2021-06-16-git-604924a069-full_build\\bin\\ffmpeg.exe",
+        "S3_PBX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-access-key-2.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "S3_PDFLATEX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-pdflatex-generator-access-key-1.txt",
+        "SMTP_HOST_PORT_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SMTP_HOST_PORT.txt",
+        "DISPATCH_PULSE_SMS_FROM_E164_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\DISPATCH_PULSE_SMS_FROM_E164.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "SQUARE_PAYMENTS_AND_API_SHARED_SECRET_FILE": "%USERPROFILE%\\Desktop\\Secrets\\square-payments-and-api-shared-secret-1.txt",
+        "S3_PBX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-secret-key-2.txt",
+        "SMTP_HOST_FQDN_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SMTP_HOST_FQDN.txt",
+
+        "SMTP_USERNAME_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-username-1.txt",
+        "S3_PBX_SERVICE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\S3_PBX_SERVICE_URI.txt",
+        "APP_BASE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\APP_BASE_URI.txt",
+        "ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI.txt",
+        "CORS_ORIGINS_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\CORS_ORIGINS.json"
+      }
+    },
+    "API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "TWILIO_AUTH_TOKEN_PATH": "%USERPROFILE%\\Documents\\twilio-auth-token-1.txt",
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "TWILIO_ACCOUNT_SID_PATH": "%USERPROFILE%\\Documents\\twilio-account-sid-1.txt",
+        "APP_BASE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\APP_BASE_URI.txt",
+        "ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI.txt",
+        "CORS_ORIGINS_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\CORS_ORIGINS.json"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    }
+  }
+}

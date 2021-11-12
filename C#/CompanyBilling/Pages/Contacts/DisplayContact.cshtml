@@ -1,0 +1,110 @@
+﻿@page "/contacts/{id}"
+@model ManuallyProcessPreAuthorizedPayments.Pages.Contacts.DisplayContactModel
+@{
+
+}
+
+@if (null == Model.Contact)
+{
+	<div>Contact not found.</div>
+}
+else
+{
+	<div>
+		<a href="/">Home</a> &#187; <a href="/contacts">Contacts</a> &#187; <a href="">@Model.Contact.FullName</a>
+	</div>
+
+	<h1>@Model.Contact.FullName</h1>
+
+	<h2>Information</h2>
+	<h3>General</h3>
+	<dl>
+		<dt>Full Name</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.FullName" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/full-name"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>E-Mail</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.Email" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/email"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Password</dt>
+		<dd class="expandinput">
+			<a href="/contacts/@Model.Contact.Uuid/edit/password" style="width: 100%; margin: 0px;">
+				<button style="width: 100%;">Change Password</button>
+			</a>
+		</dd>
+
+		<dt>E-Mail List (Marketing)</dt>
+		<dd class="expandinput">
+			<input type="checkbox" disabled="disabled" asp-for="DisplayContactEMailListMarketing" onClick="this.setSelectionRange(0, this.value.length)" />
+			<div style="width: 100%;"></div>
+			<a href="/contacts/@Model.Contact.Uuid/edit/email-list-marketing"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>E-Mail List (Tutorials)</dt>
+		<dd class="expandinput">
+			<input type="checkbox" disabled="disabled" asp-for="DisplayContactEMailListTutorials" onClick="this.setSelectionRange(0, this.value.length)" />
+			<div style="width: 100%;"></div>
+			<a href="/contacts/@Model.Contact.Uuid/edit/email-list-tutorials"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Marketing Campaign</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.MarketingCampaign" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/marketing-campaign"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Phone</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.Phone" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/phone"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Unique ID</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.Uuid" onClick="this.setSelectionRange(0, this.value.length)" />
+		</dd>
+
+		<dt>Company</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="DisplayContactCompany" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/company"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Dispatch Pulse Contact Id</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.DPContactId" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/dp-contact-id"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Dispatch Pulse Agent Id</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="Contact.DPAgentId" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/dp-agent-id"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>License Assigned PST</dt>
+		<dd class="expandinput">
+			<input type="checkbox" disabled="disabled" asp-for="DisplayLicenseAssignedPST" onClick="this.setSelectionRange(0, this.value.length)" />
+			<div style="width: 100%;"></div>
+			<a href="/contacts/@Model.Contact.Uuid/edit/license-assigned-pst"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>License Assigned On Call</dt>
+		<dd class="expandinput">
+			<input type="checkbox" disabled="disabled" asp-for="DisplayLicenseAssignedOnCall" onClick="this.setSelectionRange(0, this.value.length)" />
+			<div style="width: 100%;"></div>
+			<a href="/contacts/@Model.Contact.Uuid/edit/license-assigned-on-call"><button style="width: 100px;">Edit</button></a>
+		</dd>
+
+		<dt>Permissions Groups</dt>
+		<dd class="expandinput">
+			<input type="text" readonly="readonly" asp-for="DisplayGroupsStr" onClick="this.setSelectionRange(0, this.value.length)" />
+			<a href="/contacts/@Model.Contact.Uuid/edit/permissions-groups"><button style="width: 100px;">Edit</button></a>
+		</dd>
+	</dl>
+}

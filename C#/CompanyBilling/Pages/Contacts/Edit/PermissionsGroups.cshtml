@@ -1,0 +1,26 @@
+﻿@page "/contacts/{Id}/edit/permissions-groups"
+@model CompanyBilling.Pages.Contacts.Edit.PermissionsGroupsModel
+@{
+	if (null == Model.Contact)
+		throw new Exception("null == Model.Contact");
+}
+
+<div>
+	<a href="/">Home</a> &#187; <a href="/contacts">Contacts</a> &#187; <a href="/Contacts/@Model.Contact.Uuid">@Model.Contact.FullName</a> &#187; <a href="">Edit Permissions Groups</a>
+</div>
+
+<h1>Change @(Model.Contact.FullName)'s Permissions Groups.</h1>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+	<p style="color: red;">@Model.ErrorMessage</p>
+}
+<form method="post">
+	<dl>
+		<dt>New Value</dt>
+		<dd class="expandinput">
+			<select asp-for="SelectedGroups" asp-items="Model.GroupListOptions"></select>
+		</dd>
+		<dt></dt>
+		<dd class="expandinput"><input type="submit" value="Save" /></dd>
+	</dl>
+</form>

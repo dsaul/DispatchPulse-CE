@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TempTest": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NPGSQL_CONNECTION_STRING": "Host=toronto.docker.dispatchpulse.com;Port=32123;Username=root;",
+        "PGPASSFILE": "%APPDATA%\\postgresql\\pgpass.conf",
+        "ARI_AND_API_SHARED_SECRET_FILE": "%userprofile%\\Documents\\dpe2ecode.txt"
+      }
+    }
+  }
+}
