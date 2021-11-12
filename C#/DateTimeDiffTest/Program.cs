@@ -6,7 +6,7 @@ namespace DateTimeDiffTest
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			Log.Logger = new LoggerConfiguration()
 				.Enrich.WithMachineName()
@@ -26,7 +26,7 @@ namespace DateTimeDiffTest
 			DateTime end = new DateTime(2020, 12, 27, 16, 30, 0);
 
 			TimeSpan diff = end.Subtract(start);
-			Log.Debug("diff");
+			Log.Debug("{diff}", diff);
 		}
 	}
 }

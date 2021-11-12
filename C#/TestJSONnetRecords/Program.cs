@@ -8,7 +8,7 @@ namespace TestJSONnetRecords
 	record Product(string Name, DateTime Expiry, string[] Sizes)
 	{
 		[JsonIgnore]
-		public string Test
+		public static string Test
 		{
 			get {
 				return "asd";
@@ -34,7 +34,7 @@ namespace TestJSONnetRecords
 				//.WriteTo.File(new Serilog.Formatting.Json.JsonFormatter(), SERILOG_LOG_FILE)
 				.CreateLogger();
 
-			Product product = new Product(
+			Product product = new(
 				Name: "Apple",
 				Expiry: new DateTime(2008, 12, 28),
 				Sizes: new string[] { "Small" }

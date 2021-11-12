@@ -237,3 +237,5 @@ project.assets.json
 /C#/TwilioDisasterRecovery/bin
 /C#/SharedCode.OnCallResponder/obj
 /C#/SharedCode.OnCallResponder/bin
+/C#/SharedCode.CORS/obj
+/C#/SharedCode.CORS/bin

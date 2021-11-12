@@ -23,13 +23,13 @@ namespace SharedCode.Extensions
 			if (map == null)
 				throw new ArgumentNullException(nameof(map));
 
-			StringBuilder pattern = new StringBuilder();
+			StringBuilder pattern = new();
 
 			List<string> keys = map.Keys.ToList();
 			for (int i=0; i<keys.Count; i++) {
 				pattern.Append(Regex.Escape(keys[i]));
 				if (i != keys.Count-1) {
-					pattern.Append("|");
+					pattern.Append('|');
 				}
 			}
 

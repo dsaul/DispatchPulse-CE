@@ -12,7 +12,7 @@ namespace SharedCode.Extensions
 	{
 		public static void EnsureUUIDExtension(this NpgsqlConnection connection) {
 
-			using NpgsqlCommand createUuidCommand = new NpgsqlCommand(@"
+			using NpgsqlCommand createUuidCommand = new(@"
 					CREATE EXTENSION IF NOT EXISTS ""uuid-ossp"";
 					", connection);
 			createUuidCommand.ExecuteNonQuery();

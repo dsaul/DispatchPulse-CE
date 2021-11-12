@@ -12,7 +12,7 @@ namespace SharedCode.Extensions
 	{
 		public static void EnsureTimestampISO8601(this NpgsqlConnection connection) {
 
-			using NpgsqlCommand createUuidCommand = new NpgsqlCommand(@"
+			using NpgsqlCommand createUuidCommand = new(@"
 CREATE OR REPLACE FUNCTION public.timestamp_iso8601(ts timestamp with time zone, tz text) RETURNS text
     LANGUAGE plpgsql
     AS $$

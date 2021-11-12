@@ -46,8 +46,7 @@ namespace SharedCode.S3
 
 
 			// Create a GetPreSignedUrlRequest request
-			GetPreSignedUrlRequest request = new GetPreSignedUrlRequest
-				{
+			GetPreSignedUrlRequest request = new() {
 				BucketName = bucket,
 				Key = key,
 				Expires = DateTime.Now.AddMinutes(5),
