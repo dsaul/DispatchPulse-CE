@@ -15,7 +15,7 @@ without opening up all associated code as well.
 The Projects Scheduling, and Time module provides collaboration between disparate field service agents. Notes created by one agent, are immediately avaliable on other agents. Tracking labour and materials is extremely easy.
 
 #### Seamless Collaboration
-Store information about projects, clients, and contractors. Information instantly jumps from one agent to another. Reduce work stoppages as everyone will have the job details they need.
+Store information about projects, clients, and contractors. Information instantly jumps from one agent to another. This reduces work stoppages as everyone will have the job details they need.
 
 #### Labour & Material Tracking
 Keep track of labour hours, either with punching start and finish, or by entering date and hours.
@@ -24,7 +24,7 @@ Keep track of labour hours, either with punching start and finish, or by enterin
 Easily assign work to agents, with everyone seeing what is relevant to them. Store notes and work work completed.
 
 #### Simple and Easy to Use
-Dispatch Pulse uses the standard material design interface, you'll feel right at home and get up and running in no time. With our ever growing library of video tutorials, you'll be able to easily and quickly look up how to do the things you need to do.
+Dispatch Pulse uses the standard ["material design interface"](https://material.io), you'll feel right at home and get up and running in no time. 
 
 #### Social Distancing
 Help stop the spread of colds and sicknesses by reducing paper and other items exchanged.
