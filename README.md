@@ -12,7 +12,7 @@ without opening up all associated code as well.
 
 ### Projects Scheduling, and Time
 
-The Projects Scheduling, and Time module provides 
+The Projects Scheduling, and Time module provides collaboration between disparate field service agents. Notes created by one agent, are immediately avaliable on other agents. Tracking labour and materials is extremely easy.
 
 #### Seamless Collaboration
 Store information about projects, clients, and contractors. Information instantly jumps from one agent to another. Reduce work stoppages as everyone will have the job details they need.
@@ -31,7 +31,15 @@ Help stop the spread of colds and sicknesses by reducing paper and other items e
 
 ### On-Call Responder
 
+Do you wish that you could offer on-call services (plumbing, maintenance, locksmith, I.T., etc) and know that your representatives would get the message and not leave your customers hanging?
 
+If your company offers 24-hour services, you need On-Call Responder.
+
+Do you currently pay a outsourced call centre to answer your calls at night? Gone are the days of oursourced call centres, taking minutes to pick up, and charging you $200–$300 dollars per month to forward the caller's issue to the appropriate party.
+
+On-Call Responder is an automated service which will pick up your on-call or emergency line, get the client's call back number, and make sure that someone at your company gets the message to have it actioned on.
+
+You can see the details of each call, at each step. You are given all the data to ensure accountability. The time of not getting the message is in the past.
 
 
 
