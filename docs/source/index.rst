@@ -3,7 +3,7 @@ Welcome to Dispatch Pulse's documentation!
 
 **Dispatch Pulse** 
 
-Dispatch Pulse is a Home Grown [CRM](https://en.wikipedia.org/wiki/Customer_relationship_management) 
+Dispatch Pulse is a Home Grown `CRM <https://en.wikipedia.org/wiki/Customer_relationship_management>`_ 
 that is specifically tailored towards trades and other field service companies. It began simply as a 
 time keeping program, but has expanded in scope since then.
 
