@@ -31,6 +31,7 @@ Contents
 
 .. toctree::
 
-   installations
-   usage
+   installationn
+   on-call-responder
+   projects-scheduling-and-time
    
