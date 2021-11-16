@@ -1,13 +1,23 @@
-Welcome to Lumache's documentation!
+Welcome to Dispatch Pulse's documentation!
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+**Dispatch Pulse** 
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+Dispatch Pulse is a Home Grown [CRM](https://en.wikipedia.org/wiki/Customer_relationship_management) 
+that is specifically tailored towards trades and other field service companies. It began simply as a 
+time keeping program, but has expanded in scope since then.
+
+Dispatch Pulse contains two primary modules:
+
+* Projects Scheduling, and Time
+* On-Call Responder
+
+This release is a open source version of Dispatch Pulse that anyone can use for their own use according 
+to the [License](https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt). You may not resell 
+this software as a managed or hosted service without opening up all associated code as well.
+
+Check out the :doc:`usage` on how to use DispatchPulse-CE, as well as 
+:doc:`installation` on how to get this software suite up and runnings.
 
 .. note::
 
@@ -18,5 +28,6 @@ Contents
 
 .. toctree::
 
+   installations
    usage
-   api
+   
