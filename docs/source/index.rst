@@ -13,11 +13,11 @@ Dispatch Pulse contains two primary modules:
 * On-Call Responder
 
 This release is a open source version of Dispatch Pulse that anyone can use for their own use according 
-to the [License](https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt). You may not resell 
+to the `License <https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt>`_. You may not resell 
 this software as a managed or hosted service without opening up all associated code as well.
 
 Check out the :doc:`usage` on how to use DispatchPulse-CE, as well as 
-:doc:`installation` on how to get this software suite up and runnings.
+:doc:`installation` on how to get this software suite up and running.
 
 .. note::
 
