@@ -280,60 +280,7 @@ namespace API.Hubs
 				response.Created = true;
 
 
-				// Create stripe info.
-
-				try
-				{
-					StripeConfiguration.ApiKey = Konstants.KStripeAPIKey;
-
-					var customerOptions = new CustomerCreateOptions
-					{
-						Description = newCompany.FullName,
-						Address = new AddressOptions
-						{
-							City = newCompany.AddressCity,
-							Country = newCompany.AddressCountry,
-							Line1 = newCompany.AddressLine1,
-							Line2 = newCompany.AddressLine2,
-							PostalCode = newCompany.AddressPostalCode,
-							State = newCompany.AddressProvince,
-						},
-						Email = newContact.Email,
-						Name = newCompany.FullName,
-						Phone = newContact.Phone,
-					};
-
-					CustomerService customerService = new CustomerService();
-					Customer stripeCustomer = customerService.Create(customerOptions);
-
-					newCompany = newCompany with
-					{
-						StripeCustomerId = stripeCustomer.Id
-					};
-					BillingCompanies.Upsert(billingConnection, new Dictionary<Guid, BillingCompanies>
-					{
-						{ newCompanyId, newCompany }
-					}, out _, out _);
-
-					var intentOptions = new SetupIntentCreateOptions
-					{
-						Customer = stripeCustomer.Id,
-					};
-					SetupIntentService intentService = new SetupIntentService();
-					SetupIntent intent = intentService.Create(intentOptions);
-					response.StripeIntentClientSecret = intent.ClientSecret;
-
-
-
-
-
-
-
-
-				}
-#pragma warning disable CA1031 // Do not catch general exception types
-				catch { } // We still want this to work if stripe throws an error.
-#pragma warning restore CA1031 // Do not catch general exception types
+				
 
 			}
 			while (false);

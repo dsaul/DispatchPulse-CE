@@ -129,9 +129,7 @@ namespace API
 
 		public static Guid KEmployeeGroupId { get; } = Guid.Parse("458369a0-774c-11ea-9784-02420a0000d8");
 		public static Guid KCompanyOwnerGroupId { get; } = Guid.Parse("4574c8d2-774c-11ea-9784-02420a0000d8");
-		public static string KStripeAPIKey { get; } = "sk_live_V1j2vJGan0Fd7gxDoI66Wsd000qMr37txn";
-		//public static string KStripeAPIKey { get; } = "sk_test_zSJUKMxICBehjiKfhXWn6WbU00U78aQkP7";
-
+		
 		
 
 		
