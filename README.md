@@ -4,8 +4,8 @@ Dispatch Pulse is a Home Grown [CRM](https://en.wikipedia.org/wiki/Customer_rela
 
 Dispatch Pulse contains two primary modules:
 
-* [Projects Scheduling, and Time](#projects-scheduling-and-time)
-* [On-Call Responder](#on-call-responder)
+* [Projects Scheduling, and Time](#projects-scheduling-and-time)--Time & Material Tracking Project Notes
+* [On-Call Responder](#on-call-responder)--On Call Technician Notifications
 
 This release is a open source version of Dispatch Pulse that anyone can use for their own use according to the [License](https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt). You may not resell this software as a managed or hosted service 
 without opening up all associated code as well.
