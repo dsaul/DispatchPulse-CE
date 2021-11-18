@@ -7,6 +7,8 @@ Dispatch Pulse contains two primary modules:
 * [Projects Scheduling, and Time](#projects-scheduling-and-time)—Time & Material Tracking, Project Notes, and more
 * [On-Call Responder](#on-call-responder)—On Call Technician Notifications (Phone Calls, E-Mail, SMS)
 
+For installation instructions and more information, [please check out our documentation page](https://dispatchpulse.readthedocs.io/en/latest/).
+
 This release is a open source version of Dispatch Pulse that anyone can use for their own use according to the [License](https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt). You may not resell this software as a managed or hosted service 
 without opening up all associated code as well.
 
