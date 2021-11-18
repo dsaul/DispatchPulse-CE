@@ -9,8 +9,8 @@ time keeping program, but has expanded in scope since then.
 
 Dispatch Pulse contains two primary modules:
 
-* :doc:`projects-scheduling-and-time`
-* :doc:`on-call-responder`
+* :doc:`projects-scheduling-and-time`—Time & Material Tracking Project Notes
+* :doc:`on-call-responder`—On Call Technician Notifications
 
 This release is a open source version of Dispatch Pulse that anyone can use for their own use according 
 to the `License <https://github.com/dsaul/DispatchPulse-CE/blob/master/LICENSE.txt>`_. You may not resell 
