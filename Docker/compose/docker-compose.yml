@@ -8,10 +8,708 @@ services:
       - backend
     restart: "unless-stopped"
 #    ports:
-#      - "32123:5432"
+#      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: CHANGEME
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #
+  # Provides the on call phone menu.
+  #
+  dispatch-pulse-ce-ari-oncall:
+    image: maskawanian/dispatch-pulse-ce-ari-oncall:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+    
+     # AWS (Used for Text to Speach)
+     - ./secrets/aws-polly-access-key-id.txt:/run/secrets/aws-polly-access-key-id.txt
+     - ./secrets/aws-polly-secret-access-key.txt:/run/secrets/aws-polly-secret-access-key.txt
+   
+     # S3 Storage for TTS cache.
+     - ./secrets/s3-linode-tts-cache-access-key.txt:/run/secrets/s3-linode-tts-cache-access-key.txt
+     - ./secrets/s3-linode-tts-cache-secret-key.txt:/run/secrets/s3-linode-tts-cache-secret-key.txt
+    
+     # S3 Storage for recordings.
+     - ./secrets/s3-pbx-service-uri.txt:/run/secrets/s3-pbx-service-uri.txt
+     - ./secrets/s3-linode-pbx-access-key.txt:/run/secrets/s3-linode-pbx-access-key.txt
+     - ./secrets/s3-linode-pbx-secret-key.txt:/run/secrets/s3-linode-pbx-secret-key.txt
+
+     # Specific PBX Configuration Variables
+     - ./secrets/pbx-fqdn.txt:/run/secrets/pbx-fqdn.txt
+     - ./secrets/ari-to-pbx-idrsa.txt:/run/secrets/ari-to-pbx-idrsa.txt
+     - ./secrets/ari-to-pbx-idrsa-pub.txt:/run/secrets/ari-to-pbx-idrsa-pub.txt
+     
+     # E-Mail Sending
+     - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
+     - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
+     - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
+     - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+     
+     # On-Call Responder
+     - ./secrets/on-call-responder-notification-email-from-address.txt:/run/secrets/on-call-responder-notification-email-from-address.txt
+     - ./secrets/on-call-responder-message-access-base-uri.txt:/run/secrets/on-call-responder-message-access-base-uri.txt
+     
+     # SMS/MMS Sending
+     - ./secrets/twilio-account-sid.txt:/run/secrets/twilio-account-sid.txt
+     - ./secrets/twilio-auth-token.txt:/run/secrets/twilio-auth-token.txt
+     - ./secrets/dispatch-pulse-sms-from-e164.txt:/run/secrets/dispatch-pulse-sms-from-e164.txt
+     
+     # API Connection
+     - ./secrets/ari-and-api-shared-secret.txt:/run/secrets/ari-and-api-shared-secret.txt
+     - ./secrets/signal-r-hub-uri.txt:/run/secrets/signal-r-hub-uri.txt
+     
+    ports:
+     - "4574:4573"
+    environment:
+      
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # AWS (Used for Text to Speach)
+      #AWS_PROFILE: ari-dispatchpulse
+      AWS_POLLY_ACCESS_KEY_ID_FILE: /run/secrets/aws-polly-access-key-id.txt
+      AWS_POLLY_SECRET_ACCESS_KEY_FILE: /run/secrets/aws-polly-secret-access-key.txt
+      
+      # S3 Storage for TTS cache.
+      S3_TTS_CACHE_ACCESS_KEY_FILE: /run/secrets/s3-linode-tts-cache-access-key.txt
+      S3_TTS_CACHE_SECRET_KEY_FILE: /run/secrets/s3-linode-tts-cache-secret-key.txt
+      
+      # S3 Storage for recordings.
+      S3_PBX_SERVICE_URI_FILE: /run/secrets/s3-pbx-service-uri.txt
+      S3_PBX_SECRET_KEY_FILE: /run/secrets/s3-linode-pbx-secret-key.txt
+      S3_PBX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pbx-access-key.txt
+      
+      # Specific PBX Configuration Variables
+      PBX_FQDN_FILE: /run/secrets/pbx-fqdn.txt
+      PBX_SSH_USER: root
+      PBX_SSH_PORT: 22
+      PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY: /var/spool/asterisk/outgoing_done
+      PBX_LOCAL_CLIENT_RECORDINGS_DIRECTORY: /srv/client-recordings/
+      PBX_LOCAL_RECORD_FILE_DIRECTORY: /srv/on-call-temp-recordings
+      PBX_LOCAL_TTS_CACHE_BUCKET_DIRECTORY: /srv/tts-cache/
+      PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY: /var/spool/asterisk/outgoing
+      ARI_TO_PBX_SSH_IDRSA_FILE: /run/secrets/ari-to-pbx-idrsa.txt
+      
+      # Transcoding
+      FFMPEG_PATH: /usr/bin/ffmpeg
+      
+      # E-Mail Sending
+      SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
+      SMTP_HOST_PORT_FILE: /run/secrets/smtp-host-port.txt
+      SMTP_PASSWORD_FILE: /run/secrets/on-call-smtp-password.txt
+      SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
+      
+      # On-Call Responder
+      ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS_FILE: /run/secrets/on-call-responder-notification-email-from-address.txt
+      ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI_FILE: /run/secrets/on-call-responder-message-access-base-uri.txt
+      
+      # SMS/MMS Sending
+      TWILIO_ACCOUNT_SID_FILE: /run/secrets/twilio-account-sid.txt
+      TWILIO_AUTH_TOKEN_FILE: /run/secrets/twilio-auth-token.txt
+      DISPATCH_PULSE_SMS_FROM_E164_FILE: /run/secrets/dispatch-pulse-sms-from-e164.txt
+      
+      # API Connection
+      ARI_AND_API_SHARED_SECRET_FILE: /run/secrets/ari-and-api-shared-secret.txt
+      SIGNAL_R_HUB_URI_FILE: /run/secrets/signal-r-hub-uri.txt
+      
+  
+  dispatch-pulse-ce-twilio-disaster-recovery:
+    image: maskawanian/dispatch-pulse-ce-twilio-disaster-recovery:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # ASP.NET
+      ASPNETCORE_ENVIRONMENT: Development
+      #ASPNETCORE_ENVIRONMENT: Production
+      
+  dispatch-pulse-ce-square-payments:
+    image: maskawanian/dispatch-pulse-ce-square-payments:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+    
+     # E-Mail Sending
+     - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
+     - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
+     - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
+     - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+     - ./secrets/accounts-recievable-email.txt:/run/secrets/accounts-recievable-email.txt
+
+     # S3 Storage for authorizations.
+     - ./secrets/s3-linode-card-on-file-authorization-forms-access-key.txt:/run/secrets/s3-linode-card-on-file-authorization-forms-access-key.txt
+     - ./secrets/s3-linode-card-on-file-authorization-forms-secret-key.txt:/run/secrets/s3-linode-card-on-file-authorization-forms-secret-key.txt
+
+     # Square
+     - ./secrets/square-sandbox-access-token.txt:/run/secrets/square-sandbox-access-token.txt
+     - ./secrets/square-production-access-token.txt:/run/secrets/square-production-access-token.txt
+
+     # API Connection
+     - ./secrets/signal-r-hub-uri.txt:/run/secrets/signal-r-hub-uri.txt
+     - ./secrets/square-payments-and-api-shared-secret.txt:/run/secrets/square-payments-and-api-shared-secret.txt
+
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # ASP.NET
+      ASPNETCORE_ENVIRONMENT: Development
+      #ASPNETCORE_ENVIRONMENT: Production
+      
+      
+      # E-Mail Sending
+      SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
+      SMTP_HOST_PORT_FILE: /run/secrets/smtp-host-port.txt
+      SMTP_PASSWORD_FILE: /run/secrets/on-call-smtp-password.txt
+      SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
+      ACCOUNTS_RECEIVABLE_EMAIL_FILE: /run/secrets/accounts-recievable-email.txt
+      
+      # S3 Storage for authorizations.
+      S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY_FILE: /run/secrets/s3-linode-card-on-file-authorization-forms-access-key.txt
+      S3_CARD_ON_FILE_AUTHORIZATION_FORMS_SECRET_KEY_FILE: /run/secrets/s3-linode-card-on-file-authorization-forms-secret-key.txt
+      
+      # Square
+      SQUARE_SANDBOX_ACCESS_TOKEN_FILE: /run/secrets/square-sandbox-access-token.txt
+      SQUARE_PRODUCTION_ACCESS_TOKEN_FILE: /run/secrets/square-production-access-token.txt
+      
+      # API Connection
+      SIGNAL_R_HUB_URI_FILE: /run/secrets/signal-r-hub-uri.txt
+      SQUARE_PAYMENTS_AND_API_SHARED_SECRET_FILE: /run/secrets/square-payments-and-api-shared-secret.txt
+  
+  dispatch-pulse-ce-on-call-responder-message-access:
+    image: maskawanian/dispatch-pulse-ce-on-call-responder-message-access:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+     # S3 Storage for recordings.
+     - ./secrets/s3-pbx-service-uri.txt:/run/secrets/s3-pbx-service-uri.txt
+     - ./secrets/s3-linode-pbx-access-key.txt:/run/secrets/s3-linode-pbx-access-key.txt
+     - ./secrets/s3-linode-pbx-secret-key.txt:/run/secrets/s3-linode-pbx-secret-key.txt
+     
+     # E-Mail Sending
+     - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
+     - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
+     - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
+     - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+    
+      # ASP.NET
+      ASPNETCORE_ENVIRONMENT: Development
+      #ASPNETCORE_ENVIRONMENT: Production
+    
+      # S3 Storage for recordings.
+      S3_PBX_SERVICE_URI_FILE: /run/secrets/s3-pbx-service-uri.txt
+      S3_PBX_SECRET_KEY_FILE: /run/secrets/s3-linode-pbx-secret-key.txt
+      S3_PBX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pbx-access-key.txt
+    
+      # E-Mail Sending
+      SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
+      SMTP_HOST_PORT_FILE: /run/secrets/smtp-host-port.txt
+      SMTP_PASSWORD_FILE: /run/secrets/on-call-smtp-password.txt
+      SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
+  
+  dispatch-pulse-ce-ari-projects-scheduling-time:
+    image: maskawanian/dispatch-pulse-ce-ari-projects-scheduling-time:latest
+    networks:
+     - backend
+    ports:
+     - "4573:4573"
+    restart: "unless-stopped"
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+     # AWS (Used for Text to Speach)
+     - ./secrets/aws-polly-access-key-id.txt:/run/secrets/aws-polly-access-key-id.txt
+     - ./secrets/aws-polly-secret-access-key.txt:/run/secrets/aws-polly-secret-access-key.txt
+      
+     # S3 Storage for TTS cache.
+     - ./secrets/s3-linode-tts-cache-access-key.txt:/run/secrets/s3-linode-tts-cache-access-key.txt
+     - ./secrets/s3-linode-tts-cache-secret-key.txt:/run/secrets/s3-linode-tts-cache-secret-key.txt
+     
+     # S3 Storage for recordings.
+     - ./secrets/s3-pbx-service-uri.txt:/run/secrets/s3-pbx-service-uri.txt
+     - ./secrets/s3-linode-pbx-access-key.txt:/run/secrets/s3-linode-pbx-access-key.txt
+     - ./secrets/s3-linode-pbx-secret-key.txt:/run/secrets/s3-linode-pbx-secret-key.txt
+      
+     # Specific PBX Configuration Variables
+     - ./secrets/pbx-fqdn.txt:/run/secrets/pbx-fqdn.txt
+     - ./secrets/ari-to-pbx-idrsa.txt:/run/secrets/ari-to-pbx-idrsa.txt
+     - ./secrets/ari-to-pbx-idrsa-pub.txt:/run/secrets/ari-to-pbx-idrsa-pub.txt
+      
+     # E-Mail Sending
+     - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
+     - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
+     - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
+     - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # AWS (Used for Text to Speach)
+      #AWS_PROFILE: ari-dispatchpulse
+      AWS_POLLY_ACCESS_KEY_ID_FILE: /run/secrets/aws-polly-access-key-id.txt
+      AWS_POLLY_SECRET_ACCESS_KEY_FILE: /run/secrets/aws-polly-secret-access-key.txt
+      
+      # S3 Storage for TTS cache.
+      S3_TTS_CACHE_ACCESS_KEY_FILE: /run/secrets/s3-linode-tts-cache-access-key.txt
+      S3_TTS_CACHE_SECRET_KEY_FILE: /run/secrets/s3-linode-tts-cache-secret-key.txt
+      
+      # S3 Storage for recordings.
+      S3_PBX_SERVICE_URI_FILE: /run/secrets/s3-pbx-service-uri.txt
+      S3_PBX_SECRET_KEY_FILE: /run/secrets/s3-linode-pbx-secret-key.txt
+      S3_PBX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pbx-access-key.txt
+
+      # Specific PBX Configuration Variables
+      PBX_FQDN_FILE: /run/secrets/pbx-fqdn.txt
+      PBX_SSH_USER: root
+      PBX_SSH_PORT: 22
+      PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY: /var/spool/asterisk/outgoing_done
+      PBX_LOCAL_CLIENT_RECORDINGS_DIRECTORY: /srv/client-recordings/
+      PBX_LOCAL_RECORD_FILE_DIRECTORY: /srv/on-call-temp-recordings
+      PBX_LOCAL_TTS_CACHE_BUCKET_DIRECTORY: /srv/tts-cache/
+      PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY: /var/spool/asterisk/outgoing
+      ARI_TO_PBX_SSH_IDRSA_FILE: /run/secrets/ari-to-pbx-idrsa.txt
+
+      # Transcoding
+      FFMPEG_PATH: /usr/bin/ffmpeg
+
+      # E-Mail Sending
+      SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
+      SMTP_HOST_PORT_FILE: /run/secrets/smtp-host-port.txt
+      SMTP_PASSWORD_FILE: /run/secrets/on-call-smtp-password.txt
+      SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
+
+      # API Connection
+      ARI_AND_API_SHARED_SECRET_FILE: /run/secrets/ari-and-api-shared-secret-1
+      SIGNAL_R_HUB_URI: https://api-staging.dispatchpulse.com/APIHub
+
+  dispatch-pulse-ce-webapp:
+    image: maskawanian/dispatch-pulse-ce-webapp:latest
+    networks:
+      - backend
+    restart: "unless-stopped"
+
+  dispatch-pulse-ce-api:
+    image: maskawanian/dispatch-pulse-ce-api
+    networks:
+     - backend
+    restart: "unless-stopped"
+    
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+     # SMS/MMS Sending
+     - ./secrets/twilio-account-sid.txt:/run/secrets/twilio-account-sid.txt
+     - ./secrets/twilio-auth-token.txt:/run/secrets/twilio-auth-token.txt
+     - ./secrets/dispatch-pulse-sms-from-e164.txt:/run/secrets/dispatch-pulse-sms-from-e164.txt
+    
+     # PDFLaTeX
+     - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+     - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+     
+     # S3 Storage for recordings.
+     - ./secrets/s3-pbx-service-uri.txt:/run/secrets/s3-pbx-service-uri.txt
+     - ./secrets/s3-linode-pbx-access-key.txt:/run/secrets/s3-linode-pbx-access-key.txt
+     - ./secrets/s3-linode-pbx-secret-key.txt:/run/secrets/s3-linode-pbx-secret-key.txt
+    
+     # E-Mail Sending
+     - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
+     - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
+     - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
+     - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+     
+     # API Connection
+     - ./secrets/ari-and-api-shared-secret.txt:/run/secrets/ari-and-api-shared-secret.txt
+     - ./secrets/square-payments-and-api-shared-secret.txt:/run/secrets/square-payments-and-api-shared-secret.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # ASP.NET
+      ASPNETCORE_ENVIRONMENT: Development
+      #ASPNETCORE_ENVIRONMENT: Production
+      
+      # SMS/MMS Sending
+      TWILIO_ACCOUNT_SID_FILE: /run/secrets/twilio-account-sid.txt
+      TWILIO_AUTH_TOKEN_FILE: /run/secrets/twilio-auth-token.txt
+      DISPATCH_PULSE_SMS_FROM_E164_FILE: /run/secrets/dispatch-pulse-sms-from-e164.txt
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+      
+      # S3 Storage for recordings.
+      S3_PBX_SERVICE_URI_FILE: /run/secrets/s3-pbx-service-uri.txt
+      S3_PBX_SECRET_KEY_FILE: /run/secrets/s3-linode-pbx-secret-key.txt
+      S3_PBX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pbx-access-key.txt
+      
+      # E-Mail Sending
+      SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
+      SMTP_HOST_PORT_FILE: /run/secrets/smtp-host-port.txt
+      SMTP_PASSWORD_FILE: /run/secrets/on-call-smtp-password.txt
+      SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
+      
+      # Transcoding
+      FFMPEG_PATH: /usr/bin/ffmpeg
+      
+      # API Connection
+      ARI_AND_API_SHARED_SECRET_FILE: /run/secrets/ari-and-api-shared-secret.txt
+      SQUARE_PAYMENTS_AND_API_SHARED_SECRET_FILE: /run/secrets/square-payments-and-api-shared-secret.txt
+      
+  dispatch-pulse-ce-job-runner-update-web-cal-files:
+    image: maskawanian/dispatch-pulse-ce-job-runner-update-web-cal-files:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+  
+  
+  dispatch-pulse-ce-job-runner-remove-expired-jobs:
+    image: maskawanian/dispatch-pulse-ce-job-runner-remove-expired-jobs:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+  
+  dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:
+    image: maskawanian/dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+     # Manage Client Buckets
+     - ./secrets/s3-linode-manage-client-buckets-access-key.txt:/run/secrets/s3-linode-manage-client-buckets-access-key.txt
+     - ./secrets/s3-linode-manage-client-buckets-secret-key.txt:/run/secrets/s3-linode-manage-client-buckets-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # Manage Client Buckets
+      S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY_FILE: /run/secrets/s3-linode-manage-client-buckets-access-key.txt
+      S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY_FILE: /run/secrets/s3-linode-manage-client-buckets-secret-key.txt
+  
+  dispatch-pulse-ce-job-runner-database-verification:
+    image: maskawanian/dispatch-pulse-ce-job-runner-database-verification:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+
+  dispatch-pulse-ce-job-runner-recurring-task-scheduler:
+    image: maskawanian/dispatch-pulse-ce-job-runner-recurring-task-scheduler:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+
+
+  dispatch-pulse-ce-job-runner-on-call-responder-30-day-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-on-call-responder-30-day-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+     # PDFLaTeX
+     - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+     - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+
+  dispatch-pulse-ce-job-runner-projects-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-projects-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+    
+  dispatch-pulse-ce-job-runner-materials-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-materials-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+    
+  dispatch-pulse-ce-job-runner-labour-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-labour-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+    
+  dispatch-pulse-ce-job-runner-contacts-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-contacts-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+    
+  dispatch-pulse-ce-job-runner-companies-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-companies-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+    
+  dispatch-pulse-ce-job-runner-pdflatex:
+    image: maskawanian/dispatch-pulse-ce-job-runner-pdflatex:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 6
+    
+  dispatch-pulse-ce-job-runner-assignments-report:
+    image: maskawanian/dispatch-pulse-ce-job-runner-assignments-report:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    volumes:
+      # Postgres Connection
+      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+      
+      # PDFLaTeX
+      - ./secrets/s3-linode-pdflatex-generator-access-key.txt:/run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      - ./secrets/s3-linode-pdflatex-generator-secret-key.txt:/run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
+      
+      # PDFLaTeX
+      S3_PDFLATEX_ACCESS_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-access-key.txt
+      S3_PDFLATEX_SECRET_KEY_FILE: /run/secrets/s3-linode-pdflatex-generator-secret-key.txt
+    scale: 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 networks:
   frontend:

@@ -44,12 +44,24 @@ namespace SharedCode.EMail
 		public static int? SMTP_HOST_PORT
 		{
 			get {
-				string? str = SMTP_HOST_PORT_FILE;
+				string? path = SMTP_HOST_PORT_FILE;
+				if (string.IsNullOrWhiteSpace(path)) {
+					Log.Error("SMTP_HOST_PORT_FILE empty or missing.");
+					return null;
+				}
+
+				string str = File.ReadAllText(path);
 				if (string.IsNullOrWhiteSpace(str)) {
 					Log.Error("SMTP_HOST_PORT_FILE empty or missing.");
 					return null;
 				}
-				return int.Parse(str);
+				try {
+					return int.Parse(str);
+				}
+				catch (Exception e) {
+					Log.Error(e, "Unable to parse {OriginalString}", str);
+					return null;
+				}
 			}
 		}
 

@@ -113,12 +113,12 @@ namespace ARI.IVR.OnCall
 			}
 
 			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_AUTH_TOKEN)) {
-				Log.Error("TWILIO_AUTH_TOKEN not set!");
+				Log.Error("TWILIO_AUTH_TOKEN_FILE not set!");
 				return;
 			}
 
 			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_ACCOUNT_SID)) {
-				Log.Error("TWILIO_ACCOUNT_SID not set!");
+				Log.Error("TWILIO_ACCOUNT_SID_FILE not set!");
 				return;
 			}
 
