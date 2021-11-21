@@ -25,7 +25,7 @@ namespace DatabaseBootstrap
 
 			// Make sure that the job_runner database exists.
 			if (false == noDatabaseConnection.DatabaseExists("job_runner")) {
-				Log.Warning("job_runner database doesn't exist");
+				Log.Warning("job_runner database doesn't exist, creating.");
 				noDatabaseConnection.CreateDatabase(
 					dbName: "job_runner",
 					prefix: "",
