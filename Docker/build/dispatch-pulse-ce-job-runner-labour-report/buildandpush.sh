@@ -4,6 +4,9 @@ set -o nounset
 #set -o xtrace
 set -o pipefail
 
+# Change Directory to script directory.
+cd $(dirname "${BASH_SOURCE[0]}")
+
 IMAGENAME="dispatch-pulse-ce-job-runner-labour-report"
 TAGNAME="$(date +'%Y-%m-%d.%H-%M-%S.%N')" 
 TAGNAME2="$(date +'%Y-%m-%d')" 

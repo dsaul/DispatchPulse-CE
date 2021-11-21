@@ -1,6 +1,5 @@
 #!/bin/bash
 
-./certbot-linode/buildandpush.sh
 ./dispatch-pulse-ce-api/buildandpush.sh
 ./dispatch-pulse-ce-ari-oncall/buildandpush.sh
 ./dispatch-pulse-ce-ari-projects-scheduling-time/buildandpush.sh
@@ -21,6 +20,3 @@
 ./dispatch-pulse-ce-square-payments/buildandpush.sh
 ./dispatch-pulse-ce-twilio-disaster-recovery/buildandpush.sh
 ./dispatch-pulse-ce-webapp/buildandpush.sh
-./dotnet-aspnet-runtime-6-with-ffmpeg/buildandpush.sh
-./dotnet-runtime-6-with-ffmpeg/buildandpush.sh
-./dotnet-runtime-6-with-pdflatex/buildandpush.sh
