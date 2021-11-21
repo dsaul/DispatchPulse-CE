@@ -9,7 +9,7 @@ namespace SharedCode.Extensions
 {
 	public static class NpgsqlConnection_CreateDatabase
 	{
-		public static string? CreateDatabase(this NpgsqlConnection noDatabaseConnection, string dbName, string prefix = "zclient_dp_", string suffixBeforeNumber = "_") {
+		public static string? CreateDatabase(this NpgsqlConnection noDatabaseConnection, string dbName, string prefix = "zclient_dp_", string suffixBeforeNumber = "_", bool noNumberIteration = false) {
 
 			if (string.IsNullOrWhiteSpace(dbName))
 				throw new Exception("string.IsNullOrWhiteSpace(dbName) 1");
@@ -18,20 +18,19 @@ namespace SharedCode.Extensions
 			if (string.IsNullOrWhiteSpace(dbName))
 				throw new Exception("string.IsNullOrWhiteSpace(dbName) 2");
 
-
+			string? databaseName = $"{prefix}{dbName}";
+			
+			
 			// Iterate up numbers until we find a database name that is not in use, don't go past 100 though.
-			string? databaseName = null;
-			for (var i = 0; i < 100; i++) {
-				databaseName = $"{prefix}{dbName}{suffixBeforeNumber}{i}";
+			if (false == noNumberIteration) {
+				for (var i = 0; i < 100; i++) {
+					databaseName = $"{prefix}{dbName}{suffixBeforeNumber}{i}";
 
-				string cmdText = $"SELECT 1 FROM pg_database WHERE datname='{databaseName}'";
-				using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, noDatabaseConnection);
-				bool dbExists = cmd.ExecuteScalar() != null;
+					if (false == noDatabaseConnection.DatabaseExists(databaseName))
+						break;
 
-				if (!dbExists)
-					break;
-
-				databaseName = null;
+					databaseName = null;
+				}
 			}
 
 			// Create the named database.

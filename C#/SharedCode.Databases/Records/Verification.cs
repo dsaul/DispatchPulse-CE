@@ -11,7 +11,12 @@ namespace SharedCode.Databases.Records
 {
 	public static class Verification
 	{
-		public static void RunAllVerifications(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+		public static void RunAllBillingVerifications(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+
+		}
+
+
+		public static void RunAllDispatchPulseVerifications(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
 			Agents.VerifyRepairTable(dpDB, insertDefaultContents);
 			AgentsEmploymentStatus.VerifyRepairTable(dpDB, insertDefaultContents);
 			AssignmentStatus.VerifyRepairTable(dpDB, insertDefaultContents);

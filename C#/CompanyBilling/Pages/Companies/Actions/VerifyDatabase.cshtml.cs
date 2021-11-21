@@ -98,7 +98,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 			db.EnsureTimestampISO8601();
 
 			Log.Add("---- Verify Tables:");
-			Verification.RunAllVerifications(db, insertDefaultContents: InsertDefaultContents);
+			Verification.RunAllDispatchPulseVerifications(db, insertDefaultContents: InsertDefaultContents);
 
 
 

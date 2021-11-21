@@ -301,7 +301,7 @@ namespace API.Hubs
 				newDatabaseConnection.EnsureUUIDExtension();
 				newDatabaseConnection.EnsureTimestampISO8601();
 
-				Verification.RunAllVerifications(newDatabaseConnection, insertDefaultContents: true);
+				Verification.RunAllDispatchPulseVerifications(newDatabaseConnection, insertDefaultContents: true);
 
 				Guid dpCompanyId = Guid.NewGuid();
 				// Add an addressbook entry for this company.

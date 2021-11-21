@@ -239,3 +239,5 @@ project.assets.json
 /C#/SharedCode.OnCallResponder/bin
 /C#/SharedCode.CORS/obj
 /C#/SharedCode.CORS/bin
+/C#/DatabaseBootstrap/obj
+/C#/DatabaseBootstrap/bin

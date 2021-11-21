@@ -43,7 +43,7 @@ namespace JobRunnerDatabaseVerification
 
 		static void VerifyTables(NpgsqlConnection dpDB) {
 
-			Verification.RunAllVerifications(dpDB, insertDefaultContents: false);
+			Verification.RunAllDispatchPulseVerifications(dpDB, insertDefaultContents: false);
 
 
 			Log.Debug("----- Done.");

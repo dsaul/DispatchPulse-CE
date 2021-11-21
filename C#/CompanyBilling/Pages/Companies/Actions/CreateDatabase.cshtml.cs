@@ -98,7 +98,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 				return Page();
 
 			string? actualDBName = null;
-			NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
+			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
 			noDatabaseConnection.Open();
 			{
 				actualDBName = noDatabaseConnection.CreateDatabase(DatabaseNameUniqueSearchFragment);
@@ -110,12 +110,12 @@ namespace CompanyBilling.Pages.Companies.Actions
 				return Page();
 			}
 
-			NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(actualDBName));
+			using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(actualDBName));
 			db.Open();
 			{
 				db.EnsureUUIDExtension();
 				db.EnsureTimestampISO8601();
-				Verification.RunAllVerifications(db, insertDefaultContents: true);
+				Verification.RunAllDispatchPulseVerifications(db, insertDefaultContents: true);
 			}
 			db.Close();
 
