@@ -169,6 +169,9 @@ services:
      # Postgres Connection
      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+     # ASP.NET
+     - ./secrets/cors-origins.json:/run/secrets/cors-origins.json
     
      # E-Mail Sending
      - ./secrets/smtp-host-fqdn.txt:/run/secrets/smtp-host-fqdn.txt
@@ -197,7 +200,7 @@ services:
       # ASP.NET
       ASPNETCORE_ENVIRONMENT: Development
       #ASPNETCORE_ENVIRONMENT: Production
-      
+      CORS_ORIGINS_FILE: /run/secrets/cors-origins.json
       
       # E-Mail Sending
       SMTP_HOST_FQDN_FILE: /run/secrets/smtp-host-fqdn.txt
@@ -356,6 +359,9 @@ services:
      - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
      - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
      
+     # ASP.NET
+     - ./secrets/cors-origins.json:/run/secrets/cors-origins.json
+     
      # SMS/MMS Sending
      - ./secrets/twilio-account-sid.txt:/run/secrets/twilio-account-sid.txt
      - ./secrets/twilio-auth-token.txt:/run/secrets/twilio-auth-token.txt
@@ -388,6 +394,7 @@ services:
       # ASP.NET
       ASPNETCORE_ENVIRONMENT: Development
       #ASPNETCORE_ENVIRONMENT: Production
+      CORS_ORIGINS_FILE: /run/secrets/cors-origins.json
       
       # SMS/MMS Sending
       TWILIO_ACCOUNT_SID_FILE: /run/secrets/twilio-account-sid.txt
@@ -537,6 +544,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -561,6 +570,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -584,6 +595,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -607,6 +620,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -630,6 +645,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -653,6 +670,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
@@ -676,6 +695,8 @@ services:
     depends_on:
       - "postgres"
     restart: unless-stopped
+    networks:
+      - backend
     volumes:
       # Postgres Connection
       - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
