@@ -74,20 +74,24 @@ namespace JobRunnerOnCallResponder30Days
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				do {
-
-					using NpgsqlConnection jobsDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=OnCallResponder30DaysReport;");
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerOnCallResponder30Days;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
+				
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueRunReportOnCallResponder30Days);
-					if (job != null) {
-						RunReportOnCallResponder30Day(jobsDB, job);
-					}
-
-					jobsDB.Close();
-
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueRunReportOnCallResponder30Days);
+				if (job != null) {
+					RunReportOnCallResponder30Day(jobsDB, job);
+				}
+
+				jobsDB.Close();
 
 				// Wait before trying agian.
 				Thread.Sleep(1000);

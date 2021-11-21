@@ -73,20 +73,25 @@ namespace JobRunnerContactsReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				do {
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerContactsReport;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueRunReportContacts);
-					if (job != null) {
-						RunReportContacts(jobsDB, job);
-					}
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueRunReportContacts);
+				if (job != null) {
+					RunReportContacts(jobsDB, job);
+				}
+
+
+				jobsDB.Close();
 
 				// Wait before trying agian.
 				Thread.Sleep(1000);

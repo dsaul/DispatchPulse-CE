@@ -52,27 +52,35 @@ namespace RecurringTaskScheduler
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				do {
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRecurringTaskScheduler;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				try {
 					jobsDB.Open();
-
-					var resAllScheduledTasks = ScheduledTasks.All(jobsDB);
-					if (resAllScheduledTasks.Count == 0)
-						break;
-
-					foreach (KeyValuePair<Guid, ScheduledTasks> kvp in resAllScheduledTasks) {
-
-						ProcessScheduledTask(jobsDB, kvp.Value);
-
-
-					}
-
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				var resAllScheduledTasks = ScheduledTasks.All(jobsDB);
+				if (resAllScheduledTasks.Count == 0) {
+					jobsDB.Close();
+					Thread.Sleep(1000 * 60);
+					continue;
+				}
+
+				foreach (KeyValuePair<Guid, ScheduledTasks> kvp in resAllScheduledTasks) {
+
+					ProcessScheduledTask(jobsDB, kvp.Value);
+
+
+				}
+
+
+
+				jobsDB.Close();
 
 				// Wait before trying agian.
 				Thread.Sleep(1000*60);

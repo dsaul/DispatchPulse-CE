@@ -42,20 +42,25 @@ namespace JobRunnerUpdateWebCalFiles
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				do {
-
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerUpdateWebCalFiles;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
+				
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueUpdateWebCalFiles);
-					if (job != null) {
-						await RunUpdateWebCalFiles(jobsDB, job);
-					}
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueUpdateWebCalFiles);
+				if (job != null) {
+					await RunUpdateWebCalFiles(jobsDB, job);
+				}
+
+
+				jobsDB.Close();
 
 				// Wait before trying agian.
 				Thread.Sleep(1000);

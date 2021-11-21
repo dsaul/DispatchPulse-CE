@@ -43,20 +43,25 @@ namespace JobRunnerDatabaseVerification
 
 			while (true) {
 
-				do {
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerDatabaseVerification;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueDPDatabaseVerification);
-					if (job != null) {
-						RunDatabaseVerification(jobsDB, job);
-					}
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueDPDatabaseVerification);
+				if (job != null) {
+					RunDatabaseVerification(jobsDB, job);
+				}
+
+
+				jobsDB.Close();
 
 
 

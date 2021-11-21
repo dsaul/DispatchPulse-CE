@@ -44,20 +44,25 @@ namespace JobRunnerRemoveExpiredJobs
 
 			while (true) {
 
-				do {
-
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRemoveExpiredJobs;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
+				
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueJobRunnerRemoveExpiredJobs);
-					if (job != null) {
-						RemoveExpiredJobs(jobsDB, job);
-					}
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueJobRunnerRemoveExpiredJobs);
+				if (job != null) {
+					RemoveExpiredJobs(jobsDB, job);
+				}
+
+
+				jobsDB.Close();
 
 
 

@@ -68,21 +68,25 @@ namespace JobRunnerEnsureCompanyS3Buckets
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				do {
+				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerEnsureCompanyS3Buckets;";
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
+				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
-
-					using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				try {
 					jobsDB.Open();
-
-					JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueEnsureCompanyS3Buckets);
-					if (job != null) {
-						EnsureCompanyS3Buckets(jobsDB, job);
-					}
-
-
-					jobsDB.Close();
 				}
-				while (false);
+				catch (Exception ex) {
+					Log.Error(ex, "Unable to connect to Database!");
+					break;
+				}
+
+				JobRunnerJob? job = JobRunnerJob.ClaimJobIfAvailable(jobsDB, JobRunnerJob.kJobTypeValueEnsureCompanyS3Buckets);
+				if (job != null) {
+					EnsureCompanyS3Buckets(jobsDB, job);
+				}
+
+
+				jobsDB.Close();
 
 				// Wait 2 seconds before trying agian.
 				Thread.Sleep(1000);
