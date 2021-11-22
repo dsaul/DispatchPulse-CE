@@ -64,7 +64,7 @@ namespace Databases
 
 
 
-		public const string KBillingDatabaseName = "postgres";
+		public const string KBillingDatabaseName = "billing";
 		public static string KBillingDatabaseConnectionString { get { return DatabaseConnectionStringForDB(KBillingDatabaseName); } }
 		public static CultureInfo KDefaultCulture { get { return CultureInfo.CreateSpecificCulture("en-CA"); } }
 		public static string DatabaseConnectionStringForDB(string db) {
