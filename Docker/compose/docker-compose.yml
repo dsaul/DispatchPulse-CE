@@ -495,6 +495,7 @@ services:
      # Manage Client Buckets
      - ./secrets/s3-linode-manage-client-buckets-access-key.txt:/run/secrets/s3-linode-manage-client-buckets-access-key.txt
      - ./secrets/s3-linode-manage-client-buckets-secret-key.txt:/run/secrets/s3-linode-manage-client-buckets-secret-key.txt
+     - ./secrets/s3-dispatch-pulse-service-uri.txt:/run/secrets/s3-dispatch-pulse-service-uri.txt
     environment:
       # Postgres Connection
       NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
@@ -503,6 +504,7 @@ services:
       # Manage Client Buckets
       S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY_FILE: /run/secrets/s3-linode-manage-client-buckets-access-key.txt
       S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY_FILE: /run/secrets/s3-linode-manage-client-buckets-secret-key.txt
+      S3_DISPATCH_PULSE_SERVICE_URI_FILE: /run/secrets/s3-dispatch-pulse-service-uri.txt
   
   dispatch-pulse-ce-job-runner-database-verification:
     image: maskawanian/dispatch-pulse-ce-job-runner-database-verification:latest
