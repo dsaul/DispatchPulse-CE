@@ -11,6 +11,7 @@ using Square;
 using Square.Models;
 using Serilog;
 using Square.Exceptions;
+using SharedCode.Extensions;
 
 namespace Databases.Records.Billing
 {
@@ -1011,7 +1012,81 @@ namespace Databases.Records.Billing
 			return res;
 		}
 
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-companies")) {
+				Log.Debug($"----- Table \"billing-companies\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-companies\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-companies"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""full-name"" character varying(255),
+						""abbreviation"" character varying(255),
+						""industry"" character varying(255),
+						""marketing-campaign"" character varying(255),
+						""address-city"" character varying(255),
+						""address-country"" character varying(255),
+						""address-line-1"" character varying(255),
+						""address-line-2"" character varying(255),
+						""address-postal-code"" character varying(255),
+						""address-province"" character varying(255),
+						""stripe-customer-id"" character varying(255),
+						""payment-method"" character varying(255),
+						""invoice-contact-id"" uuid,
+						""is-deleted"" boolean DEFAULT false NOT NULL,
+						""payment-frequency"" character varying(255),
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_companies_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+				Guid guid = Guid.NewGuid();
+				BillingCompanies bc = new BillingCompanies(
+					Uuid: guid,
+					FullName: "Example Company",
+					Abbreviation: null,
+					Industry: null,
+					MarketingCampaign: null,
+					AddressCity: null,
+					AddressCountry: null,
+					AddressLine1: null,
+					AddressLine2: null,
+					AddressPostalCode: null,
+					AddressProvince: null,
+					StripeCustomerId: null,
+					PaymentMethod: null,
+					InvoiceContactId: null,
+					PaymentFrequency: null,
+					Json: new JObject { }.ToString(Formatting.Indented)
+					);
+
+				Upsert(db, new Dictionary<Guid, BillingCompanies> {
+					{guid, bc},
+				}, out _, out _);
+
+			}
+
+
+
+
+			
+		}
 		
+
+
+
+
+
+
+
 
 
 

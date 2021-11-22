@@ -8,6 +8,8 @@ using System.Text;
 using System.Data;
 using System.Threading.Tasks;
 using System.Globalization;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.JobRunner
 {
@@ -805,6 +807,58 @@ namespace Databases.Records.JobRunner
 				return root.Value<bool>(kJobsJsonKeyIncludeMaterials);
 			}
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("jobs")) {
+				Log.Debug($"----- Table \"jobs\" exists.");
+			} else {
+				Log.Information($"----- Table \"jobs\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""jobs"" (
+						""id"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""json"" jsonb DEFAULT '{}'::jsonb NOT NULL,
+						CONSTRAINT ""jobs_pk"" PRIMARY KEY(""id"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// No default jobs.
+
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ namespace SharedCode.RegexUtils
 {
 	public static class Konstants
 	{
-		public static System.Text.RegularExpressions.Regex NotLettersNumbersRegex { get; } = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9]");
+		public static Regex NotLettersNumbersRegex { get; } = new Regex("[^a-zA-Z0-9]");
+		public static Regex NotLettersNumbersUnderscoreRegex { get; } = new Regex("[^_a-zA-Z0-9]");
 	}
 }

@@ -1,4 +1,7 @@
-﻿using Databases.Records.CRM;
+﻿using Databases.Records.Billing;
+using Databases.Records.CRM;
+using Databases.Records.JobRunner;
+using Databases.Records.PDFLaTeX;
 using Npgsql;
 using SharedCode.Databases.Records.CRM;
 using System;
@@ -11,12 +14,42 @@ namespace SharedCode.Databases.Records
 {
 	public static class Verification
 	{
-		public static void RunAllBillingVerifications(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
 
+		public static void VerifyPDFLaTeXDatabase(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+			//PDFLaTeXTask.VerifyRepairTable(dpDB, insertDefaultContents);
+		}
+
+		public static void VerifyBillingDatabase(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+			BillingCompanies.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingContacts.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingCouponCodes.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingCurrency.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingIndustries.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingInvoices.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingJournalEntries.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingJournalEntriesType.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPackages.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPackagesType.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPaymentFrequencies.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPaymentMethod.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPermissionsBool.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPermissionsGroups.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingPermissionsGroupsMemberships.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingSessions.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingSubscriptions.VerifyRepairTable(dpDB, insertDefaultContents);
+			//BillingSubscriptionsProvisioningStatus.VerifyRepairTable(dpDB, insertDefaultContents);
+			//RegisteredPhoneNumbers.VerifyRepairTable(dpDB, insertDefaultContents);
+			//UtilityIpToCountry.VerifyRepairTable(dpDB, insertDefaultContents);
 		}
 
 
-		public static void RunAllDispatchPulseVerifications(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+		public static void VerifyJobRunnerDatabase(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
+			JobRunnerJob.VerifyRepairTable(dpDB, insertDefaultContents);
+			ScheduledTasks.VerifyRepairTable(dpDB, insertDefaultContents);
+		}
+
+
+		public static void VerifyDPClientDatabase(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
 			Agents.VerifyRepairTable(dpDB, insertDefaultContents);
 			AgentsEmploymentStatus.VerifyRepairTable(dpDB, insertDefaultContents);
 			AssignmentStatus.VerifyRepairTable(dpDB, insertDefaultContents);

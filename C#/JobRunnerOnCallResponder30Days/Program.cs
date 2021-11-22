@@ -76,7 +76,7 @@ namespace JobRunnerOnCallResponder30Days
 
 				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerOnCallResponder30Days;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
-				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
+				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
 				
 				try {
 					jobsDB.Open();

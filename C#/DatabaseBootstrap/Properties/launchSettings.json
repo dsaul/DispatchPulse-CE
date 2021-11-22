@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "DatabaseBootstrap": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\integrationtest\\NPGSQL_CONNECTION_STRING.txt",
+        "PGPASSFILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\integrationtest\\pgpass.conf"
+      }
+    }
+  }
+}

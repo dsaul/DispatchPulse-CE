@@ -115,7 +115,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 			{
 				db.EnsureUUIDExtension();
 				db.EnsureTimestampISO8601();
-				Verification.RunAllDispatchPulseVerifications(db, insertDefaultContents: true);
+				Verification.VerifyDPClientDatabase(db, insertDefaultContents: true);
 			}
 			db.Close();
 

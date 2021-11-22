@@ -54,7 +54,7 @@ namespace RecurringTaskScheduler
 
 				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRecurringTaskScheduler;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
-				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
+				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
 				try {
 					jobsDB.Open();

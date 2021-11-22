@@ -76,7 +76,7 @@ namespace JobRunnerMaterialsReport
 
 				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerMaterialsReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
-				Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
+				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
 				try {
 					jobsDB.Open();

@@ -9,12 +9,19 @@ namespace SharedCode.Extensions
 {
 	public static class NpgsqlConnection_CreateDatabase
 	{
-		public static string? CreateDatabase(this NpgsqlConnection noDatabaseConnection, string dbName, string prefix = "zclient_dp_", string suffixBeforeNumber = "_", bool noNumberIteration = false) {
+		public static string? CreateDatabase(
+			this NpgsqlConnection noDatabaseConnection, 
+			string dbName, 
+			string prefix = "zclient_dp_", 
+			string suffixBeforeNumber = "_", 
+			bool noNumberIteration = false,
+			string databaseOwner = "postgres"
+			) {
 
 			if (string.IsNullOrWhiteSpace(dbName))
 				throw new Exception("string.IsNullOrWhiteSpace(dbName) 1");
 
-			dbName = SharedCode.RegexUtils.Konstants.NotLettersNumbersRegex.Replace(dbName, "").ToLower(Konstants.KDefaultCulture);
+			dbName = RegexUtils.Konstants.NotLettersNumbersUnderscoreRegex.Replace(dbName, "").ToLower(Konstants.KDefaultCulture);
 			if (string.IsNullOrWhiteSpace(dbName))
 				throw new Exception("string.IsNullOrWhiteSpace(dbName) 2");
 
@@ -35,7 +42,7 @@ namespace SharedCode.Extensions
 
 			// Create the named database.
 			{
-				string cmd = $"CREATE DATABASE {databaseName} WITH OWNER = root;";
+				string cmd = $"CREATE DATABASE {databaseName} WITH OWNER = {databaseOwner};";
 
 
 				using NpgsqlCommand createDBCommand = new NpgsqlCommand(cmd, noDatabaseConnection);

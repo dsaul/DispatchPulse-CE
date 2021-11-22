@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Threading.Tasks;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.JobRunner
 {
@@ -25,6 +27,7 @@ namespace Databases.Records.JobRunner
 		public const string kJobsJsonKeyLastJobDispatchedTimestampISO8601 = "LastJobDispatchedTimestampISO8601";
 		public const string kJobsJsonKeyNewTaskJson = "NewTaskJson";
 		public const string kJobsJsonKeyAllowMoreThanOneActive = "AllowMoreThanOneActive";
+		public const string kJobsJsonKeyNewTaskJsonKeyJobType = "JobType";
 
 		public static Dictionary<Guid, ScheduledTasks> ForId(NpgsqlConnection connection, Guid id) {
 
@@ -295,12 +298,107 @@ namespace Databases.Records.JobRunner
 
 
 
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("scheduled_tasks")) {
+				Log.Debug($"----- Table \"scheduled_tasks\" exists.");
+			} else {
+				Log.Information($"----- Table \"scheduled_tasks\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""scheduled_tasks"" (
+						""id"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""json"" jsonb DEFAULT '{}'::jsonb NOT NULL,
+						CONSTRAINT ""scheduled_tasks_pk"" PRIMARY KEY(""id"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+
+				// Check database for consistency.
+				Guid dbVerificationId = Guid.NewGuid();
+				ScheduledTasks dbVerificationTask = new ScheduledTasks(
+					Id: dbVerificationId,
+					Json: new JObject {
+						{ kJobsJsonKeyDescription, "Database Verification" },
+						{ kJobsJsonKeyNewTaskJson, new JObject {
+							{ kJobsJsonKeyNewTaskJsonKeyJobType, "DPDatabaseVerification" },
+						} },
+						{ kJobsJsonKeyCrontabExpression, "0 2 * * *" },
+						{ kJobsJsonKeyAllowMoreThanOneActive, false },
+						{ kJobsJsonKeyLastJobDispatchedTimestampISO8601, null },
+					}.ToString(Formatting.Indented)
+				);
+
+				// Update the webcals every night.
+				Guid updateWebCalId = Guid.NewGuid();
+				ScheduledTasks updateWebCalTask = new ScheduledTasks(
+					Id: updateWebCalId,
+					Json: new JObject {
+						{ kJobsJsonKeyDescription, "Update Web Cal Files" },
+						{ kJobsJsonKeyNewTaskJson, new JObject {
+							{ kJobsJsonKeyNewTaskJsonKeyJobType, "UpdateWebCalFiles" },
+						} },
+						{ kJobsJsonKeyCrontabExpression, "0 3 * * *" },
+						{ kJobsJsonKeyAllowMoreThanOneActive, false },
+						{ kJobsJsonKeyLastJobDispatchedTimestampISO8601, null },
+					}.ToString(Formatting.Indented)
+				);
+
+				// Remove expired jobs
+				Guid removeExpiredJobsId = Guid.NewGuid();
+				ScheduledTasks removeExpiredJobsTask = new ScheduledTasks(
+					Id: removeExpiredJobsId,
+					Json: new JObject {
+						{ kJobsJsonKeyDescription, "Remove Expired Jobs" },
+						{ kJobsJsonKeyNewTaskJson, new JObject {
+							{ kJobsJsonKeyNewTaskJsonKeyJobType, "JobRunnerRemoveExpiredJobs" },
+						} },
+						{ kJobsJsonKeyCrontabExpression, "*/5 * * * *" },
+						{ kJobsJsonKeyAllowMoreThanOneActive, false },
+						{ kJobsJsonKeyLastJobDispatchedTimestampISO8601, null },
+					}.ToString(Formatting.Indented)
+				);
+
+				// Ensure each company has an S3 bucket.
+				Guid ensureS3BucketsId = Guid.NewGuid();
+				ScheduledTasks ensureS3BucketsTask = new ScheduledTasks(
+					Id: ensureS3BucketsId,
+					Json: new JObject {
+						{ kJobsJsonKeyDescription, "Ensure Company S3 Buckets" },
+						{ kJobsJsonKeyNewTaskJson, new JObject {
+							{ kJobsJsonKeyNewTaskJsonKeyJobType, "EnsureCompanyS3Buckets" },
+						} },
+						{ kJobsJsonKeyCrontabExpression, "* * * * *" },
+						{ kJobsJsonKeyAllowMoreThanOneActive, false },
+						{ kJobsJsonKeyLastJobDispatchedTimestampISO8601, null },
+					}.ToString(Formatting.Indented)
+				);
+
+
+				Upsert(db, new Dictionary<Guid, ScheduledTasks> {
+					{dbVerificationId, dbVerificationTask},
+					{updateWebCalId, updateWebCalTask},
+					{removeExpiredJobsId, removeExpiredJobsTask},
+					{ensureS3BucketsId, ensureS3BucketsTask},
+				}, out _, out _);
+
+			}
 
 
 
 
 
-		
+		}
+
+
+
+
+
 
 
 
