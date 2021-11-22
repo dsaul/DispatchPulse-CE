@@ -7,13 +7,29 @@ services:
     networks:
       - backend
     restart: "unless-stopped"
-#    ports:
-#      - "5432:5432"
+    # open ports for table debug only, otherwise comment out
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: CHANGEME
   
-  
+  dispatch-pulse-ce-database-bootstrap:
+    image: maskawanian/dispatch-pulse-ce-database-bootstrap:latest
+    depends_on:
+      - "postgres"
+    restart: unless-stopped
+    networks:
+     - backend
+    volumes:
+     # Postgres Connection
+     - ./secrets/pgpass.conf:/run/secrets/pgpass.conf
+     - ./secrets/postgres-connection-string.txt:/run/secrets/postgres-connection-string.txt
+     
+    environment:
+      # Postgres Connection
+      NPGSQL_CONNECTION_STRING_FILE: /run/secrets/postgres-connection-string.txt
+      PGPASSFILE: /run/secrets/pgpass.conf
   
   
   
@@ -36,8 +52,10 @@ services:
   dispatch-pulse-ce-ari-oncall:
     image: maskawanian/dispatch-pulse-ce-ari-oncall:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
+    depends_on:
+      - "dispatch-pulse-ce-database-bootstrap"
     networks:
      - backend
     volumes:
@@ -141,7 +159,7 @@ services:
   dispatch-pulse-ce-twilio-disaster-recovery:
     image: maskawanian/dispatch-pulse-ce-twilio-disaster-recovery:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -161,7 +179,7 @@ services:
   dispatch-pulse-ce-square-payments:
     image: maskawanian/dispatch-pulse-ce-square-payments:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -224,7 +242,7 @@ services:
   dispatch-pulse-ce-on-call-responder-message-access:
     image: maskawanian/dispatch-pulse-ce-on-call-responder-message-access:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -267,6 +285,8 @@ services:
     image: maskawanian/dispatch-pulse-ce-ari-projects-scheduling-time:latest
     networks:
      - backend
+    depends_on:
+      - "dispatch-pulse-ce-database-bootstrap"
     ports:
      - "4573:4573"
     restart: "unless-stopped"
@@ -298,6 +318,9 @@ services:
      - ./secrets/smtp-host-port.txt:/run/secrets/smtp-host-port.txt
      - ./secrets/on-call-smtp-password.txt:/run/secrets/on-call-smtp-password.txt
      - ./secrets/on-call-smtp-username.txt:/run/secrets/on-call-smtp-username.txt
+     
+     # API Connection
+     - ./secrets/signal-r-hub-uri.txt:/run/secrets/signal-r-hub-uri.txt
      
     environment:
       # Postgres Connection
@@ -339,8 +362,8 @@ services:
       SMTP_USERNAME_FILE: /run/secrets/on-call-smtp-username.txt
 
       # API Connection
-      ARI_AND_API_SHARED_SECRET_FILE: /run/secrets/ari-and-api-shared-secret-1
-      SIGNAL_R_HUB_URI: https://api-staging.dispatchpulse.com/APIHub
+      ARI_AND_API_SHARED_SECRET_FILE: /run/secrets/signal-r-hub-uri.txt
+      SIGNAL_R_HUB_URI_FILE: /run/secrets/signal-r-hub-uri.txt
 
   dispatch-pulse-ce-webapp:
     image: maskawanian/dispatch-pulse-ce-webapp:latest
@@ -426,7 +449,7 @@ services:
   dispatch-pulse-ce-job-runner-update-web-cal-files:
     image: maskawanian/dispatch-pulse-ce-job-runner-update-web-cal-files:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -444,7 +467,7 @@ services:
   dispatch-pulse-ce-job-runner-remove-expired-jobs:
     image: maskawanian/dispatch-pulse-ce-job-runner-remove-expired-jobs:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -460,7 +483,7 @@ services:
   dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:
     image: maskawanian/dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -484,7 +507,7 @@ services:
   dispatch-pulse-ce-job-runner-database-verification:
     image: maskawanian/dispatch-pulse-ce-job-runner-database-verification:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -500,7 +523,7 @@ services:
   dispatch-pulse-ce-job-runner-recurring-task-scheduler:
     image: maskawanian/dispatch-pulse-ce-job-runner-recurring-task-scheduler:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -517,7 +540,7 @@ services:
   dispatch-pulse-ce-job-runner-on-call-responder-30-day-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-on-call-responder-30-day-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
      - backend
@@ -542,7 +565,7 @@ services:
   dispatch-pulse-ce-job-runner-projects-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-projects-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -568,7 +591,7 @@ services:
   dispatch-pulse-ce-job-runner-materials-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-materials-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -593,7 +616,7 @@ services:
   dispatch-pulse-ce-job-runner-labour-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-labour-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -618,7 +641,7 @@ services:
   dispatch-pulse-ce-job-runner-contacts-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-contacts-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -643,7 +666,7 @@ services:
   dispatch-pulse-ce-job-runner-companies-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-companies-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -668,7 +691,7 @@ services:
   dispatch-pulse-ce-job-runner-pdflatex:
     image: maskawanian/dispatch-pulse-ce-job-runner-pdflatex:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
@@ -693,7 +716,7 @@ services:
   dispatch-pulse-ce-job-runner-assignments-report:
     image: maskawanian/dispatch-pulse-ce-job-runner-assignments-report:latest
     depends_on:
-      - "postgres"
+      - "dispatch-pulse-ce-database-bootstrap"
     restart: unless-stopped
     networks:
       - backend
