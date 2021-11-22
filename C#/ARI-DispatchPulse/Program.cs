@@ -37,12 +37,8 @@ namespace ARI
 
 		static async Task Main()
 		{
-			if (string.IsNullOrWhiteSpace(SERILOG_LOG_FILE)) {
-				Log.Debug("SERILOG_LOG_FILE not set!");
-				return;
-			}
 			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI)) {
-				Log.Debug("SIGNAL_R_HUB_URI_FILE not set!");
+				Log.Error("SIGNAL_R_HUB_URI_FILE not set!");
 				return;
 			}
 
@@ -54,34 +50,33 @@ namespace ARI
 				.Enrich.WithMachineName()
 				.MinimumLevel.Debug()
 				.WriteTo.Console()
-				.WriteTo.File(SERILOG_LOG_FILE)
 				.CreateLogger();
 
 
 			Log.Information("Ari-DispatchPulse (c) 2021 Dan Saul");
 
 			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.ARI_AND_API_SHARED_SECRET)) {
-				Log.Debug("ARI_AND_API_SHARED_SECRET_FILE not set!");
+				Log.Error("ARI_AND_API_SHARED_SECRET_FILE not set!");
 				return;
 			}
 
 			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE)) {
-				Log.Debug("ARI_TO_PBX_SSH_IDRSA_FILE not set!");
+				Log.Error("ARI_TO_PBX_SSH_IDRSA_FILE not set!");
 				return;
 			}
 
 			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_FQDN)) {
-				Log.Debug("PBX_FQDN not set!");
+				Log.Error("PBX_FQDN not set!");
 				return;
 			}
 
 			if (null == SharedCode.ARI.Konstants.PBX_SSH_PORT) {
-				Log.Debug("PBX_SSH_PORT not set!");
+				Log.Error("PBX_SSH_PORT not set!");
 				return;
 			}
 
 			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_SSH_USER)) {
-				Log.Debug("PBX_SSH_USER not set!");
+				Log.Error("PBX_SSH_USER not set!");
 				return;
 			}
 
