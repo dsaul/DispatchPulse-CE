@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -379,5 +381,55 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-sessions")) {
+				Log.Debug($"----- Table \"billing-sessions\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-sessions\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-sessions"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""contact-id"" uuid NOT NULL,
+						""agent-description"" character varying(255) NOT NULL,
+						""ip-address"" character varying(255),
+						""created-utc"" timestamp without time zone DEFAULT now() NOT NULL,
+						""last-access-utc"" timestamp without time zone DEFAULT now() NOT NULL,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_sessions_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// None
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

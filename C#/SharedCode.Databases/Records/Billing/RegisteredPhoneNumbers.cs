@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
+using Serilog;
+using SharedCode.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -324,6 +326,36 @@ namespace Databases.Records.Billing
 
 				return guid;
 			}
+		}
+
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("registered-phone-numbers")) {
+				Log.Debug($"----- Table \"registered-phone-numbers\" exists.");
+			} else {
+				Log.Information($"----- Table \"registered-phone-numbers\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""registered-phone-numbers"" (
+						""id"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""json"" jsonb DEFAULT '{}'::jsonb NOT NULL,
+						CONSTRAINT ""registered_phone_numbers_pk"" PRIMARY KEY(""id"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// None
+			}
+
+
+
+
+
 		}
 
 

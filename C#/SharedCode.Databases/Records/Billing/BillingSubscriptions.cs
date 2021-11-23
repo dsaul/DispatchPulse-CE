@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Serilog;
+using SharedCode.Extensions;
 
 namespace Databases.Records.Billing
 {
@@ -456,5 +458,74 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+
+
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-subscriptions")) {
+				Log.Debug($"----- Table \"billing-subscriptions\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-subscriptions\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-subscriptions"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""company-id"" uuid,
+						""package-id"" uuid,
+						""timestamp-added-utc"" timestamp without time zone DEFAULT now() NOT NULL,
+						""provisioning-actual"" character varying(255) NOT NULL,
+						""provisioning-desired"" character varying(255) NOT NULL,
+						""provisioned-database-name"" character varying(255),
+						""timestamp-last-settings-push-utc"" timestamp without time zone,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_subscriptions_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+				//Guid guid = Guid.NewGuid();
+				//BillingCompanies bc = new BillingCompanies(
+				//	Uuid: guid,
+				//	FullName: "Example Company",
+				//	Abbreviation: null,
+				//	Industry: null,
+				//	MarketingCampaign: null,
+				//	AddressCity: null,
+				//	AddressCountry: null,
+				//	AddressLine1: null,
+				//	AddressLine2: null,
+				//	AddressPostalCode: null,
+				//	AddressProvince: null,
+				//	StripeCustomerId: null,
+				//	PaymentMethod: null,
+				//	InvoiceContactId: null,
+				//	PaymentFrequency: null,
+				//	Json: new JObject { }.ToString(Formatting.Indented)
+				//	);
+
+				//Upsert(db, new Dictionary<Guid, BillingCompanies> {
+				//	{guid, bc},
+				//}, out _, out _);
+
+				//NpgsqlCommand command = new NpgsqlCommand(SQLUtility.RemoveCommentsFromSQLString(Resources.SQLInsertDefaultBillingJournalEntriesType, true), db);
+				//command.ExecuteNonQuery();
+			}
+
+
+
+
+
+		}
+
+
+
+
 	}
 }

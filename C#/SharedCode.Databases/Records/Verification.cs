@@ -39,12 +39,12 @@ namespace SharedCode.Databases.Records
 			BillingPaymentMethod.VerifyRepairTable(dpDB, insertDefaultContents);
 			BillingPermissionsGroups.VerifyRepairTable(dpDB, insertDefaultContents);
 			BillingPermissionsBool.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPermissionsGroupsMemberships.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingSessions.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingSubscriptions.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingSubscriptionsProvisioningStatus.VerifyRepairTable(dpDB, insertDefaultContents);
-			//RegisteredPhoneNumbers.VerifyRepairTable(dpDB, insertDefaultContents);
-			//UtilityIpToCountry.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPermissionsGroupsMemberships.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingSessions.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingSubscriptions.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingSubscriptionsProvisioningStatus.VerifyRepairTable(dpDB, insertDefaultContents);
+			RegisteredPhoneNumbers.VerifyRepairTable(dpDB, insertDefaultContents);
+			UtilityIpToCountry.VerifyRepairTable(dpDB, insertDefaultContents);
 		}
 
 

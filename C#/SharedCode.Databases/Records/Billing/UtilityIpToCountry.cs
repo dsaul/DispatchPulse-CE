@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Net;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -82,6 +84,43 @@ namespace Databases.Records.Billing
 
 			return ret;
 		}
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("utility-ip-to-country")) {
+				Log.Debug($"----- Table \"utility-ip-to-country\" exists.");
+			} else {
+				Log.Information($"----- Table \"utility-ip-to-country\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""utility-ip-to-country"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""ip-from"" numeric,
+						""ip-to"" numeric,
+						""country-code"" character varying(255),
+						""country-name"" character varying(255),
+						CONSTRAINT ""utility_ip_to_country_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// None
+			}
+
+
+
+
+
+		}
+
+
+
+
+
 
 
 	}

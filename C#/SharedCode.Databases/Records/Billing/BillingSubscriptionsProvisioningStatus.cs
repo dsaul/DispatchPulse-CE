@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -224,5 +226,49 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-subscriptions-provisioning-status")) {
+				Log.Debug($"----- Table \"billing-subscriptions-provisioning-status\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-subscriptions-provisioning-status\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-subscriptions-provisioning-status"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""status"" character varying(255) NOT NULL,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_subscriptions_provisioning_status_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// None
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }
