@@ -1013,7 +1013,7 @@ namespace Databases.Records.Billing
 		}
 
 
-		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+		public static void VerifyRepairTable(NpgsqlConnection db, out Guid? companyId, bool insertDefaultContents = false) {
 
 			if (db.TableExists("billing-companies")) {
 				Log.Debug($"----- Table \"billing-companies\" exists.");
@@ -1051,8 +1051,8 @@ namespace Databases.Records.Billing
 				Guid guid = Guid.NewGuid();
 				BillingCompanies bc = new BillingCompanies(
 					Uuid: guid,
-					FullName: "Example Company",
-					Abbreviation: null,
+					FullName: "Community Edition",
+					Abbreviation: "CE",
 					Industry: null,
 					MarketingCampaign: null,
 					AddressCity: null,
@@ -1072,6 +1072,10 @@ namespace Databases.Records.Billing
 					{guid, bc},
 				}, out _, out _);
 
+				companyId = guid;
+
+			} else {
+				companyId = null;
 			}
 
 

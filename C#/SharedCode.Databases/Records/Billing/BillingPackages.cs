@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -324,23 +326,23 @@ namespace Databases.Records.Billing
 							@provisionWebsites,
 							@provisionWebsitesStaticCount,
 							@isDemo,
-							@CAST(@json AS json)
+							CAST(@json AS json)
 						)
 					ON CONFLICT (""uuid"") DO UPDATE
 						SET
-							""packageName"" = excluded.""abbreviation"",
-							""displayName"" = excluded.""abbreviation"",
-							""currency"" = excluded.""abbreviation"",
-							""costPerMonth"" = excluded.""abbreviation"",
-							""provisionDispatchPulse"" = excluded.""abbreviation"",
-							""provisionDispatchPulseUsers"" = excluded.""abbreviation"",
-							""allowNewAssignment"" = excluded.""abbreviation"",
-							""type"" = excluded.""abbreviation"",
-							""provisionEmail"" = excluded.""abbreviation"",
-							""provisionEmailUsers"" = excluded.""abbreviation"",
-							""provisionWebsites"" = excluded.""abbreviation"",
-							""provisionWebsitesStaticCount"" = excluded.""abbreviation"",
-							""isDemo"" = excluded.""abbreviation"",
+							""package-name"" = excluded.""package-name"",
+							""display-name"" = excluded.""display-name"",
+							""currency"" = excluded.""currency"",
+							""cost-per-month"" = excluded.""cost-per-month"",
+							""provision-dispatch-pulse"" = excluded.""provision-dispatch-pulse"",
+							""provision-dispatch-pulse-users"" = excluded.""provision-dispatch-pulse-users"",
+							""allow-new-assignment"" = excluded.""allow-new-assignment"",
+							""type"" = excluded.""type"",
+							""provision-email"" = excluded.""provision-email"",
+							""provision-email-users"" = excluded.""provision-email-users"",
+							""provision-websites"" = excluded.""provision-websites"",
+							""provision-websites-static-count"" = excluded.""provision-websites-static-count"",
+							""is-demo"" = excluded.""is-demo"",
 							""json"" = CAST(excluded.""json"" AS json)
 					";
 
@@ -537,6 +539,81 @@ namespace Databases.Records.Billing
 				return root.Value<int>(kJsonKeyProvisionOnCallUsers);
 			}
 		}
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, out Guid? billingPackageCommunityEditionId, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-packages")) {
+				Log.Debug($"----- Table \"billing-packages\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-packages\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-packages"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""package-name"" character varying(255) NULL,
+						""display-name"" character varying(255) NULL,
+						""currency"" character varying(255) NULL,
+						""cost-per-month"" numeric NULL,
+						""provision-dispatch-pulse"" boolean NULL,
+						""provision-dispatch-pulse-users"" integer NULL,
+						""allow-new-assignment"" boolean NULL,
+						""type"" character varying(255) NULL,
+						""provision-email"" boolean NULL,
+						""provision-email-users"" integer NULL,
+						""provision-websites"" boolean NULL,
+						""provision-websites-static-count"" integer NULL,
+						""is-demo"" boolean DEFAULT false NULL,
+						""json"" json DEFAULT '{}'::json NULL,
+						CONSTRAINT ""billing_packages_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+				Guid guid = Guid.NewGuid();
+				BillingPackages bc = new BillingPackages(
+					Uuid: guid,
+					PackageName: "Community Edition",
+					DisplayName: "Community Edition",
+					Currency: null,
+					CostPerMonth: 0,
+					ProvisionDispatchPulse: true,
+					ProvisionDispatchPulseUsers: 9999,
+					AllowNewAssignment: true,
+					Type: "Primary",
+					ProvisionEmail: false,
+					ProvisionEmailUsers: 0,
+					ProvisionWebsites: false,
+					ProvisionWebsitesStaticCount: 0,
+					IsDemo: false,
+					Json: new JObject {
+						{ kJsonKeyProvisionOnCallAutoAttendants, true },
+						{ kJsonKeyProvisionS3StorageMB, 9999999 },
+						{ kJsonKeyProvisionOnCallResponders, true },
+						{ kJsonKeyProvisionOnCallUsers, 9999999 }
+					}.ToString(Formatting.Indented)
+				);
+
+				Upsert(db, new Dictionary<Guid, BillingPackages> {
+					{guid, bc},
+				}, out _, out _);
+
+				billingPackageCommunityEditionId = guid;
+
+			} else {
+				billingPackageCommunityEditionId = null;
+			}
+
+
+
+
+
+		}
+
 
 
 

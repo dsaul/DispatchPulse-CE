@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -650,5 +652,82 @@ namespace Databases.Records.Billing
 				return b;
 			}
 		}
+
+		public static void VerifyRepairTable(NpgsqlConnection db, out Guid? billingContactId, bool insertDefaultContents = false, Guid? companyId = null) {
+
+			if (db.TableExists("billing-contacts")) {
+				Log.Debug($"----- Table \"billing-contacts\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-contacts\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-contacts"" (
+						""full-name"" character varying(255),
+						""email"" character varying(255),
+						""password-hash"" character varying(255),
+						""email-list-marketing"" boolean DEFAULT false,
+						""email-list-tutorials"" boolean DEFAULT true,
+						""marketing-campaign"" character varying(255),
+						""phone"" character varying(255),
+						""is-deleted"" boolean DEFAULT false NOT NULL,
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""company-id"" uuid,
+						""application-data"" json,
+						json json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_contacts_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+				Guid guid = Guid.NewGuid();
+				BillingContacts bc = new BillingContacts(
+					FullName: "Example Contact",
+					Email: "admin@example.com",
+					PasswordHash: null,
+					EmailListMarketing: false,
+					EmailListTutorials: false,
+					MarketingCampaign: null,
+					Phone: null,
+					Uuid: guid,
+					CompanyId: companyId,
+					ApplicationData: new JObject { }.ToString(Formatting.Indented),
+					Json: new JObject { }.ToString(Formatting.Indented)
+					);
+
+				Upsert(db, new Dictionary<Guid, BillingContacts> {
+					{guid, bc},
+				}, out _, out _);
+
+				billingContactId = guid;
+
+			} else {
+				billingContactId = null;
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

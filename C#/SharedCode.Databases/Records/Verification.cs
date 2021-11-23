@@ -20,20 +20,25 @@ namespace SharedCode.Databases.Records
 		}
 
 		public static void VerifyBillingDatabase(NpgsqlConnection dpDB, bool insertDefaultContents = false) {
-			BillingCompanies.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingContacts.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingCouponCodes.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingCurrency.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingIndustries.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingInvoices.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingJournalEntries.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingJournalEntriesType.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPackages.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPackagesType.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPaymentFrequencies.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPaymentMethod.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPermissionsBool.VerifyRepairTable(dpDB, insertDefaultContents);
-			//BillingPermissionsGroups.VerifyRepairTable(dpDB, insertDefaultContents);
+
+			Guid? billingCompanyId;
+			Guid? billingContactId;
+			Guid? billingPackageCommunityEditionId;
+
+			BillingCompanies.VerifyRepairTable(dpDB, out billingCompanyId, insertDefaultContents);
+			BillingContacts.VerifyRepairTable(dpDB, out billingContactId, insertDefaultContents, billingCompanyId);
+			BillingCouponCodes.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingCurrency.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingIndustries.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingInvoices.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingJournalEntriesType.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingJournalEntries.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPackagesType.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPackages.VerifyRepairTable(dpDB, out billingPackageCommunityEditionId, insertDefaultContents);
+			BillingPaymentFrequencies.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPaymentMethod.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPermissionsGroups.VerifyRepairTable(dpDB, insertDefaultContents);
+			BillingPermissionsBool.VerifyRepairTable(dpDB, insertDefaultContents);
 			//BillingPermissionsGroupsMemberships.VerifyRepairTable(dpDB, insertDefaultContents);
 			//BillingSessions.VerifyRepairTable(dpDB, insertDefaultContents);
 			//BillingSubscriptions.VerifyRepairTable(dpDB, insertDefaultContents);

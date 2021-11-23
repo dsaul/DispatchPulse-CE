@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -380,5 +382,52 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-invoices")) {
+				Log.Debug($"----- Table \"billing-invoices\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-invoices\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-invoices"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""timestamp-start-utc"" timestamp without time zone NOT NULL,
+						""timestamp-end-utc"" timestamp without time zone NOT NULL,
+						""invoice-number"" character varying(255) NOT NULL,
+						""currency"" character varying(255) NOT NULL,
+						""amount-due"" numeric NOT NULL,
+						""amount-paid"" numeric NOT NULL,
+						""amount-remaining"" numeric NOT NULL,
+						""timestamp-created-utc"" timestamp with time zone NOT NULL,
+						""timestamp-due-utc"" timestamp with time zone NOT NULL,
+						""company-id"" uuid NOT NULL,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_invoices_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// None
+
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
 	}
 }

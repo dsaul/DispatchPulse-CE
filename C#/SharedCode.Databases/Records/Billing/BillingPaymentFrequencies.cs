@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
+using SharedCode;
+using SharedCode.Databases.Properties;
 
 namespace Databases.Records.Billing
 {
@@ -248,5 +252,61 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-payment-frequencies")) {
+				Log.Debug($"----- Table \"billing-payment-frequencies\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-payment-frequencies\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-payment-frequencies"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""value"" character varying(255) NOT NULL,
+						""display-name"" character varying(255) NOT NULL,
+						""months-between-payments"" integer NOT NULL,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_payment_frequencies_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+				
+				NpgsqlCommand command = new NpgsqlCommand(SQLUtility.RemoveCommentsFromSQLString(Resources.SQLInsertDefaultBillingJournalEntriesType, true), db);
+				command.ExecuteNonQuery();
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

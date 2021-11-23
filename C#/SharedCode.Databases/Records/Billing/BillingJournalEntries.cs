@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
 
 namespace Databases.Records.Billing
 {
@@ -439,7 +441,46 @@ namespace Databases.Records.Billing
 			}
 		}
 
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
 
+			if (db.TableExists("billing-journal-entries")) {
+				Log.Debug($"----- Table \"billing-journal-entries\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-journal-entries\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-journal-entries"" (
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""timestamp"" timestamp without time zone DEFAULT now() NOT NULL,
+						""type"" character varying NOT NULL,
+						""other-entry-id"" uuid,
+						""description"" character varying(255),
+						""quantity"" numeric NOT NULL,
+						""unit-price"" numeric NOT NULL,
+						""currency"" character varying(255) NOT NULL,
+						""tax-percentage"" numeric NOT NULL,
+						""tax-actual"" numeric NOT NULL,
+						""total"" numeric NOT NULL,
+						""invoice-id"" uuid,
+						""package-id"" uuid,
+						""company-id"" uuid NOT NULL,
+						json json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_journal_entries_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				// none
+			}
+
+
+
+
+
+		}
 
 
 

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SharedCode.Extensions;
+using Serilog;
+using SharedCode;
+using SharedCode.Databases.Properties;
 
 namespace Databases.Records.Billing
 {
@@ -228,5 +232,60 @@ namespace Databases.Records.Billing
 				return JsonConvert.DeserializeObject(Json, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None }) as JObject;
 			}
 		}
+
+		public static void VerifyRepairTable(NpgsqlConnection db, bool insertDefaultContents = false) {
+
+			if (db.TableExists("billing-payment-method")) {
+				Log.Debug($"----- Table \"billing-payment-method\" exists.");
+			} else {
+				Log.Information($"----- Table \"billing-payment-method\" doesn't exist, creating.");
+
+				using NpgsqlCommand cmd = new NpgsqlCommand(@"
+					CREATE TABLE ""public"".""billing-payment-method"" (
+						""value"" character varying(255) NOT NULL,
+						""uuid"" uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+						""json"" json DEFAULT '{}'::json NOT NULL,
+						CONSTRAINT ""billing_payment_method_pk"" PRIMARY KEY(""uuid"")
+					) WITH(oids = false);
+					", db);
+				cmd.ExecuteNonQuery();
+			}
+
+
+			if (insertDefaultContents) {
+				Log.Information("Insert Default Contents");
+
+				NpgsqlCommand command = new NpgsqlCommand(SQLUtility.RemoveCommentsFromSQLString(Resources.SQLInsertDefaultPaymentMethod, true), db);
+				command.ExecuteNonQuery();
+			}
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }
