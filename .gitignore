@@ -129,3 +129,6 @@
 /C#/TwilioDisasterRecovery/obj
 /C#/VerifyDatabase/obj
 /C#/VerifyDatabase/bin
+/C#/OnCallResponderMessageAccess/node_modules
+/C#/CompanyBilling/node_modules
+/C#/SquarePayments/node_modules
