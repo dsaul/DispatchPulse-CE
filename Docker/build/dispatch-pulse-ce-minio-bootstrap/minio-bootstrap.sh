@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -o errexit
-set -o nounset
+#set -o errexit
+#set -o nounset
 #set -o xtrace
-set -o pipefail
+#set -o pipefail
 
 # Change Directory to script directory.
 cd $(dirname "${BASH_SOURCE[0]}")
