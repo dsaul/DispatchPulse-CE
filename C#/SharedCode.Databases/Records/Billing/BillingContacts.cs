@@ -683,11 +683,15 @@ namespace Databases.Records.Billing
 
 			if (insertDefaultContents) {
 				Log.Information("Insert Default Contents");
+
+				string hash = BCrypt.Net.BCrypt.HashPassword("CHANGEME");
+
+
 				Guid guid = Guid.NewGuid();
 				BillingContacts bc = new BillingContacts(
 					FullName: "Example Contact",
 					Email: "admin@example.com",
-					PasswordHash: null,
+					PasswordHash: hash,
 					EmailListMarketing: false,
 					EmailListTutorials: false,
 					MarketingCampaign: null,
