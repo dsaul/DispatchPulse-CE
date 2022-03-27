@@ -47,9 +47,11 @@ class SignalRConnection {
 		//super();
 
 		window.fetch('/env/API_ROOT')
-			.then((response) => {
-				console.log(response);
-
+			.then((response) => response.text())
+			.then((data) => {
+				console.log("API_ROOT",data);
+				this.apiRoot = data;
+				
 				// once we have the api root we can connect to signalr
 
 				this.connection = new signalR.HubConnectionBuilder()
