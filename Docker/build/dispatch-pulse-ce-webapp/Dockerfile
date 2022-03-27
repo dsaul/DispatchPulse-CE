@@ -42,4 +42,6 @@ COPY --from=build /source/Webapp/dist /usr/share/nginx/html/
 
 # Install our own config file.
 WORKDIR /etc/nginx/conf.d/
-COPY nginx.conf default.conf
+COPY default.conf.template /default.conf.template
+
+CMD ["/bin/sh" , "-c" , "envsubst '$API_ROOT' < /default.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
