@@ -81,7 +81,7 @@ namespace API.Utility
 				return;
 			}
 
-			billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName);
+			billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
 			if (string.IsNullOrWhiteSpace(billingConnectionString))
 			{
 				response.IsError = true;
@@ -387,7 +387,7 @@ namespace API.Utility
 				return;
 			}
 
-			billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName);
+			billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
 			if (string.IsNullOrWhiteSpace(billingConnectionString))
 			{
 				response.IsError = true;

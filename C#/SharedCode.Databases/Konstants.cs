@@ -10,6 +10,16 @@ namespace Databases
 {
 	public static class Konstants
 	{
+		public static string BILLING_DATABASE_NAME
+		{
+			get {
+				string? str = Environment.GetEnvironmentVariable("BILLING_DATABASE_NAME");
+				if (string.IsNullOrWhiteSpace(str)) {
+					throw new Exception("BILLING_DATABASE_NAME empty or missing.");
+				}
+				return str;
+			}
+		}
 
 		public static string? ASPNETCORE_ENVIRONMENT
 		{
@@ -62,10 +72,7 @@ namespace Databases
 			}
 		}
 
-
-
-		public const string KBillingDatabaseName = "postgres";
-		public static string KBillingDatabaseConnectionString { get { return DatabaseConnectionStringForDB(KBillingDatabaseName); } }
+		public static string KBillingDatabaseConnectionString { get { return DatabaseConnectionStringForDB(BILLING_DATABASE_NAME); } }
 		public static CultureInfo KDefaultCulture { get { return CultureInfo.CreateSpecificCulture("en-CA"); } }
 		public static string DatabaseConnectionStringForDB(string db) {
 
