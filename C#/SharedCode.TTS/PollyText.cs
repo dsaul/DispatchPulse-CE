@@ -154,6 +154,7 @@ namespace TTS
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
 				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ForcePathStyle = true
 			};
 			var s3Client = new AmazonS3Client(File.ReadAllText(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY_FILE), File.ReadAllText(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY_FILE), config);
 			var fileTransferUtility = new TransferUtility(s3Client);

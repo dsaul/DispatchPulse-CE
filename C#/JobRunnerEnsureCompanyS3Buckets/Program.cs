@@ -32,7 +32,7 @@ namespace JobRunnerEnsureCompanyS3Buckets
 				//.WriteTo.File(new Serilog.Formatting.Json.JsonFormatter(), SERILOG_LOG_FILE)
 				.CreateLogger();
 
-			Log.Debug("Job Runner Labour by Dan Saul https://github.com/dsaul");
+			Log.Debug("Ensure Company S3 Buckets by Dan Saul https://github.com/dsaul");
 
 			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
@@ -64,6 +64,8 @@ namespace JobRunnerEnsureCompanyS3Buckets
 				Log.Debug("S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY_FILE has no contents");
 				return;
 			}
+
+			
 
 			while (true) {
 				//Log.Debug($"Polling...");
@@ -144,6 +146,7 @@ namespace JobRunnerEnsureCompanyS3Buckets
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
 				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ForcePathStyle = true
 			};
 			var s3Client = new AmazonS3Client(S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY, S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY, config);
 

@@ -328,6 +328,7 @@ namespace API.Hubs
 				{
 					RegionEndpoint = RegionEndpoint.USWest1,
 					ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+					ForcePathStyle = true
 				});
 
 

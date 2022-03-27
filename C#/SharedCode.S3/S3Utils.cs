@@ -42,6 +42,7 @@ namespace SharedCode.S3
 				{
 				RegionEndpoint = RegionEndpoint.USWest1,
 				ServiceURL = s3ServiceUri,
+				ForcePathStyle = true
 			});
 
 

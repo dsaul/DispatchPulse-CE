@@ -135,6 +135,7 @@ namespace API.Hubs
 					{
 						RegionEndpoint = RegionEndpoint.USWest1,
 						ServiceURL = s3Host,
+						ForcePathStyle = true
 					});
 
 					

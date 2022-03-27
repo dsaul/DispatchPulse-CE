@@ -168,6 +168,7 @@ namespace ARI.IVR.OnCall
 						{
 							RegionEndpoint = RegionEndpoint.USWest1,
 							ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+							ForcePathStyle = true
 						});
 
 						GetObjectRequest request = new GetObjectRequest
@@ -461,6 +462,7 @@ namespace ARI.IVR.OnCall
 						{
 						RegionEndpoint = RegionEndpoint.USWest1,
 						ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+						ForcePathStyle = true
 					});
 
 					GetObjectRequest request = new GetObjectRequest

@@ -206,6 +206,7 @@ namespace SquarePayments.Pages
 						{
 							RegionEndpoint = RegionEndpoint.USWest1,
 							ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+							ForcePathStyle = true
 						};
 						var s3Client = new AmazonS3Client(
 						SharedCode.S3.Konstants.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY,

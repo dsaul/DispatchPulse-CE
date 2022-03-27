@@ -206,6 +206,7 @@ namespace JobRunnerPDFLaTeX
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
 				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ForcePathStyle = true
 			};
 			var s3Client = new AmazonS3Client(S3_PDFLATEX_ACCESS_KEY, S3_PDFLATEX_SECRET_KEY, config);
 			var fileTransferUtility = new TransferUtility(s3Client);
