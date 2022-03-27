@@ -44,7 +44,7 @@ namespace API.Hubs
 				response.RoundTripRequestId = p.RoundTripRequestId;
 
 
-				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName);
+				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
 				if (null == billingConnectionString)
 				{
 					response.IsError = true;

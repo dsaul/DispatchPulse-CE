@@ -100,7 +100,7 @@ namespace JobRunnerUpdateWebCalFiles
 				// Do Task
 
 				// Connect to 
-				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 				billingConnection.Open();
 
 				var resBC = BillingCompanies.AllForProvisionOnCallAutoAttendants(billingConnection, true, out Dictionary<Guid, string> databaseNames);

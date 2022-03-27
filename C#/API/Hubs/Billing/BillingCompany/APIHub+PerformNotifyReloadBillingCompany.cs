@@ -34,7 +34,7 @@ namespace API.Hubs
 
 			do
 			{
-				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 				billingConnection.Open();
 
 				var resCompany = BillingCompanies.ForSessionId(billingConnection, p.SessionId.Value);

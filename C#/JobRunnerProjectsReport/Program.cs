@@ -145,7 +145,7 @@ namespace JobRunnerProjectsReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 

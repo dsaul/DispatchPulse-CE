@@ -145,7 +145,7 @@ namespace JobRunnerAssignmentsReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName)}ApplicationName=AssignmentsReport;");
+				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME)}ApplicationName=AssignmentsReport;");
 				billingDB.Open();
 
 

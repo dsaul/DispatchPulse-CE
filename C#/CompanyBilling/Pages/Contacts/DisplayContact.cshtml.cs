@@ -31,7 +31,7 @@ namespace ManuallyProcessPreAuthorizedPayments.Pages.Contacts
 		private bool SharedSetup() {
 
 
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 			if (null == BillingDB)
 				return false;
 			HttpContext.Response.RegisterForDispose(BillingDB);

@@ -49,7 +49,7 @@ namespace ARI.IVR.OnCall
 
 		public void ConnectToBillingDB() {
 			if (BillingDB == null) {
-				BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+				BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 				BillingDB.Open();
 			}
 

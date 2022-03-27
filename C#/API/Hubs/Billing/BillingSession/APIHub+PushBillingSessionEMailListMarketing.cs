@@ -47,7 +47,7 @@ namespace API.Hubs
 					break;
 				}
 
-				string connectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName);
+				string connectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
 				using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 				connection.Open();
 

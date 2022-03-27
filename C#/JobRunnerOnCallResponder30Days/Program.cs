@@ -129,7 +129,7 @@ namespace JobRunnerOnCallResponder30Days
 				using NpgsqlConnection dpDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase)}ApplicationName=OnCallResponder30DaysReport;");
 				dpDB.Open();
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName)}ApplicationName=OnCallResponder30DaysReport;");
+				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME)}ApplicationName=OnCallResponder30DaysReport;");
 				billingDB.Open();
 
 

@@ -52,7 +52,7 @@ namespace TwilioDisasterRecovery.Controllers
 
 				string didStr = Regex.Replace(To, "[^0-9]", "");
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 				var resRegPN = RegisteredPhoneNumbers.ForPhoneNumber(billingDB, didStr);

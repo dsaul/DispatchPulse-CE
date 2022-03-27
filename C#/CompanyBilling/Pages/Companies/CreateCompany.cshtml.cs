@@ -46,7 +46,7 @@ namespace ManuallyProcessPreAuthorizedPayments.Pages.Company
 				NpgsqlConnection? billingConnection = null;
 
 				// Validate other stuff.
-				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.KBillingDatabaseName);
+				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
 				if (string.IsNullOrWhiteSpace(billingConnectionString)) {
 					ErrorMessage = "Couldn't get the billing connection string.";
 					break;
