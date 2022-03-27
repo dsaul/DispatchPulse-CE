@@ -85,7 +85,11 @@ export default class ViewBase extends ComponentBase {
 	protected mounted(): void {
 		
 		this.connectionMonitorInterval = setInterval(() => {
-			Vue.set(this, 'connectionStatus', SignalRConnection.Connection.state);
+			if (SignalRConnection.Connection == null) {
+				Vue.set(this, 'connectionStatus', false);
+			} else {
+				Vue.set(this, 'connectionStatus', SignalRConnection.Connection.state);
+			}
 		}, 1000);
 		
 		

@@ -14,7 +14,7 @@ export class RPCMethod {
 	public static Register<T extends RPCMethod>(method: T): T {
 		
 		// If this is called too early, wait.
-		if (SignalRConnection === undefined) {
+		if (SignalRConnection === undefined || SignalRConnection.Connection == null) {
 			setTimeout(() => this.Register<T>(method), 500);
 			return method;
 		}
@@ -42,6 +42,8 @@ export class RPCMethod {
 	
 	public Send(payload: IIdempotencyRequest): IRoundTripRequest {
 		
+		
+
 		const serverMethodName = this.GetServerMethodName();
 		
 		if ((window as any).DEBUG_PRINT_REQUESTS) {
@@ -60,10 +62,16 @@ export class RPCMethod {
 			_completeRequestPromiseResolve: null,
 			_completeRequestPromiseReject: null,
 		};
-		
+
 		if (!serverMethodName || IsNullOrEmpty(serverMethodName)) {
 			ret.outboundRequestPromise = Promise.reject(new Error('No Server Method Name!'));
 			ret.completeRequestPromise = Promise.reject(new Error('No Server Method Name!'));
+			return ret;
+		}
+		
+		if (SignalRConnection.Connection == null) {
+			ret.outboundRequestPromise = Promise.reject(new Error('Not connected!'));
+			ret.completeRequestPromise = Promise.reject(new Error('Not connected!'));
 			return ret;
 		}
 	
@@ -109,7 +117,7 @@ export class RPCMethod {
 	
 		ret.outboundRequestPromise.catch((err) => {
 			console.error(`${serverMethodName} Network Error`, 
-				SignalRConnection.Connection.state , err.toString());
+				SignalRConnection.Connection?.state , err.toString());
 			
 			if (ret && ret._completeRequestPromiseReject) {
 				ret._completeRequestPromiseReject(err);

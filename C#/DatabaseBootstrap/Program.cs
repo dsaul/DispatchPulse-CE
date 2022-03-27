@@ -28,6 +28,10 @@ namespace DatabaseBootstrap
 			Log.Information("Dispatch Pulse Database Bootstrap");
 
 
+			if (File.Exists("/data/completed"))
+				return;
+
+
 
 			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
 
@@ -151,12 +155,16 @@ namespace DatabaseBootstrap
 
 			noDatabaseConnection.Close();
 
+			File.WriteAllText("/data/completed", DateTime.UtcNow.ToString("o"));
+
 			// We don't want docker to keep relaunching this program,
 			// so if it got to this point, sleep repeatedly forever.
 			Log.Debug("Idling");
 			while (true) {
 				Thread.Sleep(1000);
 			}
+
+
 		}
 	}
 }
