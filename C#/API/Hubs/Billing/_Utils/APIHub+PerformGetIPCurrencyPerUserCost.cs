@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Databases.Records.CRM;
 using Databases.Records.Billing;
 using Npgsql;
+using Serilog;
 
 namespace API.Hubs
 {
@@ -48,6 +49,7 @@ namespace API.Hubs
 
 
 				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
+				Log.Debug("billingConnectionString {billingConnectionString}", billingConnectionString);
 				if (string.IsNullOrWhiteSpace(billingConnectionString))
 				{
 					response.IsError = true;
@@ -89,7 +91,7 @@ namespace API.Hubs
 					break;
 				}
 
-
+				
 				Dictionary<Guid, UtilityIpToCountry> ipEntries = UtilityIpToCountry.ForIPAddress(billingConnection, ipObj);
 				UtilityIpToCountry obj = ipEntries.FirstOrDefault().Value;
 
