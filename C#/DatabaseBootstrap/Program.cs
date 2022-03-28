@@ -28,8 +28,12 @@ namespace DatabaseBootstrap
 			Log.Information("Dispatch Pulse Database Bootstrap");
 
 
-			if (File.Exists("/data/completed"))
-				return;
+			if (File.Exists("/data/completed") {
+				Log.Debug("Idling");
+				while (true) {
+					Thread.Sleep(1000);
+				}
+			}
 
 
 
