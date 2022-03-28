@@ -265,10 +265,6 @@
 			
 			
 			
-			(window as any).RocketChat(function(this: { hideWidget(): void; }) {
-				this.hideWidget();
-				document.querySelector('.rocketchat-widget')?.classList.add('rocketchat-widget-hidden');
-			});
 			
 			const sessionUuid = localStorage.getItem('SessionUUID');
 			
@@ -445,14 +441,5 @@ line-height: 1rem;
 	opacity: 0;
 }
 
-.rocketchat-widget-hidden {
-	pointer-events: none;
-}
-
-.rocketchat-widget {
-	bottom: 50px !important;
-	z-index: 1 !important;
-	
-}
 
 </style>

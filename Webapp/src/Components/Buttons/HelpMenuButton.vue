@@ -40,16 +40,6 @@
 					<v-list-item-title>YouTube Tutorials</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-list-item
-				@click="ToggleLiveChat()"
-				>
-				<v-list-item-icon>
-					<v-icon>contact_support</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>Toggle Support LiveChat</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
 		</v-list>
 	</v-menu>
 </template>
@@ -83,69 +73,6 @@ export default class HelpMenuButton extends Vue {
 		
 	}
 	
-	protected ToggleLiveChat(): void {
-		
-		//window.open('https://rocketchat.saulandpartners.ca/livechat?mode=popout', 
-		//	'_blank', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no');
-		
-		if (HelpMenuButton.LiveChatVisible) {
-			
-			(window as any).RocketChat(function(this: { 
-				hideWidget(): void;
-				}) {
-				this.hideWidget();
-				document.querySelector('.rocketchat-widget')?.classList.add('rocketchat-widget-hidden');
-			});
-			
-			Vue.set(HelpMenuButton, 'LiveChatVisible', false);
-			
-		} else {
-			
-			const contact = BillingContacts.ForCurrentSession();
-			//const company = BillingCompanies.ForId(contact?.companyId || null);
-			
-			console.debug('contact', contact);
-			
-			(window as any).RocketChat(function(this: { 
-				showWidget(): void;
-				maximizeWidget(): void; 
-				registerGuest(p: object): void;// eslint-disable-line
-				setCustomField(key: string, value: string, overwrite: boolean): void;
-				}) {
-					
-				const obj: any = {
-					department: 'Dispatch Pulse Support',
-				};
-				
-				if (contact) {
-					obj.username = contact.uuid;
-					obj.token = contact.uuid || null;
-					obj.name = `${contact.fullName || contact.uuid || '?'}`;
-					obj.email = contact.email || null;
-				}
-				
-				
-				this.registerGuest(obj);
-				
-				
-				this.showWidget();
-				document.querySelector('.rocketchat-widget')?.classList.remove('rocketchat-widget-hidden');
-				this.maximizeWidget();
-				
-				this.setCustomField('company_id', contact?.companyId || '', true);
-				this.setCustomField('billing_contact_id', contact?.uuid || '', true);
-				this.setCustomField('user_agent', navigator.userAgent || '', true);
-				this.setCustomField('session_id', localStorage.getItem('SessionUUID') || '', true);
-				
-			});
-			
-			Vue.set(HelpMenuButton, 'LiveChatVisible', true);
-		}
-		
-		
-		
-		
-	}
 
 	public get DefaultSlotHasContent(): boolean {
 
