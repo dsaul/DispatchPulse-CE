@@ -8,6 +8,8 @@ using System.Data;
 using System.Net;
 using SharedCode.Extensions;
 using Serilog;
+using SharedCode;
+using SharedCode.Databases.Properties;
 
 namespace Databases.Records.Billing
 {
@@ -108,7 +110,8 @@ namespace Databases.Records.Billing
 
 
 			if (insertDefaultContents) {
-				// None
+				NpgsqlCommand command = new NpgsqlCommand(SQLUtility.RemoveCommentsFromSQLString(Resources.SQLUtilityIPToCountry, true), db);
+				command.ExecuteNonQuery();
 			}
 
 
