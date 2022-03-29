@@ -4,7 +4,7 @@ set -o nounset
 #set -o xtrace
 set -o pipefail
 
-systemctl start asterisk
+asterisk
 
 while:
 do
