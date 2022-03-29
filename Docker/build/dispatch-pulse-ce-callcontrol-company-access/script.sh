@@ -6,7 +6,7 @@ set -o pipefail
 
 asterisk
 
-while:
+while :
 do
 	sleep 1000
 done
