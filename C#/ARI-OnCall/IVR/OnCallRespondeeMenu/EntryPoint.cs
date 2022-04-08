@@ -1,10 +1,10 @@
 ﻿using System;
 using AsterNET.FastAGI;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using SharedCode;
 using System.Linq;
 using Amazon.Polly;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using System.Text;
 using Serilog;
 using ARI_OnCall.Properties;

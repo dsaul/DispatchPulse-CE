@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Npgsql;
 
 namespace ARI.IVR.CompanyAccess

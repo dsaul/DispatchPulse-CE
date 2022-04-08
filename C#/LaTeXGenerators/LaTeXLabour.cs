@@ -1,6 +1,6 @@
 ﻿using Databases.Records;
-using Databases.Records.Billing;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;

@@ -6,7 +6,7 @@ using API.Utility;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using SharedCode;
 

@@ -1,4 +1,4 @@
-﻿using Databases.Records.Billing;
+﻿using SharedCode.DatabaseSchemas;
 using Npgsql;
 using System;
 using System.Linq;

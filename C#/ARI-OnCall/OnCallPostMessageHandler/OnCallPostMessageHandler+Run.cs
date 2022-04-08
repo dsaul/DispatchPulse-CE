@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
 

@@ -9,9 +9,7 @@ using SharedCode;
 using System.IO;
 using Afk.ZoneInfo;
 using System.Text.RegularExpressions;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
-using Databases.Records;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 
 namespace ARI.IVR.CompanyAccess

@@ -9,8 +9,8 @@ using SharedCode;
 using System.IO;
 using Afk.ZoneInfo;
 using System.Text.RegularExpressions;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Databases.Records;
 using Amazon.Polly;
 

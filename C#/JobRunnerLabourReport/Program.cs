@@ -13,7 +13,7 @@ using Databases.Records.JobRunner;
 using Amazon.S3;
 using Amazon;
 using Amazon.S3.Transfer;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
 using Databases.Records.PDFLaTeX;
 using SharedCode;

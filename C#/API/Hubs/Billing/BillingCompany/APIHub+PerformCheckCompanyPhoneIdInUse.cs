@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using API.Utility;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
 {

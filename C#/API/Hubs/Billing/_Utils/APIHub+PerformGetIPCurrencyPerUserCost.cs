@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using API.Utility;
 using Microsoft.AspNetCore.SignalR;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
 {

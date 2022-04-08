@@ -11,7 +11,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using SharedCode.Cal;
 using Ical.Net;
 using Ical.Net.DataTypes;
 using Ical.Net.CalendarComponents;

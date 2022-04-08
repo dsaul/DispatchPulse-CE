@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Databases.Records.Billing;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using SharedCode.S3;
+using SharedCode;
 
 namespace OnCallResponderMessageAccess.Pages
 {

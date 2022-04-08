@@ -16,8 +16,4 @@
     <PackageReference Include="Twilio" Version="5.68.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using AsterNET.FastAGI;
 using System.IO;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using API.Hubs;
 using Microsoft.AspNetCore.SignalR.Client;

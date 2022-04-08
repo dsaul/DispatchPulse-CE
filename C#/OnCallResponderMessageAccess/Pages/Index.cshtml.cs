@@ -1,5 +1,5 @@
-﻿using Databases.Records.Billing;
-using Databases.Records.CRM;
+﻿using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;

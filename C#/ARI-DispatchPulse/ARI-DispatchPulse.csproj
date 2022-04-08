@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
     <ProjectReference Include="..\SharedCode.Hubs\SharedCode.Hubs.csproj" />
   </ItemGroup>
 

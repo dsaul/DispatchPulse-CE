@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
 

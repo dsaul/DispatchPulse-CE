@@ -1,6 +1,6 @@
 ﻿using API.Hubs;
 using API.Utility;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using FluentEmail.Core;
 using FluentEmail.Core.Models;
 using Microsoft.AspNetCore.Mvc;

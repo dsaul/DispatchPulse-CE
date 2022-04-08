@@ -3,7 +3,7 @@ using AsterNET.FastAGI;
 using System.Linq;
 using SharedCode;
 using System.Text.RegularExpressions;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using Serilog;
 

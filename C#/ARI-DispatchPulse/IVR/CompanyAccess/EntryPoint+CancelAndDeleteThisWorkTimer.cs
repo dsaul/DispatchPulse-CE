@@ -1,11 +1,11 @@
 ﻿using AsterNET.FastAGI;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using API.Hubs;
 using System;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.IO;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Serilog;
 
 namespace ARI.IVR.CompanyAccess

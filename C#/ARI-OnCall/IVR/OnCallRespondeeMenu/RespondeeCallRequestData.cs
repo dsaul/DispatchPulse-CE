@@ -1,5 +1,5 @@
-﻿using Databases.Records.Billing;
-using Databases.Records.CRM;
+﻿using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;

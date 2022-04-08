@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JobRunnerDatabaseVerification\JobRunnerDatabaseVerification.csproj" />
-    <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
   </ItemGroup>
 
 </Project>

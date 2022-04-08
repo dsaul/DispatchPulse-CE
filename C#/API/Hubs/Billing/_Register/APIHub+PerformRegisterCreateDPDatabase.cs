@@ -8,11 +8,9 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using System.Globalization;
 using SharedCode;
-using SharedCode.Databases.Records;
 
 namespace API.Hubs
 {
@@ -186,7 +184,7 @@ namespace API.Hubs
 
 
 				// Check if already provided database name exists.
-				using NpgsqlConnection noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
+				using NpgsqlConnection noDatabaseConnection = new NpgsqlConnection(EnvDatabases.NPGSQL_CONNECTION_STRING);
 				noDatabaseConnection.Open();
 
 				{
@@ -293,7 +291,7 @@ namespace API.Hubs
 
 
 				// Populate the database.
-				string connectionString = Databases.Konstants.DatabaseConnectionStringForDB(databaseName);
+				string connectionString = EnvDatabases.DatabaseConnectionStringForDB(databaseName);
 				using NpgsqlConnection newDatabaseConnection = new NpgsqlConnection(connectionString);
 				newDatabaseConnection.Open();
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 

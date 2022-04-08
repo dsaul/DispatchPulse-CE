@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,30 +34,30 @@ namespace OnCallResponderMessageAccess
 
 			Log.Information("On-Call Responder Message Access (c) 2021 Dan Saul");
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_HOST_FQDN)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_HOST_FQDN)) {
 				Log.Error("SMTP_HOST_FQDN_FILE not set!");
 				return;
 			}
 
-			if (null == SharedCode.EMail.Konstants.SMTP_HOST_PORT) {
+			if (null == EnvEmail.SMTP_HOST_PORT) {
 				Log.Error("SMTP_HOST_PORT_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_USERNAME)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_USERNAME)) {
 				Log.Error("SMTP_USERNAME_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_PASSWORD)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_PASSWORD)) {
 				Log.Error("SMTP_PASSWORD_FILE not set!");
 				return;
 			}
 
-			Email.DefaultSender = new SmtpSender(() => new SmtpClient(SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value) {
+			Email.DefaultSender = new SmtpSender(() => new SmtpClient(EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value) {
 
 				DeliveryMethod = SmtpDeliveryMethod.Network,
-				Credentials = new NetworkCredential(SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_PASSWORD)
+				Credentials = new NetworkCredential(EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_PASSWORD)
 			});
 			Email.DefaultRenderer = new RazorRenderer();
 

@@ -1,6 +1,6 @@
 ﻿using API.Hubs;
 using API.Utility;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;

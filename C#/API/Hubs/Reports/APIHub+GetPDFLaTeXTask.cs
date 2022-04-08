@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using API.Utility;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using Databases.Records.PDFLaTeX;
 using System.IO;
 using Amazon.S3;
 using Amazon;
 using Amazon.S3.Model;
 using System.Web;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -177,7 +177,7 @@ namespace API.Hubs
 
 
 
-				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 				pdfLatexDB.Open();
 
 				var resTask = PDFLaTeXTask.ForId(pdfLatexDB, p.TaskId.Value);

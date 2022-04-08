@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;

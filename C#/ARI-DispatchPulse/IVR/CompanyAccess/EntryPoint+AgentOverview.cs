@@ -5,7 +5,7 @@ using AsterNET.FastAGI;
 using Npgsql;
 using Newtonsoft.Json.Linq;
 using SharedCode;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using System.Globalization;
 

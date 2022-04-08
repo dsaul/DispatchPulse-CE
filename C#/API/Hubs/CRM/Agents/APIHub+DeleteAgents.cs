@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Utility;
-using Databases.Records.Billing;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 

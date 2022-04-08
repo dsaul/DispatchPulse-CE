@@ -1,4 +1,4 @@
-﻿using Databases.Records.Billing;
+﻿using SharedCode.DatabaseSchemas;
 using Databases.Records.JobRunner;
 using Newtonsoft.Json.Linq;
 using Npgsql;

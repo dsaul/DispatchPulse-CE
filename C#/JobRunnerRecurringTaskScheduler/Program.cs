@@ -1,21 +1,13 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Threading.Tasks;
-using System.IO;
 using System.Threading;
 using Databases.Records.JobRunner;
-using Databases.Records.CRM;
-using Databases.Records.PDFLaTeX;
 using NCrontab;
-using System.Globalization;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace RecurringTaskScheduler
 {

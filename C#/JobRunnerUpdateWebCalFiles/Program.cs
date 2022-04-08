@@ -7,8 +7,8 @@ using System.Threading;
 using Serilog;
 using API.Hubs;
 using System.Threading.Tasks;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 
 namespace JobRunnerUpdateWebCalFiles
 {

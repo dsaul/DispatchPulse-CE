@@ -1,7 +1,7 @@
 ﻿using AsterNET.FastAGI;
 using Npgsql;
 using System.Linq;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 
 namespace ARI.IVR.CompanyAccess

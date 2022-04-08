@@ -2,7 +2,7 @@
 using AsterNET.FastAGI;
 using System.Linq;
 using SharedCode;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using Serilog;
 

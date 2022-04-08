@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using API.Utility;
-using Databases.Records.Billing;
-using Databases.Records.JobRunner;
-using Databases.Records.PDFLaTeX;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -102,7 +100,7 @@ namespace API.Hubs
 
 				// Create Task
 
-				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 				pdfLatexDB.Open();
 
 				response.TaskId = Guid.NewGuid();
@@ -124,7 +122,7 @@ namespace API.Hubs
 
 				// Create job.
 
-				using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
 				jobsDB.Open();
 
 				Guid jobId = Guid.NewGuid();

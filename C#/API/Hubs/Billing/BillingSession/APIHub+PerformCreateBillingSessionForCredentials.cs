@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using API.Utility;
 using Npgsql;

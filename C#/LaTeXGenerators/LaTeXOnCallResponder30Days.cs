@@ -1,12 +1,12 @@
 ﻿using Databases.Records;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Npgsql;
 using System.Linq;
 using System.Globalization;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using SharedCode;
 using SharedCode;
 using NodaTime.Text;

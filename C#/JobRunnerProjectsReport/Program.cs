@@ -1,24 +1,16 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using Databases.Records.JobRunner;
-using Amazon.S3;
-using Amazon;
-using Amazon.S3.Transfer;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
 using Databases.Records.PDFLaTeX;
-using System.Globalization;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace JobRunnerProjectsReport
 {

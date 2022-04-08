@@ -7,8 +7,8 @@ using Twilio.TwiML;
 using Twilio.TwiML.Voice;
 using Npgsql;
 using System.Text.RegularExpressions;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

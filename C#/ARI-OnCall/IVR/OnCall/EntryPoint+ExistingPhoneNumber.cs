@@ -2,8 +2,8 @@
 using AsterNET.FastAGI;
 using System.Linq;
 using SharedCode;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 using Serilog;
 
 namespace ARI.IVR.OnCall

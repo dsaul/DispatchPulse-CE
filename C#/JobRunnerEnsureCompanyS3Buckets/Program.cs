@@ -7,7 +7,7 @@ using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Databases.Records.JobRunner;
 using Newtonsoft.Json.Linq;
 using Npgsql;

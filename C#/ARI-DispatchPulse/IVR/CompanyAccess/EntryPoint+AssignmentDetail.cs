@@ -2,7 +2,7 @@
 using AsterNET.FastAGI;
 using System.Linq;
 using Afk.ZoneInfo;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 
 namespace ARI.IVR.CompanyAccess

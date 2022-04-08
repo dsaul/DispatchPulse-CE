@@ -11,8 +11,8 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
+using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
 {

@@ -1,4 +1,4 @@
-﻿using Databases.Records.CRM;
+﻿using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode;
 using SharedCode;

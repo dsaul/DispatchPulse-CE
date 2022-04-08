@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Utility;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;

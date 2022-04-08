@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Databases.Records.JobRunner;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
 using Databases.Records.PDFLaTeX;
 using Serilog;

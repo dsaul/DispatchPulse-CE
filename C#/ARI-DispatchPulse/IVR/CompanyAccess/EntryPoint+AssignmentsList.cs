@@ -1,5 +1,5 @@
 ﻿using AsterNET.FastAGI;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 
 namespace ARI.IVR.CompanyAccess

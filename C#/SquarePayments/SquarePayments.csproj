@@ -41,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
     <ProjectReference Include="..\SharedCode.Hubs\SharedCode.Hubs.csproj" />
     <ProjectReference Include="..\SharedCode.Konstants\SharedCode.Konstants.csproj" />
     <ProjectReference Include="..\SharedCode.S3\SharedCode.S3.csproj" />

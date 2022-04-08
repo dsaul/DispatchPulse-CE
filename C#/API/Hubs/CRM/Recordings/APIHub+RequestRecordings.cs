@@ -4,11 +4,9 @@ using System.Threading.Tasks;
 using API.Utility;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using System.Linq;
 using SharedCode;
-using SharedCode.Databases.Records.CRM;
 
 namespace API.Hubs
 {

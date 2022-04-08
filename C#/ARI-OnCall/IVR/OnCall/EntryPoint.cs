@@ -1,7 +1,7 @@
 ﻿using System;
 using ARI;
 using AsterNET.FastAGI;
-using Databases.Records.CRM;
+using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using SharedCode;

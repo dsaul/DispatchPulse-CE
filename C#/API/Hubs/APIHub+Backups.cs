@@ -10,8 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Newtonsoft.Json;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
+using SharedCode.DatabaseSchemas;
 using SharedCode;
 
 namespace API.Hubs
