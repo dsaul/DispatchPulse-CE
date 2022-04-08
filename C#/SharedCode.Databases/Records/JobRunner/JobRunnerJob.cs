@@ -8,7 +8,7 @@ using System.Text;
 using System.Data;
 using System.Threading.Tasks;
 using System.Globalization;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.JobRunner
@@ -110,7 +110,7 @@ namespace Databases.Records.JobRunner
 			JObject? root = job.JsonObject;
 			if (root != null && job.Id != null) {
 				
-				root[kJobsJsonKeyTaskRunnerClaimedISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+				root[kJobsJsonKeyTaskRunnerClaimedISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 
 				JobRunnerJob mod = job with
 				{

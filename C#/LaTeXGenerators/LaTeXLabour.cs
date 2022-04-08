@@ -5,7 +5,7 @@ using NodaTime;
 using NodaTime.Text;
 using Npgsql;
 using SharedCode;
-using SharedCode.Extensions;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

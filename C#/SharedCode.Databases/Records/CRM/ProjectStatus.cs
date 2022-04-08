@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -398,7 +398,7 @@ namespace Databases.Records.CRM
 
 				// Written Off
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -417,7 +417,7 @@ namespace Databases.Records.CRM
 
 				// Arrears
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -436,7 +436,7 @@ namespace Databases.Records.CRM
 
 				// Terminated
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -455,7 +455,7 @@ namespace Databases.Records.CRM
 
 				// Awaiting Payment
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -474,7 +474,7 @@ namespace Databases.Records.CRM
 
 				// Complete
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -493,7 +493,7 @@ namespace Databases.Records.CRM
 
 				// In Progress
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -512,7 +512,7 @@ namespace Databases.Records.CRM
 
 				// Quoting
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -531,7 +531,7 @@ namespace Databases.Records.CRM
 
 				// Rough In
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -550,7 +550,7 @@ namespace Databases.Records.CRM
 
 				// Finishing
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,
@@ -569,7 +569,7 @@ namespace Databases.Records.CRM
 
 				// Created
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					ProjectStatus entry = new ProjectStatus(
 						Id: id,

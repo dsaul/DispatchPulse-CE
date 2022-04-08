@@ -1,24 +1,16 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using Databases.Records.JobRunner;
-using Amazon.S3;
-using Amazon;
-using Amazon.S3.Transfer;
 using Databases.Records.CRM;
 using LaTeXGenerators;
 using Databases.Records.PDFLaTeX;
-using System.Globalization;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace JobRunnerAssignmentsReport
 {
@@ -213,8 +205,8 @@ namespace JobRunnerAssignmentsReport
 					Guid compileJobId = Guid.NewGuid();
 					JobRunnerJob compileJob = new JobRunnerJob(compileJobId, new JObject
 					{
-						[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
-						[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
+						[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", Culture.DevelopmentCulture),
 						[JobRunnerJob.kJobsJsonKeyJobType] = JobRunnerJob.kJobTypeValuePDFLaTeX,
 						[JobRunnerJob.kJobsJsonKeyRequestingBillingId] = job.RequestingBillingId,
 						[JobRunnerJob.kJobsJsonKeyTaskId] = job.TaskId.Value,

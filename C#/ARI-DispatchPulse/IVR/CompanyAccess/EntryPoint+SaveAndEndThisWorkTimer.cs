@@ -6,7 +6,7 @@ using Databases.Records.Billing;
 using Amazon.Polly;
 using API.Hubs;
 using Microsoft.AspNetCore.SignalR.Client;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace ARI.IVR.CompanyAccess

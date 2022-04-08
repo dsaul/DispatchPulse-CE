@@ -8,7 +8,7 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Serilog;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace Databases.Records.Billing
 {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -708,7 +708,7 @@ namespace Databases.Records.CRM
 
 				// Christmas
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -744,7 +744,7 @@ namespace Databases.Records.CRM
 
 				// Good Friday
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -779,7 +779,7 @@ namespace Databases.Records.CRM
 
 				// Victoria Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -814,7 +814,7 @@ namespace Databases.Records.CRM
 
 				// Rememberance Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -850,7 +850,7 @@ namespace Databases.Records.CRM
 
 				// New Year's Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -885,7 +885,7 @@ namespace Databases.Records.CRM
 
 				// Boxing Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -922,7 +922,7 @@ namespace Databases.Records.CRM
 
 				// Louis Riel Day (MB) Family Day (BC, AB, ON, NB, SK) Heritage Day (NS) Islander Day (PE)
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -957,7 +957,7 @@ namespace Databases.Records.CRM
 
 				// Canada Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -992,7 +992,7 @@ namespace Databases.Records.CRM
 
 				// Labour Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -1027,7 +1027,7 @@ namespace Databases.Records.CRM
 
 				// Civic Holiday
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,
@@ -1063,7 +1063,7 @@ namespace Databases.Records.CRM
 
 				// Thanksgiving
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeHolidays entry = new LabourSubtypeHolidays(
 						Id: id,

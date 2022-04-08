@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Databases.Records.Billing;
 using System.Globalization;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM

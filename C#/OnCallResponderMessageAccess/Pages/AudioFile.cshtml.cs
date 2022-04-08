@@ -98,7 +98,7 @@ namespace OnCallResponderMessageAccess.Pages
 				// Add audit entry.
 				JObject entry = new JObject {
 					[Voicemails.kJsonKeyTimelineKeyType] = "text",
-					[Voicemails.kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					[Voicemails.kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					[Voicemails.kJsonKeyTimelineKeyDescription] = $"\"{UserDescription}\" accessed the recording through responder message access.",
 					[Voicemails.kJsonKeyTimelineKeyColour] = "green",
 				};

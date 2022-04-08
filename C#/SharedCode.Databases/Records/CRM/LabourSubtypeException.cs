@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -374,7 +374,7 @@ namespace Databases.Records.CRM
 
 				// Bereavement
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeException entry = new LabourSubtypeException(
 						Id: id,
@@ -392,7 +392,7 @@ namespace Databases.Records.CRM
 
 				// Sick
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeException entry = new LabourSubtypeException(
 						Id: id,
@@ -410,7 +410,7 @@ namespace Databases.Records.CRM
 
 				// Personal Day
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeException entry = new LabourSubtypeException(
 						Id: id,
@@ -427,7 +427,7 @@ namespace Databases.Records.CRM
 
 				// Family Leave
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeException entry = new LabourSubtypeException(
 						Id: id,
@@ -444,7 +444,7 @@ namespace Databases.Records.CRM
 
 				// Weather
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeException entry = new LabourSubtypeException(
 						Id: id,

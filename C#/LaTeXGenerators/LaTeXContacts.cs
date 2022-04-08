@@ -2,7 +2,7 @@
 using Databases.Records.CRM;
 using Npgsql;
 using SharedCode;
-using SharedCode.Extensions;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;

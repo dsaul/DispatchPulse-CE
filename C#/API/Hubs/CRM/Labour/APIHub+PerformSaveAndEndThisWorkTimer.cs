@@ -182,7 +182,7 @@ namespace API.Hubs
 
 					JObject travelJSON = travelLabour.JsonObject;
 					travelJSON[Labour.kJsonKeyIsActive] = false;
-					travelJSON[Labour.kJsonKeyEndISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					travelJSON[Labour.kJsonKeyEndISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 
 					travelLabour = travelLabour with
 					{

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Serilog;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog.Events;
 using SharedCode.Databases.Records;
 

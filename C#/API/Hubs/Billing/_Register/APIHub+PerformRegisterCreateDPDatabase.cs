@@ -11,9 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Databases.Records.CRM;
 using Databases.Records.Billing;
 using System.Globalization;
-using SharedCode.Extensions;
+using SharedCode;
 using SharedCode.Databases.Records;
-using SharedCode.RegexUtils;
 
 namespace API.Hubs
 {
@@ -206,7 +205,7 @@ namespace API.Hubs
 					if (!string.IsNullOrWhiteSpace(billingCompany.Abbreviation))
 						abbreviation = billingCompany.Abbreviation;
 
-					string abbrMod = SharedCode.RegexUtils.Konstants.NotLettersNumbersRegex.Replace(abbreviation, "").ToLower(Konstants.KDefaultCulture);
+					string abbrMod = RegexUtils.NotLettersNumbersRegex.Replace(abbreviation, "").ToLower(Konstants.KDefaultCulture);
 					if (string.IsNullOrWhiteSpace(abbrMod))
 					{
 						response.IsError = true;
@@ -318,7 +317,7 @@ namespace API.Hubs
 					Companies dpCompany = new Companies(
 						Id: dpCompanyId,
 						SearchString: $"{billingCompany.FullName}",
-						LastModifiedIso8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						LastModifiedIso8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 						Json: dpCompanyJSON.ToString(Formatting.Indented)
 						);
 
@@ -373,7 +372,7 @@ namespace API.Hubs
 					Contacts dpContact = new Contacts(
 						Id: contactId,
 						SearchString: $"{kvp.Value.FullName} {kvp.Value.Phone} {kvp.Value.Email}",
-						LastModifiedIso8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						LastModifiedIso8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 						Json: dpContactJSON.ToString(Formatting.Indented)
 						);
 					Contacts.Upsert(newDatabaseConnection, new Dictionary<Guid, Contacts>
@@ -419,7 +418,7 @@ namespace API.Hubs
 					Agents dpAgent = new Agents(
 						Id: agentID,
 						SearchString: $"{kvp.Value.FullName}",
-						LastModifiedIso8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						LastModifiedIso8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 						Json: dpAgentJSON.ToString(Formatting.Indented)
 
 						);

@@ -11,7 +11,7 @@ using Square;
 using Square.Models;
 using Serilog;
 using Square.Exceptions;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace Databases.Records.Billing
 {

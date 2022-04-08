@@ -1,18 +1,12 @@
 ﻿using System;
-using AsterNET.Manager;
-using AsterNET.Manager.Action;
-using AsterNET.Manager.Response;
 using AsterNET.FastAGI;
-using AsterNET.Manager.Event;
 using AsterNET.FastAGI.MappingStrategies;
 using System.Collections.Generic;
 using Npgsql;
-using Npgsql.Json.NET;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
-using API.Hubs;
-using System.IO;
 using Serilog;
+using SharedCode;
 
 namespace ARI
 {

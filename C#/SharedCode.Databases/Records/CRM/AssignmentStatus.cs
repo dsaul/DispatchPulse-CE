@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -633,7 +633,7 @@ namespace Databases.Records.CRM
 
 				// Billable
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -661,7 +661,7 @@ namespace Databases.Records.CRM
 
 				// Assigned
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -688,7 +688,7 @@ namespace Databases.Records.CRM
 
 				// Waiting on Vendor
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -715,7 +715,7 @@ namespace Databases.Records.CRM
 
 				// In Progress
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -742,7 +742,7 @@ namespace Databases.Records.CRM
 
 				// Billable Review
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -769,7 +769,7 @@ namespace Databases.Records.CRM
 
 				// Waiting on Client
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -797,7 +797,7 @@ namespace Databases.Records.CRM
 
 				// To Be Scheduled
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -824,7 +824,7 @@ namespace Databases.Records.CRM
 
 				// To Be Picked
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -851,7 +851,7 @@ namespace Databases.Records.CRM
 
 				// Re-opened
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -878,7 +878,7 @@ namespace Databases.Records.CRM
 
 				// Non Billable
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -905,7 +905,7 @@ namespace Databases.Records.CRM
 
 				// Scheduled
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,
@@ -932,7 +932,7 @@ namespace Databases.Records.CRM
 
 				// 
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AssignmentStatus entry = new AssignmentStatus(
 						Id: id,

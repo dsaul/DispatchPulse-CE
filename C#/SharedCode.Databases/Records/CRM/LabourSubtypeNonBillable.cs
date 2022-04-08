@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -350,7 +350,7 @@ namespace Databases.Records.CRM
 
 				// Other
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeNonBillable entry = new LabourSubtypeNonBillable(
 						Id: id,
@@ -368,7 +368,7 @@ namespace Databases.Records.CRM
 
 				// Training
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeNonBillable entry = new LabourSubtypeNonBillable(
 						Id: id,
@@ -385,7 +385,7 @@ namespace Databases.Records.CRM
 
 				// Programming
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeNonBillable entry = new LabourSubtypeNonBillable(
 						Id: id,
@@ -402,7 +402,7 @@ namespace Databases.Records.CRM
 
 				// Meeting
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeNonBillable entry = new LabourSubtypeNonBillable(
 						Id: id,
@@ -419,7 +419,7 @@ namespace Databases.Records.CRM
 
 				// Administration
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourSubtypeNonBillable entry = new LabourSubtypeNonBillable(
 						Id: id,

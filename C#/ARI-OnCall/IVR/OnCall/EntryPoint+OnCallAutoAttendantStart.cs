@@ -24,7 +24,7 @@ namespace ARI.IVR.OnCall
 
 		protected void OnCallAutoAttendantStart(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
 
-			requestData.MessageLeftAtISO8601 = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+			requestData.MessageLeftAtISO8601 = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 
 			if (null == requestData.DPDID)
 				ThrowError(request, "ds42", "null == data.DPDID");
@@ -47,7 +47,7 @@ namespace ARI.IVR.OnCall
 
 			requestData.AddTimelineEntry(
 				type: LeaveMessageRequestData.TimelineType.text,
-				timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				description: $"Found on-call responder \"{requestData.AutoAttendant.Name}\".",
 				colour: "#ccc");
 
@@ -95,7 +95,7 @@ namespace ARI.IVR.OnCall
 
 						requestData.AddTimelineEntry(
 							type: LeaveMessageRequestData.TimelineType.text,
-							timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+							timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 							description: "Caller confirmed leaving a message.",
 							colour: "#ccc");
 

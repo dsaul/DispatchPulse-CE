@@ -9,6 +9,7 @@
     <PackageReference Include="AWSSDK.Polly" Version="3.7.3.39" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.4.3" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+    <PackageReference Include="DanSaul.SharedCode.Extensions" Version="2022.3.2922.3" />
     <PackageReference Include="FluentEmail.Core" Version="3.0.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.38" />
     <PackageReference Include="Npgsql" Version="6.0.0" />
@@ -19,10 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ical.Net.Core\Ical.Net.Core.csproj" />
-    <ProjectReference Include="..\SharedCode.Cal\SharedCode.Cal.csproj" />
-    <ProjectReference Include="..\SharedCode.Culture\SharedCode.Culture.csproj" />
-    <ProjectReference Include="..\SharedCode.EMail\SharedCode.EMail.csproj" />
-    <ProjectReference Include="..\SharedCode.Extensions\SharedCode.Extensions.csproj" />
     <ProjectReference Include="..\SharedCode.Hubs\SharedCode.Hubs.csproj" />
     <ProjectReference Include="..\SharedCode.OnCallResponder\SharedCode.OnCallResponder.csproj" />
     <ProjectReference Include="..\SharedCode.S3\SharedCode.S3.csproj" />

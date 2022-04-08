@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace CompanyBilling.Pages.Companies.Actions
 {

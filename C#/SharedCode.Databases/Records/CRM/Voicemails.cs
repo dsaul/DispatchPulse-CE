@@ -11,7 +11,7 @@ using NodaTime;
 using NodaTime.Text;
 using Npgsql;
 using Serilog;
-using SharedCode.Extensions;
+using SharedCode;
 using SharedCode.S3;
 using System;
 using System.Collections.Generic;
@@ -117,7 +117,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = "red",
 				[kJsonKeyTimelineKeyDescription] = $"Giving up on calendar {index+1}. {reason}",
 			};
@@ -166,7 +166,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = "orange",
 				[kJsonKeyTimelineKeyDescription] = $"{description}",
 			};
@@ -227,7 +227,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = "green",
 				[kJsonKeyTimelineKeyDescription] = $"Attempted new outbound phone call to {description}",
 			};
@@ -308,7 +308,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = "green",
 				[kJsonKeyTimelineKeyDescription] = $"Sent MMS to {timelineDescription}",
 			};
@@ -357,7 +357,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = status == "Completed" ? "green" : "orange",
 				[kJsonKeyTimelineKeyDescription] = status == "Completed" ? 
 					$"Phone system succesfully called out to \"{callWasTo}\"." : 
@@ -429,7 +429,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = failure ? "red" : "green",
 				[kJsonKeyTimelineKeyDescription] = $"{timelineDescription}",
 			};
@@ -480,7 +480,7 @@ namespace Databases.Records.CRM
 			}
 
 			newJson[kJsonKeyNextAttemptAfterISO8601] = DateTime.UtcNow.AddMinutes((double)minutes)
-				.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+				.ToString("o", Culture.DevelopmentCulture);
 
 			Voicemails newVM = this with
 			{
@@ -511,7 +511,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[kJsonKeyTimelineKeyType] = "text",
-				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[kJsonKeyTimelineKeyColour] = "red",
 				[kJsonKeyTimelineKeyDescription] = $"After calling all calendar entries many times, we have been unable to contact any responders. We will dispatch a final call to the No Agent Response Notification Number of {NoAgentResponseNotificationNumber} and stop processing this message.",
 			};
@@ -553,7 +553,7 @@ namespace Databases.Records.CRM
 
 			JObject timelineEntry = new JObject {
 				[Voicemails.kJsonKeyTimelineKeyType] = "text",
-				[Voicemails.kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				[Voicemails.kJsonKeyTimelineKeyTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				[Voicemails.kJsonKeyTimelineKeyDescription] = $"\"{who}\" marked this message as handled.",
 				[Voicemails.kJsonKeyTimelineKeyColour] = "green",
 			};

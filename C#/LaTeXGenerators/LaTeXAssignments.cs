@@ -8,7 +8,7 @@ using System.Linq;
 using System.Globalization;
 using Databases.Records.Billing;
 using SharedCode;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace LaTeXGenerators
 {

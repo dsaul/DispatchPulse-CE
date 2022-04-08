@@ -8,7 +8,7 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using Databases.Records.Billing;
 using Newtonsoft.Json.Linq;
-using SharedCode.Hashes;
+using SharedCode;
 
 namespace API.Hubs
 {

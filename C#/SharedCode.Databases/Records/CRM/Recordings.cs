@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
-using SharedCode.Extensions;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Data;

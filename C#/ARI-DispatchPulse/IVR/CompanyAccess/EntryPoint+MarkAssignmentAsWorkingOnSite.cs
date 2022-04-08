@@ -6,7 +6,7 @@ using System.IO;
 using System;
 using Microsoft.AspNetCore.SignalR.Client;
 using Databases.Records.Billing;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace ARI.IVR.CompanyAccess

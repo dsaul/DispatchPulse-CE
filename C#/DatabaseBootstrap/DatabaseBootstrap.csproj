@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.0" />
+    <PackageReference Include="DanSaul.SharedCode.Npgsql" Version="2022.4.721.48" />
+    <PackageReference Include="Npgsql" Version="6.0.3" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
@@ -19,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
-    <ProjectReference Include="..\SharedCode.Extensions\SharedCode.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.CRM
@@ -491,7 +491,7 @@ namespace Databases.Records.CRM
 
 				// Billable
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourTypes entry = new LabourTypes(
 						Id: id,
@@ -514,7 +514,7 @@ namespace Databases.Records.CRM
 
 				// Exception
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourTypes entry = new LabourTypes(
 						Id: id,
@@ -537,7 +537,7 @@ namespace Databases.Records.CRM
 
 				// Holiday
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourTypes entry = new LabourTypes(
 						Id: id,
@@ -561,7 +561,7 @@ namespace Databases.Records.CRM
 
 				// Pay Out Banked
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourTypes entry = new LabourTypes(
 						Id: id,
@@ -584,7 +584,7 @@ namespace Databases.Records.CRM
 
 				// Non Billable
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					LabourTypes entry = new LabourTypes(
 						Id: id,

@@ -7,7 +7,7 @@ using Npgsql;
 using Databases.Records.CRM;
 using Databases.Records.Billing;
 using System.Linq;
-using SharedCode.Extensions;
+using SharedCode;
 using SharedCode.Databases.Records.CRM;
 
 namespace API.Hubs

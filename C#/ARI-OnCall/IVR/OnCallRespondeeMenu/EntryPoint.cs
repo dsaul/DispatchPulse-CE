@@ -10,7 +10,7 @@ using Amazon.Polly;
 using Databases.Records.Billing;
 using System.Collections.Generic;
 using Renci.SshNet;
-using SharedCode.Extensions;
+using SharedCode;
 using System.Text;
 using Serilog;
 using ARI_OnCall.Properties;
@@ -81,7 +81,7 @@ namespace ARI.IVR.OnCallRespondee
 
 			respondeeRequestData.AddTimelineEntry(
 				type: OnCall.LeaveMessageRequestData.TimelineType.text,
-				timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				description: $"Respondee call to \"{request.CallerId}\" answered.",
 				colour: "green");
 			
@@ -301,7 +301,7 @@ namespace ARI.IVR.OnCallRespondee
 
 			respondeeRequestData.AddTimelineEntry(
 				type: OnCall.LeaveMessageRequestData.TimelineType.text,
-				timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				description: $"\"{request.CallerId}\" Listened to the caller's recording.",
 				colour: "green");
 

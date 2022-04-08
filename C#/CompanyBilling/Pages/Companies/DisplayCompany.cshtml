@@ -184,9 +184,9 @@ else
 			{
 
 				<tr>
-					<td class="convertToLocalTimeJournalEntries">@(obj.Timestamp.Value.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture))Z</td>
+					<td class="convertToLocalTimeJournalEntries">@(obj.Timestamp.Value.ToString("o", Culture.DevelopmentCulture))Z</td>
 					<td>@obj.Description</td>
-					<td style="text-align: right;">@(obj.Total.Value.ToString("C", SharedCode.Culture.Konstants.DevelopmentCulture)) @obj.Currency</td>
+					<td style="text-align: right;">@(obj.Total.Value.ToString("C", Culture.DevelopmentCulture)) @obj.Currency</td>
 					<td>
 						<div style="display: flex;">
 							<a href="/journal-entries/@obj.Uuid"><button style="width: 80px;">Details</button></a>
@@ -252,7 +252,7 @@ else
 								costPerMonth = obj.Package.CostPerMonth.Value;
 							}
 						}
-						@(costPerMonth.ToString("C", SharedCode.Culture.Konstants.DevelopmentCulture)) @obj.Package.Currency
+						@(costPerMonth.ToString("C", Culture.DevelopmentCulture)) @obj.Package.Currency
 					</td>
 
 					<td>

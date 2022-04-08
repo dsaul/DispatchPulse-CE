@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
-    <ProjectReference Include="..\SharedCode.EMail\SharedCode.EMail.csproj" />
     <ProjectReference Include="..\SharedCode.S3\SharedCode.S3.csproj" />
   </ItemGroup>
 

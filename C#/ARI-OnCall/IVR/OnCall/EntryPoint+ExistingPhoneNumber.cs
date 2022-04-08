@@ -48,7 +48,7 @@ namespace ARI.IVR.OnCall
 
 			requestData.AddTimelineEntry(
 				type: LeaveMessageRequestData.TimelineType.text,
-				timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+				timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 				description: $"Identified company \"{requestData.BillingCompany.FullName}\".",
 				colour: "#ccc");
 

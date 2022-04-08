@@ -151,8 +151,8 @@ namespace RecurringTaskScheduler
 					return;
 				}
 
-				newTaskJson[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
-				newTaskJson[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+				newTaskJson[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
+				newTaskJson[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", Culture.DevelopmentCulture);
 				newTaskJson[JobRunnerJob.kJobsJsonKeyTaskRunnerClaimedISO8601] = null;
 				newTaskJson[JobRunnerJob.kJobsJsonKeyCompleted] = false;
 
@@ -173,7 +173,7 @@ namespace RecurringTaskScheduler
 					Log.Debug("null == jsonMod");
 					return;
 				}
-				jsonMod[ScheduledTasks.kJobsJsonKeyLastJobDispatchedTimestampISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+				jsonMod[ScheduledTasks.kJobsJsonKeyLastJobDispatchedTimestampISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 
 				ScheduledTasks mod = task with
 				{

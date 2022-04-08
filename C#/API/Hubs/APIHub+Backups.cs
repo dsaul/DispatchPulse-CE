@@ -12,7 +12,7 @@ using Npgsql;
 using Newtonsoft.Json;
 using Databases.Records.CRM;
 using Databases.Records.Billing;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace API.Hubs
 {

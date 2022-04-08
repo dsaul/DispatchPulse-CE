@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Microsoft.AspNetCore.SignalR.Client;
 using Serilog;
+using SharedCode;
 
 namespace SquarePayments.Pages
 {
@@ -56,7 +57,7 @@ namespace SquarePayments.Pages
 				//.Environment(Square.Environment.Sandbox)
 				//.AccessToken(SharedCode.Square.Konstants.SQUARE_SANDBOX_ACCESS_TOKEN)
 				.Environment(Square.Environment.Production)
-				.AccessToken(SharedCode.Square.Konstants.SQUARE_PRODUCTION_ACCESS_TOKEN)
+				.AccessToken(EnvSquare.SQUARE_PRODUCTION_ACCESS_TOKEN)
 				.Build();
 		
 		private bool SharedSetup() {

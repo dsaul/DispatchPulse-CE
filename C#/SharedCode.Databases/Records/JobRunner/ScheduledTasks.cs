@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Threading.Tasks;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace Databases.Records.JobRunner

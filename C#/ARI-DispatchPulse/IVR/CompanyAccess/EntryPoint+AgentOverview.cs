@@ -107,7 +107,7 @@ namespace ARI.IVR.CompanyAccess
 					continue;
 				}
 
-				string nowISO8601 = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+				string nowISO8601 = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 				if (null == startISO8601) {
 					data.AssignmentsTodayAndInThePast.Add(assignment);
 					data.UnscheduledAssignments.Add(assignment);

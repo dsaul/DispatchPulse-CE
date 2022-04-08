@@ -14,7 +14,7 @@ using Databases.Records.Billing;
 using Databases.Records;
 using Amazon.Polly;
 using SharedCode.Hashes;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {

@@ -29,15 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Asterisk.NET\AsterNET.csproj" />
-    <ProjectReference Include="..\SharedCode.ARI\SharedCode.ARI.csproj" />
     <ProjectReference Include="..\SharedCode.Databases\SharedCode.Databases.csproj" />
-    <ProjectReference Include="..\SharedCode.EMail\SharedCode.EMail.csproj" />
-    <ProjectReference Include="..\SharedCode.Hashes\SharedCode.Hashes.csproj" />
     <ProjectReference Include="..\SharedCode.Hubs\SharedCode.Hubs.csproj" />
-    <ProjectReference Include="..\SharedCode.Logging\SharedCode.Logging.csproj" />
     <ProjectReference Include="..\SharedCode.S3\SharedCode.S3.csproj" />
-    <ProjectReference Include="..\SharedCode.Twilio\SharedCode.Twilio.csproj" />
   </ItemGroup>
 
   <ItemGroup>

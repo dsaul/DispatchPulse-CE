@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharedCode.Extensions;
+using SharedCode;
 using System.Globalization;
 using Serilog;
 
@@ -434,7 +434,7 @@ namespace Databases.Records.CRM
 
 				// Non Employee
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,
@@ -454,7 +454,7 @@ namespace Databases.Records.CRM
 
 				// Former Employee
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,
@@ -474,7 +474,7 @@ namespace Databases.Records.CRM
 
 				// Current Contractor
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,
@@ -494,7 +494,7 @@ namespace Databases.Records.CRM
 
 				// Current Employee
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,
@@ -514,7 +514,7 @@ namespace Databases.Records.CRM
 
 				// Former Contractor
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,
@@ -534,7 +534,7 @@ namespace Databases.Records.CRM
 
 				// Non Field Employee
 				{
-					string lastModified = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+					string lastModified = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture);
 					Guid id = Guid.NewGuid();
 					AgentsEmploymentStatus entry = new AgentsEmploymentStatus(
 						Id: id,

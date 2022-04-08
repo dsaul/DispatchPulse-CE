@@ -71,7 +71,7 @@ namespace ARI.IVR.OnCall
 
 				requestData.AddTimelineEntry(
 					type: LeaveMessageRequestData.TimelineType.text,
-					timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					description: $"Caller entered call back number \"{requestData.CallbackNumber}\".",
 					colour: "#ccc");
 
@@ -110,7 +110,7 @@ namespace ARI.IVR.OnCall
 					// Add Timeline Entry
 					requestData.AddTimelineEntry(
 						type: LeaveMessageRequestData.TimelineType.text,
-						timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 						description: $"Caller hungup while recording message.",
 						colour: "#ccc");
 
@@ -124,7 +124,7 @@ namespace ARI.IVR.OnCall
 
 				requestData.AddTimelineEntry(
 					type: LeaveMessageRequestData.TimelineType.text,
-					timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					description: $"Caller ended the recording by pressing a button.",
 					colour: "#ccc");
 
@@ -152,7 +152,7 @@ namespace ARI.IVR.OnCall
 
 				requestData.AddTimelineEntry(
 					type: LeaveMessageRequestData.TimelineType.text,
-					timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					description: $"Call ended with original caller.",
 					colour: "#ccc");
 
@@ -163,7 +163,7 @@ namespace ARI.IVR.OnCall
 						requestData.OnCallMessageRecordingId.Value,
 						requestData.Json.ToString(),
 						"",
-						DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture)
+						DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture)
 					);
 
 					Voicemails.Upsert(requestData.DPDB, new Dictionary<Guid, Voicemails> {
@@ -228,7 +228,7 @@ namespace ARI.IVR.OnCall
 			string s3CmdURI = $"s3://{bucket}/{s3Key}";
 			data.Json[Voicemails.kJsonKeyRecordingS3CmdURI] = s3CmdURI;
 
-			data.Json[Voicemails.kJsonKeyNextAttemptAfterISO8601] = DateTime.UtcNow.AddDays(-1).ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture);
+			data.Json[Voicemails.kJsonKeyNextAttemptAfterISO8601] = DateTime.UtcNow.AddDays(-1).ToString("o", Culture.DevelopmentCulture);
 			data.Json[Voicemails.kJsonKeyMinutesBetweenCallAttempts] = data.AutoAttendant.MinutesBetweenCallAttempts;
 
 			JArray onCallAttemptsProgress = new JArray();

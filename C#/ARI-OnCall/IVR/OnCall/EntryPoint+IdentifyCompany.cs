@@ -13,7 +13,7 @@ using Databases.Records.CRM;
 using Databases.Records.Billing;
 using Databases.Records;
 using Amazon.Polly;
-using SharedCode.Extensions;
+using SharedCode;
 using Serilog;
 
 namespace ARI.IVR.OnCall
@@ -65,7 +65,7 @@ namespace ARI.IVR.OnCall
 
 				requestData.AddTimelineEntry(
 					type: LeaveMessageRequestData.TimelineType.text,
-					timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					description: $"Identified registered phone number \"{dedicatedDid}\".",
 					colour: "#ccc");
 
@@ -113,7 +113,7 @@ namespace ARI.IVR.OnCall
 
 				requestData.AddTimelineEntry(
 					type: LeaveMessageRequestData.TimelineType.text,
-					timestampISO8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+					timestampISO8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 					description: $"Identified registered phone number \"{requestData.CallerIdNonDigitsRemoved}\".",
 					colour: "#ccc");
 

@@ -3,7 +3,7 @@ using Amazon.Polly;
 using Databases.Records.CRM;
 using System.Linq;
 using System.Collections.Generic;
-using SharedCode.Extensions;
+using SharedCode;
 using System;
 
 namespace ARI.IVR.CompanyAccess

@@ -63,7 +63,7 @@ namespace API.Utility
 				string rawValues = values.ToString();   // writes out as Csv when there are multiple.
 
 				if (!string.IsNullOrWhiteSpace(rawValues))
-					return (T)Convert.ChangeType(values.ToString(), typeof(T), SharedCode.Culture.Konstants.DevelopmentCulture);
+					return (T)Convert.ChangeType(values.ToString(), typeof(T), Culture.DevelopmentCulture);
 			}
 			return default;
 		}

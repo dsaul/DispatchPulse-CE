@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Globalization;
-using SharedCode.Extensions;
+using SharedCode;
 
 namespace LaTeXGenerators
 {

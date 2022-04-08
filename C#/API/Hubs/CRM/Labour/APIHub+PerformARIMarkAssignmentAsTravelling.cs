@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
-using Microsoft.EntityFrameworkCore;
 using Databases.Records.Billing;
-using System.IO;
 using Databases.Records.CRM;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -185,7 +182,7 @@ namespace API.Hubs
 						[Labour.kJsonKeyTypeId] = type.Id,
 						[Labour.kJsonKeyTimeMode] = Labour.kJsonValueTimeModeStartStopTimestamp,
 						[Labour.kJsonKeyHours] = null,
-						[Labour.kJsonKeyStartISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						[Labour.kJsonKeyStartISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
 						[Labour.kJsonKeyEndISO8601] = null,
 						[Labour.kJsonKeyIsActive] = true,
 						[Labour.kJsonKeyLocationType] = Labour.kJsonValueLocationTypeTravel,
@@ -208,7 +205,7 @@ namespace API.Hubs
 						"",
 						"Entered through company access over the telephone."
 						),
-					LastModifiedIso8601: DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture)
+					LastModifiedIso8601: DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture)
 				);
 
 				Dictionary<Guid, Labour> toSendToOthers;

@@ -6,7 +6,7 @@ using Npgsql;
 using Databases.Records.CRM;
 using Databases.Records.Billing;
 using API.Utility;
-using SharedCode.Extensions;
+using SharedCode;
 using SharedCode.Databases.Records.CRM;
 using Newtonsoft.Json.Linq;
 using Amazon.Runtime;

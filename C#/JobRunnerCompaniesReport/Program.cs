@@ -19,6 +19,7 @@ using Databases.Records.PDFLaTeX;
 using System.Globalization;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace JobRunnerCompaniesReport
 {
@@ -212,8 +213,8 @@ namespace JobRunnerCompaniesReport
 					Guid compileJobId = Guid.NewGuid();
 					JobRunnerJob compileJob = new JobRunnerJob(compileJobId, new JObject
 					{
-						[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
-						[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", SharedCode.Culture.Konstants.DevelopmentCulture),
+						[JobRunnerJob.kJobsJsonKeyJobCreatedISO8601] = DateTime.UtcNow.ToString("o", Culture.DevelopmentCulture),
+						[JobRunnerJob.kJobsJsonKeyExpiresAtISO8601] = DateTime.UtcNow.AddDays(1).ToString("o", Culture.DevelopmentCulture),
 						[JobRunnerJob.kJobsJsonKeyJobType] = JobRunnerJob.kJobTypeValuePDFLaTeX,
 						[JobRunnerJob.kJobsJsonKeyRequestingBillingId] = job.RequestingBillingId,
 						[JobRunnerJob.kJobsJsonKeyTaskId] = job.TaskId.Value,
