@@ -1,16 +1,10 @@
 ﻿using System;
-using ARI;
 using AsterNET.FastAGI;
 using Databases.Records.CRM;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SharedCode;
 using System.Linq;
 using Amazon.Polly;
 using Databases.Records.Billing;
-using System.Collections.Generic;
-using Renci.SshNet;
-using SharedCode;
 using System.Text;
 using Serilog;
 using ARI_OnCall.Properties;

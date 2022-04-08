@@ -21,6 +21,7 @@ using FluentEmail.Razor;
 using System.Net.Mail;
 using System.Net;
 using SharedCode.S3;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {
@@ -112,32 +113,32 @@ namespace ARI.IVR.OnCall
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_AUTH_TOKEN)) {
+			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_AUTH_TOKEN)) {
 				Log.Error("TWILIO_AUTH_TOKEN_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_ACCOUNT_SID)) {
+			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_ACCOUNT_SID)) {
 				Log.Error("TWILIO_ACCOUNT_SID_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_HOST_FQDN)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_HOST_FQDN)) {
 				Log.Error("SMTP_HOST_FQDN_FILE not set!");
 				return;
 			}
 
-			if (null == SharedCode.EMail.Konstants.SMTP_HOST_PORT) {
+			if (null == EnvEmail.SMTP_HOST_PORT) {
 				Log.Error("SMTP_HOST_PORT_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_USERNAME)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_USERNAME)) {
 				Log.Error("SMTP_USERNAME_FILE not set!");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_PASSWORD)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_PASSWORD)) {
 				Log.Error("SMTP_PASSWORD_FILE not set!");
 				return;
 			}
@@ -161,17 +162,17 @@ namespace ARI.IVR.OnCall
 			}
 
 
-			Email.DefaultSender = new SmtpSender(() => new SmtpClient(SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value) {
+			Email.DefaultSender = new SmtpSender(() => new SmtpClient(EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value) {
 
 				DeliveryMethod = SmtpDeliveryMethod.Network,
-				Credentials = new NetworkCredential(SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_PASSWORD)
+				Credentials = new NetworkCredential(EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_PASSWORD)
 			});
 			Email.DefaultRenderer = new RazorRenderer();
 			Log.Information("SMTP Client Initiated {SMTPUsername}:********@{SMTPHostFQDN}:{SMTPHostPort}",
-				SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value);
+				EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value);
 
-			TwilioClient.Init(SharedCode.Twilio.Konstants.TWILIO_ACCOUNT_SID, SharedCode.Twilio.Konstants.TWILIO_AUTH_TOKEN);
-			Log.Information("Twilio Client [{TwilioAccountSid}]", SharedCode.Twilio.Konstants.TWILIO_ACCOUNT_SID);
+			TwilioClient.Init(EnvTwilio.TWILIO_ACCOUNT_SID, EnvTwilio.TWILIO_AUTH_TOKEN);
+			Log.Information("Twilio Client [{TwilioAccountSid}]", EnvTwilio.TWILIO_ACCOUNT_SID);
 
 			SignalRConnection = new HubConnectionBuilder()
 				.WithUrl(SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI)

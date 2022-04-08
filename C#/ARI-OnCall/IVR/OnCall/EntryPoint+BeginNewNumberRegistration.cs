@@ -1,20 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AsterNET.FastAGI;
-using Npgsql;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+﻿using AsterNET.FastAGI;
 using SharedCode;
-using System.IO;
-using Afk.ZoneInfo;
-using System.Text.RegularExpressions;
-using Databases.Records.CRM;
-using Databases.Records.Billing;
-using Databases.Records;
 using Amazon.Polly;
-using SharedCode.Hashes;
-using SharedCode;
 
 namespace ARI.IVR.OnCall
 {

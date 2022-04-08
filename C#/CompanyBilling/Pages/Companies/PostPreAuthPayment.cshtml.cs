@@ -11,6 +11,7 @@ using Npgsql;
 using Square;
 using Square.Exceptions;
 using Square.Models;
+using SharedCode;
 
 namespace ManuallyProcessPreAuthorizedPayments.Pages
 {
@@ -33,7 +34,7 @@ namespace ManuallyProcessPreAuthorizedPayments.Pages
 				//.Environment(Square.Environment.Sandbox)
 				//.AccessToken(SharedCode.Square.Konstants.SQUARE_SANDBOX_ACCESS_TOKEN)
 				.Environment(Square.Environment.Production)
-				.AccessToken(SharedCode.Square.Konstants.SQUARE_PRODUCTION_ACCESS_TOKEN)
+				.AccessToken(EnvSquare.SQUARE_PRODUCTION_ACCESS_TOKEN)
 				.Build();
 
 		public NpgsqlConnection? BillingDB { get; set; } = null;

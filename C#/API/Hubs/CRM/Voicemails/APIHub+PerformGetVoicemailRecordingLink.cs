@@ -15,6 +15,7 @@ using Amazon;
 using Amazon.S3.Model;
 using Newtonsoft.Json.Linq;
 using SharedCode.S3;
+using SharedCode;
 
 namespace API.Hubs
 {

@@ -11,6 +11,7 @@ using System.Net;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using SharedCode;
 
 namespace API
 {
@@ -27,16 +28,16 @@ namespace API
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_HOST_FQDN))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_HOST_FQDN))
 				throw new Exception("SMTP_HOST_FQDN_FILE not set.");
-			if (null == SharedCode.EMail.Konstants.SMTP_HOST_PORT)
+			if (null == EnvEmail.SMTP_HOST_PORT)
 				throw new Exception("SMTP_HOST_PORT_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_USERNAME))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_USERNAME))
 				throw new Exception("SMTP_USERNAME_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_PASSWORD))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_PASSWORD))
 				throw new Exception("SMTP_PASSWORD_FILE not set.");
 
-			IEnumerable<string>? corsOrigins = SharedCode.CORS.Konstants.CORS_ORIGINS;
+			IEnumerable<string>? corsOrigins = EnvCORS.CORS_ORIGINS;
 			if (null == corsOrigins)
 				throw new Exception("CORS_ORIGINS_FILE not set, or not JSON array.");
 
@@ -83,11 +84,11 @@ namespace API
 				.AddNewtonsoftJsonProtocol();
 
 			services
-				.AddFluentEmail(SharedCode.EMail.Konstants.SMTP_USERNAME)
+				.AddFluentEmail(EnvEmail.SMTP_USERNAME)
 				.AddRazorRenderer()
-				.AddSmtpSender(new SmtpClient(SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value) {
+				.AddSmtpSender(new SmtpClient(EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value) {
 					DeliveryMethod = SmtpDeliveryMethod.Network,
-					Credentials = new NetworkCredential(SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_PASSWORD)
+					Credentials = new NetworkCredential(EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_PASSWORD)
 					}
 				);
 

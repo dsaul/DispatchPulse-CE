@@ -9,6 +9,7 @@ using Npgsql;
 using Databases.Records.PDFLaTeX;
 using Databases.Records.JobRunner;
 using System.Globalization;
+using SharedCode;
 
 namespace API.Hubs
 {

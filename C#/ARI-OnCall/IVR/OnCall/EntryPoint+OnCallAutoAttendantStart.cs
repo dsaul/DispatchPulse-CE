@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using AsterNET.FastAGI;
-using Npgsql;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using SharedCode;
-using System.IO;
-using Afk.ZoneInfo;
-using System.Text.RegularExpressions;
 using Databases.Records.CRM;
-using Databases.Records.Billing;
-using Databases.Records;
 using Amazon.Polly;
 using Serilog;
 

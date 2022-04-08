@@ -20,6 +20,7 @@ using System.Net.Mail;
 using System.Net;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace API
 {
@@ -67,20 +68,20 @@ namespace API
 				throw new Exception("S3_PBX_SERVICE_URI_FILE not set.");
 			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.SQUARE_PAYMENTS_AND_API_SHARED_SECRET))
 				throw new Exception("SQUARE_PAYMENTS_AND_API_SHARED_SECRET_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_HOST_FQDN))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_HOST_FQDN))
 				throw new Exception("SMTP_HOST_FQDN_FILE not set.");
-			if (null == SharedCode.EMail.Konstants.SMTP_HOST_PORT)
+			if (null == EnvEmail.SMTP_HOST_PORT)
 				throw new Exception("SMTP_HOST_PORT_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_USERNAME))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_USERNAME))
 				throw new Exception("SMTP_USERNAME_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_PASSWORD))
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_PASSWORD))
 				throw new Exception("SMTP_PASSWORD_FILE not set.");
 
-			Email.DefaultSender = new SmtpSender(() => new SmtpClient(SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value)
+			Email.DefaultSender = new SmtpSender(() => new SmtpClient(EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value)
 			{
 
 				DeliveryMethod = SmtpDeliveryMethod.Network,
-				Credentials = new NetworkCredential(SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_PASSWORD)
+				Credentials = new NetworkCredential(EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_PASSWORD)
 			});
 
 			Email.DefaultRenderer = new RazorRenderer();

@@ -10,7 +10,6 @@ using Databases.Records.Billing;
 using Databases.Records.CRM;
 using Npgsql;
 using SharedCode.ARI;
-using SharedCode.Cal;
 using Twilio.Rest.Api.V2010.Account;
 using Serilog;
 using FluentEmail.Core.Models;
@@ -21,6 +20,7 @@ using Newtonsoft.Json.Linq;
 using NodaTime;
 using NodaTime.Text;
 using System.Globalization;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {
@@ -53,12 +53,12 @@ namespace ARI.IVR.OnCall
 			}
 
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_AUTH_TOKEN)) {
+			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_AUTH_TOKEN)) {
 				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} TWILIO_AUTH_TOKEN not set!", message.Id, billingCompanyId, databaseName);
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Twilio.Konstants.TWILIO_ACCOUNT_SID)) {
+			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_ACCOUNT_SID)) {
 				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} TWILIO_ACCOUNT_SID not set!", message.Id, billingCompanyId, databaseName);
 				return;
 			}
