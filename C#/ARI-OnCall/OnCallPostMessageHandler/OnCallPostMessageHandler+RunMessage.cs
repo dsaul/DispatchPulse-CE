@@ -5,8 +5,6 @@ using System.Text;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using SharedCode.S3;
-using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode.ARI;

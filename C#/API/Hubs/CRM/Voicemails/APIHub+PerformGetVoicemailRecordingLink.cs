@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
-using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
-using SharedCode.DatabaseSchemas;
 using Amazon.S3;
 using Amazon;
 using Amazon.S3.Model;
 using Newtonsoft.Json.Linq;
-using SharedCode.S3;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -23,7 +19,6 @@ namespace API.Hubs
 	{
 		public class PerformGetVoicemailRecordingLinkParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? VoicemailId { get; set; }
 			public Guid? BillingCompanyId { get; set; }
 		}

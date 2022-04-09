@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Twilio;
-using Twilio.Rest.Api.V2010.Account;
 using SharedCode;
 using Microsoft.Extensions.DependencyInjection;
-using SharedCode.S3;
 using FluentEmail.Core;
 using FluentEmail.Razor;
 using FluentEmail.Smtp;
@@ -20,7 +12,6 @@ using System.Net.Mail;
 using System.Net;
 using Serilog;
 using Serilog.Events;
-using SharedCode;
 
 namespace API
 {

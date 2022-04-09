@@ -7,11 +7,8 @@ using AsterNET.Manager.Event;
 using AsterNET.FastAGI.MappingStrategies;
 using System.Collections.Generic;
 using Npgsql;
-using Npgsql.Json.NET;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
-using API.Hubs;
-using System.IO;
 using System.Threading;
 using Twilio;
 using Serilog;
@@ -20,7 +17,6 @@ using FluentEmail.Smtp;
 using FluentEmail.Razor;
 using System.Net.Mail;
 using System.Net;
-using SharedCode.S3;
 using SharedCode;
 
 namespace ARI.IVR.OnCall

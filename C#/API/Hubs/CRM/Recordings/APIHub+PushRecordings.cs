@@ -5,14 +5,11 @@ using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
 using SharedCode;
-using SharedCode;
 using Newtonsoft.Json.Linq;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon;
-using SharedCode.S3;
 using Amazon.S3.Transfer;
-using SharedCode;
 
 namespace API.Hubs
 {

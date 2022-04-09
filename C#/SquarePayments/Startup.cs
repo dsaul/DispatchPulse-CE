@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using SharedCode;
 
 namespace SquarePayments
 {
@@ -25,7 +25,7 @@ namespace SquarePayments
 		public void ConfigureServices(IServiceCollection services)
 		{
 
-			IEnumerable<string>? corsOrigins = SharedCode.CORS.Konstants.CORS_ORIGINS;
+			IEnumerable<string>? corsOrigins = EnvCORS.CORS_ORIGINS;
 			if (null == corsOrigins)
 				throw new Exception("CORS_ORIGINS_FILE not set, or not JSON array.");
 

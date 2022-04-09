@@ -2,18 +2,15 @@ using FluentEmail.Core;
 using FluentEmail.Smtp;
 using FluentEmail.Razor;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
 using Serilog.Events;
+using SharedCode;
 
 namespace SquarePayments
 {
@@ -40,29 +37,29 @@ namespace SquarePayments
 				Log.Error("ACCOUNTS_RECEIVABLE_EMAIL_FILE not set!");
 				return;
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_HOST_FQDN)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_HOST_FQDN)) {
 				Log.Error("SMTP_HOST_FQDN_FILE not set!");
 				return;
 			}
-			Log.Debug("SMTP_HOST_FQDN:{SMTP_HOST_FQDN}", SharedCode.EMail.Konstants.SMTP_HOST_FQDN);
+			Log.Debug("SMTP_HOST_FQDN:{SMTP_HOST_FQDN}", EnvEmail.SMTP_HOST_FQDN);
 
-			if (null == SharedCode.EMail.Konstants.SMTP_HOST_PORT) {
+			if (null == EnvEmail.SMTP_HOST_PORT) {
 				Log.Error("SMTP_HOST_PORT_FILE not set!");
 				return;
 			}
-			Log.Debug("SMTP_HOST_PORT:{SMTP_HOST_PORT}", SharedCode.EMail.Konstants.SMTP_HOST_PORT);
+			Log.Debug("SMTP_HOST_PORT:{SMTP_HOST_PORT}", EnvEmail.SMTP_HOST_PORT);
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_USERNAME)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_USERNAME)) {
 				Log.Error("SMTP_USERNAME_FILE not set!");
 				return;
 			}
-			Log.Debug("SMTP_USERNAME:{SMTP_USERNAME}", SharedCode.EMail.Konstants.SMTP_USERNAME);
+			Log.Debug("SMTP_USERNAME:{SMTP_USERNAME}", EnvEmail.SMTP_USERNAME);
 
-			if (string.IsNullOrWhiteSpace(SharedCode.EMail.Konstants.SMTP_PASSWORD)) {
+			if (string.IsNullOrWhiteSpace(EnvEmail.SMTP_PASSWORD)) {
 				Log.Error("SMTP_PASSWORD_FILE not set!");
 				return;
 			}
-			Log.Debug("SMTP_PASSWORD_LENGTH:{SMTP_PASSWORD_LENGTH}", SharedCode.EMail.Konstants.SMTP_PASSWORD.Length);
+			Log.Debug("SMTP_PASSWORD_LENGTH:{SMTP_PASSWORD_LENGTH}", EnvEmail.SMTP_PASSWORD.Length);
 
 			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY)) {
 				Log.Error("S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY_FILE not set!");
@@ -82,26 +79,26 @@ namespace SquarePayments
 			}
 			//Log.Debug("SQUARE_PAYMENTS_AND_API_SHARED_SECRET:{SQUARE_PAYMENTS_AND_API_SHARED_SECRET}", SharedCode.Hubs.Konstants.SQUARE_PAYMENTS_AND_API_SHARED_SECRET);
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Square.Konstants.SQUARE_PRODUCTION_ACCESS_TOKEN)) {
+			if (string.IsNullOrWhiteSpace(EnvSquare.SQUARE_PRODUCTION_ACCESS_TOKEN)) {
 				Log.Error("SQUARE_PRODUCTION_ACCESS_TOKEN not set!");
 				return;
 			}
 			//Log.Debug("SQUARE_PRODUCTION_ACCESS_TOKEN:{SQUARE_PRODUCTION_ACCESS_TOKEN}", SharedCode.Square.Konstants.SQUARE_PRODUCTION_ACCESS_TOKEN);
 
-			if (string.IsNullOrWhiteSpace(SharedCode.Square.Konstants.SQUARE_SANDBOX_ACCESS_TOKEN)) {
+			if (string.IsNullOrWhiteSpace(EnvSquare.SQUARE_SANDBOX_ACCESS_TOKEN)) {
 				Log.Error("SQUARE_SANDBOX_ACCESS_TOKEN not set!");
 				return;
 			}
 			//Log.Debug("SQUARE_SANDBOX_ACCESS_TOKEN:{SQUARE_SANDBOX_ACCESS_TOKEN}", SharedCode.Square.Konstants.SQUARE_SANDBOX_ACCESS_TOKEN);
 
-			Email.DefaultSender = new SmtpSender(() => new SmtpClient(SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value) {
+			Email.DefaultSender = new SmtpSender(() => new SmtpClient(EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value) {
 
 				DeliveryMethod = SmtpDeliveryMethod.Network,
-				Credentials = new NetworkCredential(SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_PASSWORD)
+				Credentials = new NetworkCredential(EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_PASSWORD)
 			});
 			Email.DefaultRenderer = new RazorRenderer();
 			Log.Information("SMTP Client Initiated {SMTPUsername}:********@{SMTPHostFQDN}:{SMTPHostPort}",
-				SharedCode.EMail.Konstants.SMTP_USERNAME, SharedCode.EMail.Konstants.SMTP_HOST_FQDN, SharedCode.EMail.Konstants.SMTP_HOST_PORT.Value);
+				EnvEmail.SMTP_USERNAME, EnvEmail.SMTP_HOST_FQDN, EnvEmail.SMTP_HOST_PORT.Value);
 
 
 

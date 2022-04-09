@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using API.Utility;
 using Npgsql;
 using Serilog;
 

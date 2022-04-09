@@ -54,7 +54,6 @@
     <ProjectReference Include="..\SharedCode.Konstants\SharedCode.Konstants.csproj" />
     <ProjectReference Include="..\SharedCode.OnCallResponder\SharedCode.OnCallResponder.csproj" />
     <ProjectReference Include="..\SharedCode.Regex\SharedCode.RegexUtils.csproj" />
-    <ProjectReference Include="..\SharedCode.S3\SharedCode.S3.csproj" />
   </ItemGroup>
 
   <ItemGroup>
