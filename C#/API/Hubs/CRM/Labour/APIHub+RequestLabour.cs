@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -24,7 +24,7 @@ namespace API.Hubs
 			public bool? ShowChildrenOfProjectIdAsWell { get; set; }
 		}
 
-		public class RequestLabourResponse : IdempotencyResponse
+		public class RequestLabourResponse : PermissionsIdempotencyResponse
 		{
 
 			public Dictionary<Guid, Labour> Labour { get; set; } = new Dictionary<Guid, Labour>();
@@ -98,8 +98,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestLabourAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestLabourCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestLabourAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestLabourCompany);
 				bool permSelf = true;
 
 

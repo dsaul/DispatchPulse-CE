@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -19,7 +19,7 @@ namespace API.Hubs
 
 
 
-		public class PerformUpdateBillingContactDetailsResponse : IdempotencyResponse
+		public class PerformUpdateBillingContactDetailsResponse : PermissionsIdempotencyResponse
 		{
 
 			public List<Guid> BillingContacts { get; } = new List<Guid>();
@@ -104,10 +104,10 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingContactsModifyAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingContactsModifyCompany) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingContactsAddAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingContactsAddCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingContactsModifyAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingContactsModifyCompany) &&
+					!permissions.Contains(EnvDatabases.kPermBillingContactsAddAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingContactsAddCompany)
 					)
 				{
 					response.IsError = true;
@@ -119,9 +119,9 @@ namespace API.Hubs
 
 				// If it is just company, make sure that the company id matches.
 				if (
-					(permissions.Contains(Databases.Konstants.kPermBillingContactsModifyCompany) && !permissions.Contains(Databases.Konstants.kPermBillingContactsModifyAny))
+					(permissions.Contains(EnvDatabases.kPermBillingContactsModifyCompany) && !permissions.Contains(EnvDatabases.kPermBillingContactsModifyAny))
 					||
-					(permissions.Contains(Databases.Konstants.kPermBillingContactsAddCompany) && !permissions.Contains(Databases.Konstants.kPermBillingContactsAddAny))
+					(permissions.Contains(EnvDatabases.kPermBillingContactsAddCompany) && !permissions.Contains(EnvDatabases.kPermBillingContactsAddAny))
 					)
 				{
 					bool abort = false;

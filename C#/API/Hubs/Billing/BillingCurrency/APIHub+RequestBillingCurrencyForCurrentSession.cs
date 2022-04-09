@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -14,7 +14,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingCurrencyResponse : IdempotencyResponse
+		public class RequestBillingCurrencyResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingCurrency> BillingCurrency { get; } = new List<BillingCurrency> { };
 		}
@@ -81,8 +81,8 @@ namespace API.Hubs
 
 
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingCurrencyReadAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingCurrencyReadCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingCurrencyReadAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingCurrencyReadCompany)
 					)
 				{
 					response.IsError = true;

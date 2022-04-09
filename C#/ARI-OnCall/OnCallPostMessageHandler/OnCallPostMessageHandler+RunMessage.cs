@@ -84,9 +84,9 @@ namespace ARI.IVR.OnCall
 
 			// Get a link to the recording for Twilio
 			string messageRecordingUri = S3Utils.GetPreSignedUrl(
-				SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY,
-				SharedCode.S3.Konstants.S3_PBX_SECRET_KEY,
-				SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+				EnvAmazonS3.S3_PBX_ACCESS_KEY,
+				EnvAmazonS3.S3_PBX_SECRET_KEY,
+				EnvAmazonS3.S3_PBX_SERVICE_URI,
 				message.RecordingS3Bucket,
 				message.RecordingS3Key,
 				"audio/vnd.wave",
@@ -161,13 +161,13 @@ namespace ARI.IVR.OnCall
 
 						// Get S3 File for attachment.
 
-						string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-						string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+						string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+						string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 						using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 						{
 							RegionEndpoint = RegionEndpoint.USWest1,
-							ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+							ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 							ForcePathStyle = true
 						});
 
@@ -213,7 +213,7 @@ namespace ARI.IVR.OnCall
 							
 
 							SendResponse? response = Email
-								.From(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "On Call Responder")
+								.From(EnvOnCallResponder.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "On Call Responder")
 								.To(email)
 								.Subject("On Call Message")
 								.UsingTemplate(template, new {
@@ -225,7 +225,7 @@ namespace ARI.IVR.OnCall
 									BillingCompanyName = billingCompany.FullName,
 									DateString = dateString,
 									AdditionalDataBase64 = additionalDataBase64,
-									ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
+									ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
 								})
 								.Attach(new Attachment{
 									Data = s3ResponseStream,
@@ -322,16 +322,16 @@ namespace ARI.IVR.OnCall
 							sb.Append($"The callback number is {message.CallbackNumber}.\n\n");
 						}
 
-						sb.Append($"Please go to the following link to mark this message as handled {SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI}{billingCompanyId}/{message.Id}/{additionalDataBase64} .\n\n");
+						sb.Append($"Please go to the following link to mark this message as handled {EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI}{billingCompanyId}/{message.Id}/{additionalDataBase64} .\n\n");
 
 						sb.Append($"If you are not a part of this company and you wish to stop recieving these messages, " +
 							$"please reply with STOP and you will not recieve any further messages. If you do this in error " +
 							$"you can reply with START to begin recieving these messages again. \n\nIf this doesn't work, please " +
-							$"contact support at {SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_SUPPORT_CONTACT_LOCATION} and we will manually remove your number.");
+							$"contact support at {EnvOnCallResponder.ON_CALL_RESPONDER_SUPPORT_CONTACT_LOCATION} and we will manually remove your number.");
 
 						MessageResource.Create(
 							body: sb.ToString(),
-							from: new Twilio.Types.PhoneNumber(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_SMS_FROM_E164),
+							from: new Twilio.Types.PhoneNumber(EnvOnCallResponder.ON_CALL_RESPONDER_SMS_FROM_E164),
 							to: new Twilio.Types.PhoneNumber(smsPn),
 							mediaUrl: mediaUrl
 						);
@@ -455,13 +455,13 @@ namespace ARI.IVR.OnCall
 				if (!string.IsNullOrWhiteSpace(message.NoAgentResponseNotificationEMail)) {
 					// Get S3 File for attachment.
 
-					string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-					string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+					string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+					string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 					using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 						{
 						RegionEndpoint = RegionEndpoint.USWest1,
-						ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+						ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 						ForcePathStyle = true
 					});
 
@@ -504,7 +504,7 @@ namespace ARI.IVR.OnCall
 					}
 
 					SendResponse? response = Email
-					.From(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "On Call Responder")
+					.From(EnvOnCallResponder.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "On Call Responder")
 					.To(message.NoAgentResponseNotificationEMail)
 					.Subject("On Call Message (No Agent Response)")
 					.UsingTemplate(template, new {
@@ -516,7 +516,7 @@ namespace ARI.IVR.OnCall
 						BillingCompanyName = billingCompany.FullName,
 						DateString = dateString,
 						AdditionalDataBase64 = additionalDataBase64,
-						ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
+						ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
 					})
 					.Attach(new Attachment{
 						Data = s3ResponseStream,

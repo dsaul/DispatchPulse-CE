@@ -8,11 +8,12 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using SharedCode.DatabaseSchemas;
-using Databases.Records.JobRunner;
+using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace JobRunnerEnsureCompanyS3Buckets
 {
@@ -34,7 +35,7 @@ namespace JobRunnerEnsureCompanyS3Buckets
 
 			Log.Debug("Ensure Company S3 Buckets by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -70,7 +71,7 @@ namespace JobRunnerEnsureCompanyS3Buckets
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerEnsureCompanyS3Buckets;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerEnsureCompanyS3Buckets;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -104,7 +105,7 @@ namespace JobRunnerEnsureCompanyS3Buckets
 
 			Log.Debug($"EnsureCompanyS3Buckets({job.Id})");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -139,18 +140,18 @@ namespace JobRunnerEnsureCompanyS3Buckets
 				return;
 			}
 
-			using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.KBillingDatabaseConnectionString);
+			using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.KBillingDatabaseConnectionString);
 			billingDB.Open();
 
 			var config = new AmazonS3Config
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
-				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ServiceURL = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI,
 				ForcePathStyle = true
 			};
 			var s3Client = new AmazonS3Client(S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY, S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY, config);
 			//Log.Debug("S3 Client {ACCESS_KEY} {SECRET_KEY} {SERVICE_URI}",
-			//	S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY, S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY, SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI);
+			//	S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY, S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY, EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI);
 
 
 

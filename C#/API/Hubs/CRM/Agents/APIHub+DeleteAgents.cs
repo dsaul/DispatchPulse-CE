@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -12,11 +13,10 @@ namespace API.Hubs
 	{
 		public class DeleteAgentsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> AgentsDelete { get; set; } = new List<Guid>();
 		}
 
-		public class DeleteAgentsResponse : IdempotencyResponse
+		public class DeleteAgentsResponse : PermissionsIdempotencyResponse
 		{
 
 			public List<Guid> AgentsDelete { get; set; } = new List<Guid>();
@@ -99,8 +99,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteAgentsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteAgentsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteAgentsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteAgentsCompany)
 					)
 				{
 					response.IsError = true;

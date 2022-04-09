@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -20,7 +20,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
-		public class RequestDIDsResponse : IdempotencyResponse
+		public class RequestDIDsResponse : PermissionsIdempotencyResponse
 		{
 			[JsonProperty(PropertyName = "dids")]
 			[DataMember(Name = "dids")]
@@ -94,8 +94,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestDIDsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestDIDsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestDIDsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestDIDsCompany);
 
 				if (permAny || permCompany)
 				{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace API.Hubs
 			public List<Guid> PermissionsGroupIds { get; set; } = new List<Guid>();
 		}
 
-		public class PerformBillingPermissionsGroupsMembershipsRemoveResponse : IdempotencyResponse
+		public class PerformBillingPermissionsGroupsMembershipsRemoveResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Removed { get; set; } = new List<Guid>();
 		}
@@ -96,8 +96,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingPermissionsGroupsMembershipsDeleteAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingPermissionsGroupsMembershipsDeleteCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingPermissionsGroupsMembershipsDeleteAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingPermissionsGroupsMembershipsDeleteCompany)
 					)
 				{
 					response.IsError = true;

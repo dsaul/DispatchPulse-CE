@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> SkillsDelete { get; set; } = new List<Guid>();
 		}
-		public class DeleteSkillsResponse : IdempotencyResponse
+		public class DeleteSkillsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> SkillsDelete { get; set; } = new List<Guid>();
 		}
@@ -98,8 +98,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteSkillsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteSkillsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteSkillsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteSkillsCompany)
 					)
 				{
 					response.IsError = true;

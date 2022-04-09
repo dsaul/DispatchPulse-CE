@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -14,7 +14,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingPaymentMethodResponse : IdempotencyResponse
+		public class RequestBillingPaymentMethodResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingPaymentMethod> BillingPaymentMethod { get; } = new List<BillingPaymentMethod> { };
 		}
@@ -78,8 +78,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingPaymentMethodReadAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingPaymentMethodReadCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingPaymentMethodReadAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingPaymentMethodReadCompany)
 					)
 				{
 					response.IsError = true;

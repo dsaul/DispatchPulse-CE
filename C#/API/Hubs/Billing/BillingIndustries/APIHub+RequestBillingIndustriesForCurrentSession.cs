@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -14,7 +14,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingIndustriesResponse : IdempotencyResponse
+		public class RequestBillingIndustriesResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingIndustries> BillingIndustries { get; } = new List<BillingIndustries> { };
 		}
@@ -80,8 +80,8 @@ namespace API.Hubs
 
 
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingIndustriesReadAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingIndustriesReadCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingIndustriesReadAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingIndustriesReadCompany)
 					)
 				{
 					response.IsError = true;

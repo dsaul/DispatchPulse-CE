@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -39,7 +39,7 @@ namespace API.Hubs
 			public bool? FilterAssignmentsWithNoStartTime { get; set; }
 			public bool? ShowChildrenOfProjectIdAsWell { get; set; }
 		}
-		public class RequestAssignmentsResponse : IdempotencyResponse
+		public class RequestAssignmentsResponse : PermissionsIdempotencyResponse
 		{
 			public Dictionary<Guid, Assignments> Assignments { get; set; } = new Dictionary<Guid, Assignments>();
 		}
@@ -112,8 +112,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestAssignmentsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestAssignmentsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestAssignmentsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestAssignmentsCompany);
 				bool permSelf = true; // kPermCRMRequestAssignmentsSelf
 
 				if (permAny || permCompany || permSelf)

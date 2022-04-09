@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -18,7 +18,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
-		public class RequestRecordingsResponse : IdempotencyResponse 
+		public class RequestRecordingsResponse : PermissionsIdempotencyResponse
 		{
 
 			public Dictionary<Guid, Recordings> Recordings { get; } = new Dictionary<Guid, Recordings>();
@@ -92,8 +92,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestRecordingsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestRecordingsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestRecordingsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestRecordingsCompany);
 
 
 				if (permAny || permCompany)

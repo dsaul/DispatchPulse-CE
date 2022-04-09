@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -18,7 +18,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
-		public class RequestCalendarsResponse : IdempotencyResponse
+		public class RequestCalendarsResponse : PermissionsIdempotencyResponse
 		{
 			
 			public Dictionary<Guid, Calendars> Calendars { get; set; } = new Dictionary<Guid, Calendars>();
@@ -91,8 +91,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestCalendarsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestCalendarsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestCalendarsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestCalendarsCompany);
 
 				if (permAny || permCompany)
 				{

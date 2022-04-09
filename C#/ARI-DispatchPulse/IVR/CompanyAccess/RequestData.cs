@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Npgsql;
 
 namespace ARI.IVR.CompanyAccess
@@ -31,12 +31,12 @@ namespace ARI.IVR.CompanyAccess
 		public NpgsqlConnection? BillingDB { get; set; } = null;
 
 		public void ConnectToDPDBName(string dbName) {
-			DPDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(dbName));
+			DPDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(dbName));
 			DPDB.Open();
 		}
 
 		public void ConnectToBillingDB() {
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			BillingDB.Open();
 		}
 

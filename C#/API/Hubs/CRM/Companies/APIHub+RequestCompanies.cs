@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -18,7 +18,7 @@ namespace API.Hubs
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
 
-		public class RequestCompaniesResponse : IdempotencyResponse
+		public class RequestCompaniesResponse : PermissionsIdempotencyResponse
 		{
 
 			public Dictionary<Guid, Companies> Companies { get; set; } = new Dictionary<Guid, Companies>();
@@ -91,8 +91,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMRequestCompaniesAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMRequestCompaniesCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMRequestCompaniesAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMRequestCompaniesCompany)
 					)
 				{
 					response.IsError = true;

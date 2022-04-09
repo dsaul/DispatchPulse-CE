@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -25,7 +25,7 @@ namespace API.Hubs
 			public bool? IncludeLabourForOtherProjectsWithMatchingAddresses { get; set; } = false;
 		}
 
-		public class RunReportLabourResponse : IdempotencyResponse
+		public class RunReportLabourResponse : PermissionsIdempotencyResponse
 		{
 			public Guid? TaskId { get; set; }
 
@@ -94,7 +94,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMReportLabourPDF)
+				if (!permissions.Contains(EnvDatabases.kPermCRMReportLabourPDF)
 					)
 				{
 					response.IsError = true;

@@ -10,8 +10,6 @@ using System.IO;
 using Afk.ZoneInfo;
 using System.Text.RegularExpressions;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
-using Databases.Records;
 using Amazon.Polly;
 
 namespace ARI.IVR.CompanyAccess

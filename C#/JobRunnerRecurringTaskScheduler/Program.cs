@@ -3,7 +3,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Databases.Records.JobRunner;
+using SharedCode.DatabaseSchemas;
 using NCrontab;
 using Serilog;
 using Serilog.Events;
@@ -29,7 +29,7 @@ namespace RecurringTaskScheduler
 
 			Log.Debug("Recurring Task Scheduler by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -44,7 +44,7 @@ namespace RecurringTaskScheduler
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRecurringTaskScheduler;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRecurringTaskScheduler;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 

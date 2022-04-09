@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
@@ -19,7 +19,7 @@ namespace API.Hubs
 			
 		}
 
-		public class PerformGetIPAndCurrencyResponse : IdempotencyResponse
+		public class PerformGetIPAndCurrencyResponse : PermissionsIdempotencyResponse
 		{
 			public string? IP { get; set; }
 			public string? Currency  { get; set; }
@@ -48,7 +48,7 @@ namespace API.Hubs
 				response.RoundTripRequestId = p.RoundTripRequestId;
 
 
-				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
+				string billingConnectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
 				Log.Debug("billingConnectionString {billingConnectionString}", billingConnectionString);
 				if (string.IsNullOrWhiteSpace(billingConnectionString))
 				{

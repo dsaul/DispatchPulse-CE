@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
-using Stripe;
 using System.Text.RegularExpressions;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -29,7 +27,7 @@ namespace API.Hubs
 			public string? MainContactEMail { get; set; }
 			public string? MainContactPhoneNumber { get; set; }
 		}
-		public class PerformRegisterNewCompanyResponse : IdempotencyResponse
+		public class PerformRegisterNewCompanyResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Created { get; set; }
 			public Guid? BillingCompanyId { get; set; }
@@ -63,7 +61,7 @@ namespace API.Hubs
 				response.RoundTripRequestId = p.RoundTripRequestId;
 
 
-				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
+				string billingConnectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
 				if (string.IsNullOrWhiteSpace(billingConnectionString))
 				{
 					response.IsError = true;

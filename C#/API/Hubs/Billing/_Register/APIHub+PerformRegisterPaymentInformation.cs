@@ -7,7 +7,7 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Collections.Generic;
-using API.Utility;
+using SharedCode;
 using Newtonsoft.Json.Linq;
 
 namespace API.Hubs
@@ -27,7 +27,7 @@ namespace API.Hubs
 
 		}
 
-		public class PerformRegisterPaymentInformationResponse : IdempotencyResponse
+		public class PerformRegisterPaymentInformationResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Saved { get; set; } = false;
 

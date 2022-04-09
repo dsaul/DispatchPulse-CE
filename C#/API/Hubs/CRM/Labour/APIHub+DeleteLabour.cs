@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -14,10 +15,9 @@ namespace API.Hubs
 	{
 		public class DeleteLabourParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> LabourDelete { get; set; } = new List<Guid>();
 		}
-		public class DeleteLabourResponse : IdempotencyResponse
+		public class DeleteLabourResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> LabourDelete { get; set; } = new List<Guid>();
 		}
@@ -102,9 +102,9 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMDeleteLabourAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMDeleteLabourCompany);
-				bool permSelf = permissions.Contains(Databases.Konstants.kPermCRMDeleteLabourSelf);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMDeleteLabourAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMDeleteLabourCompany);
+				bool permSelf = permissions.Contains(EnvDatabases.kPermCRMDeleteLabourSelf);
 
 				if (permAny || permCompany)
 				{

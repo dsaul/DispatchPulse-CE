@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
+using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
+using SharedCode.DatabaseSchemas;
 using Serilog;
 using Serilog.Events;
 using SharedCode;
@@ -32,7 +32,7 @@ namespace JobRunnerProjectsReport
 
 			Log.Debug("Job Runner Projects by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -66,7 +66,7 @@ namespace JobRunnerProjectsReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerProjectsReport;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerProjectsReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -110,7 +110,7 @@ namespace JobRunnerProjectsReport
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 			pdfLatexDB.Open();
 
 
@@ -119,7 +119,7 @@ namespace JobRunnerProjectsReport
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase));
 				dpDB.Open();
 
 				List<Projects> list = new List<Projects>();
@@ -137,7 +137,7 @@ namespace JobRunnerProjectsReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 

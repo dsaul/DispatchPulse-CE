@@ -1,5 +1,5 @@
 ﻿using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -7,10 +7,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Text;
 using OnCallResponderMessageAccess.Properties;
 
@@ -98,7 +95,7 @@ namespace OnCallResponderMessageAccess.Pages
 
 
 
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			if (null == BillingDB)
 				return false;
 			BillingDB.Open();
@@ -132,7 +129,7 @@ namespace OnCallResponderMessageAccess.Pages
 			if (string.IsNullOrWhiteSpace(DPDatabaseName))
 				return false;
 
-			DPDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(DPDatabaseName));
+			DPDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(DPDatabaseName));
 			if (null == DPDB)
 				return false;
 			DPDB.Open();

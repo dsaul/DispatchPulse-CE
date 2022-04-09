@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -17,7 +17,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingPackagesResponse : IdempotencyResponse
+		public class RequestBillingPackagesResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingPackages> BillingPackages { get; } = new List<BillingPackages> { };
 		}
@@ -81,7 +81,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (permissions.Contains(Databases.Konstants.kPermBillingPackagesReadAny))
+				if (permissions.Contains(EnvDatabases.kPermBillingPackagesReadAny))
 				{
 
 
@@ -92,7 +92,7 @@ namespace API.Hubs
 
 
 				}
-				else if (permissions.Contains(Databases.Konstants.kPermBillingPackagesReadCompany))
+				else if (permissions.Contains(EnvDatabases.kPermBillingPackagesReadCompany))
 				{
 					// Return just packages that this company has.
 					// Go through the subscriptions for this company and get a list of the packages.

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using API.Utility;
+using SharedCode;
 using Microsoft.Extensions.DependencyInjection;
 using SharedCode.S3;
 using FluentEmail.Core;
@@ -48,23 +48,23 @@ namespace API
 				throw new Exception("DISPATCH_PULSE_SMS_FROM_E164 not set.");
 			if (string.IsNullOrWhiteSpace(Konstants.ASPNETCORE_ENVIRONMENT))
 				throw new Exception("ASPNETCORE_ENVIRONMENT not set.");
-			if (string.IsNullOrWhiteSpace(Databases.Konstants.NPGSQL_CONNECTION_STRING))
+			if (string.IsNullOrWhiteSpace(EnvDatabases.NPGSQL_CONNECTION_STRING))
 				throw new Exception("NPGSQL_CONNECTION_STRING not set.");
-			if (string.IsNullOrWhiteSpace(Databases.Konstants.PGPASSFILE))
+			if (string.IsNullOrWhiteSpace(EnvDatabases.PGPASSFILE))
 				throw new Exception("PGPASSFILE not set.");
 			if (string.IsNullOrWhiteSpace(Konstants.TWILIO_ACCOUNT_SID_FILE))
 				throw new Exception("TWILIO_ACCOUNT_SID_FILE not set.");
 			if (string.IsNullOrWhiteSpace(Konstants.TWILIO_AUTH_TOKEN_FILE))
 				throw new Exception("TWILIO_AUTH_TOKEN_PATH not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY_FILE))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_ACCESS_KEY_FILE))
 				throw new Exception("S3_PBX_ACCESS_KEY_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY_FILE))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SECRET_KEY_FILE))
 				throw new Exception("S3_PBX_SECRET_KEY_FILE not set.");
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_ACCESS_KEY))
 				throw new Exception("S3_PBX_ACCESS_KEY empty.");
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SECRET_KEY))
 				throw new Exception("S3_PBX_SECRET_KEY empty.");
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SERVICE_URI))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SERVICE_URI))
 				throw new Exception("S3_PBX_SERVICE_URI_FILE not set.");
 			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.SQUARE_PAYMENTS_AND_API_SHARED_SECRET))
 				throw new Exception("SQUARE_PAYMENTS_AND_API_SHARED_SECRET_FILE not set.");

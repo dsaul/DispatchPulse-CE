@@ -7,13 +7,12 @@ using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using SharedCode;
 
 namespace OnCallResponderMessageAccess.Pages
 {
@@ -44,21 +43,21 @@ namespace OnCallResponderMessageAccess.Pages
 				return Page();
 			if (null == Voicemail)
 				return Page();
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_ACCESS_KEY))
 				return Page();
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SECRET_KEY))
 				return Page();
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SERVICE_URI))
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SERVICE_URI))
 				return Page();
 
-			string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-			string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+			string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+			string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 			// Create S3 Client
 			using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 				{
 				RegionEndpoint = RegionEndpoint.USWest1,
-				ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+				ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 				ForcePathStyle = true
 			});
 
@@ -150,7 +149,7 @@ namespace OnCallResponderMessageAccess.Pages
 
 
 
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			if (null == BillingDB)
 				return false;
 			BillingDB.Open();
@@ -184,7 +183,7 @@ namespace OnCallResponderMessageAccess.Pages
 			if (string.IsNullOrWhiteSpace(DPDatabaseName))
 				return false;
 
-			DPDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(DPDatabaseName));
+			DPDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(DPDatabaseName));
 			if (null == DPDB)
 				return false;
 			DPDB.Open();

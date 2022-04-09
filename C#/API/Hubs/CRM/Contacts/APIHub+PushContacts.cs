@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -18,7 +18,7 @@ namespace API.Hubs
 			public Dictionary<Guid, Contacts> Contacts { get; set; } = new Dictionary<Guid, Contacts>();
 		}
 
-		public class PushContactsResponse : IdempotencyResponse
+		public class PushContactsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Contacts { get; set; } = new List<Guid>();
 		}
@@ -106,8 +106,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushContactsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushContactsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushContactsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushContactsCompany)
 					)
 				{
 					response.IsError = true;

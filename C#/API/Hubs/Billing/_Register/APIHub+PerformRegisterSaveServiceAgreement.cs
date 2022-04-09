@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
-using API.Utility;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -25,7 +25,7 @@ namespace API.Hubs
 			public string? SignatureSVG { get; set; }
 		}
 
-		public class PerformRegisterSaveServiceAgreementResponse : IdempotencyResponse
+		public class PerformRegisterSaveServiceAgreementResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Saved { get; set; } = false;
 

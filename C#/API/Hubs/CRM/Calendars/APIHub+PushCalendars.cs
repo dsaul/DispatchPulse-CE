@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Calendars> Calendars { get; set; } = new Dictionary<Guid, Calendars>();
 		}
-		public class PushCalendarsResponse : IdempotencyResponse
+		public class PushCalendarsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Calendars { get; set; } = new List<Guid>();
 		}
@@ -103,8 +103,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushCalendarsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushCalendarsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushCalendarsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushCalendarsCompany)
 					)
 				{
 					response.IsError = true;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
-using Microsoft.EntityFrameworkCore;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
@@ -20,7 +20,7 @@ namespace API.Hubs
 
 
 
-		public class PerformDeleteBillingContactResponse : IdempotencyResponse
+		public class PerformDeleteBillingContactResponse : PermissionsIdempotencyResponse
 		{
 
 			public List<Guid> BillingContactsDelete { get; } = new List<Guid>();
@@ -97,8 +97,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingContactsDeleteAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingContactsDeleteCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingContactsDeleteAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingContactsDeleteCompany)
 					)
 				{
 					response.IsError = true;

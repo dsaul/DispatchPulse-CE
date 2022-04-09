@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +28,7 @@ namespace API.Hubs
 			public Guid? BillingCompanyId { get; set; }
 		}
 
-		public class PerformGetVoicemailRecordingLinkResponse : IdempotencyResponse
+		public class PerformGetVoicemailRecordingLinkResponse : PermissionsIdempotencyResponse
 		{
 			[JsonProperty(PropertyName = "voicemailURI")]
 			[DataMember(Name = "voicemailURI")]
@@ -120,8 +120,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestVoicemailsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestVoicemailsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestVoicemailsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestVoicemailsCompany);
 
 				if (permAny)
 				{
@@ -156,14 +156,14 @@ namespace API.Hubs
 
 				Voicemails vm = resVM.FirstOrDefault().Value;
 
-				string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-				string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+				string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+				string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 				// Create S3 Client
 				using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 				{
 					RegionEndpoint = RegionEndpoint.USWest1,
-					ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+					ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 					ForcePathStyle = true
 				});
 

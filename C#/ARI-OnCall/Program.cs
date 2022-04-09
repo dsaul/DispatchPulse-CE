@@ -62,11 +62,11 @@ namespace ARI.IVR.OnCall
 
 			Log.Information("Ari-OnCall (c) 2021 Dan Saul");
 			
-			if (string.IsNullOrWhiteSpace(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS)) {
+			if (string.IsNullOrWhiteSpace(EnvOnCallResponder.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS)) {
 				Log.Error("ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS_FILE empty or missing.");
 				return;
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI)) {
+			if (string.IsNullOrWhiteSpace(EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI)) {
 				Log.Error("ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI_FILE empty or missing.");
 				return;
 			}
@@ -143,15 +143,15 @@ namespace ARI.IVR.OnCall
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY)) {
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_ACCESS_KEY)) {
 				Log.Error("S3_PBX_ACCESS_KEY_FILE not set!");
 				return;
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY)) {
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SECRET_KEY)) {
 				Log.Error("S3_PBX_SECRET_KEY_FILE not set!");
 				return;
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SERVICE_URI)) {
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SERVICE_URI)) {
 				Log.Error("S3_PBX_SERVICE_URI_FILE not set!");
 				return;
 			}

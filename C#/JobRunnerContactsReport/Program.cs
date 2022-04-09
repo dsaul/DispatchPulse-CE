@@ -9,13 +9,13 @@ using System.Data;
 using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
+using SharedCode.DatabaseSchemas;
 using Amazon.S3;
 using Amazon;
 using Amazon.S3.Transfer;
 using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
+using SharedCode.DatabaseSchemas;
 using System.Globalization;
 using Serilog;
 using Serilog.Events;
@@ -40,7 +40,7 @@ namespace JobRunnerContactsReport
 
 			Log.Debug("Job Runner Contacts by Dan Saul https://github.com/dsaul");
 
-			string? dbConnectionPrefix = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? dbConnectionPrefix = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(dbConnectionPrefix)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -74,7 +74,7 @@ namespace JobRunnerContactsReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerContactsReport;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerContactsReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -118,7 +118,7 @@ namespace JobRunnerContactsReport
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 			pdfLatexDB.Open();
 
 
@@ -127,7 +127,7 @@ namespace JobRunnerContactsReport
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase));
 				dpDB.Open();
 
 				List<Contacts> list = new List<Contacts>();
@@ -144,7 +144,7 @@ namespace JobRunnerContactsReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 

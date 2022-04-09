@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -15,7 +15,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingPermissionsGroupsResponse : IdempotencyResponse
+		public class RequestBillingPermissionsGroupsResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingPermissionsGroups> BillingPermissionsGroups { get; } = new List<BillingPermissionsGroups> { };
 		}
@@ -80,8 +80,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAll = permissions.Contains(Databases.Konstants.kPermBillingPermissionsGroupsReadAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermBillingPermissionsGroupsReadCompany);
+				bool permAll = permissions.Contains(EnvDatabases.kPermBillingPermissionsGroupsReadAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermBillingPermissionsGroupsReadCompany);
 				bool permSelf = true;
 
 				if (permAll || permCompany || permSelf)

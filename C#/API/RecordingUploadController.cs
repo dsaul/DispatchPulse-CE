@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Id3;
 using API.Hubs;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
@@ -38,7 +38,7 @@ namespace API
 				NpgsqlConnection? billingConnection = null;
 				BillingContacts? billingContact = null;
 				BillingSessions? session = null;
-				IdempotencyResponse response = new IdempotencyResponse();
+				PermissionsIdempotencyResponse response = new PermissionsIdempotencyResponse();
 				SessionUtils.GetSessionInformation(
 						null,
 						response,
@@ -70,8 +70,8 @@ namespace API
 
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushRecordingsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushRecordingsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushRecordingsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushRecordingsCompany)
 					)
 				{
 					isError = true;
@@ -136,7 +136,7 @@ namespace API
 
 		private async Task<ProcessedFile?> DoProcessFile(IFormFile formFile)
 		{
-			if (string.IsNullOrWhiteSpace(SharedCode.TTS.Konstants.FFMPEG_PATH))
+			if (string.IsNullOrWhiteSpace(EnvTTS.FFMPEG_PATH))
 				throw new Exception("string.IsNullOrWhiteSpace(SharedCode.TTS.Konstants.FFMPEG_PATH)");
 
 			var filenameBase = Path.GetTempFileName();
@@ -167,10 +167,10 @@ namespace API
 
 			string strCmdText = $"-loglevel panic -hide_banner -nostats -i {filenameMP3} -ar 8000 -ac 1 -ab 64k {filenameWAV} -ar 8000 -ac 1 -ab 64k -f mulaw {filenamePCM} -map 0:0 -map 0:0";
 
-			Log.Debug("[EnsureDatabaseEntry()] FFMPEG PATH = {FFMpegPath}", SharedCode.TTS.Konstants.FFMPEG_PATH);
+			Log.Debug("[EnsureDatabaseEntry()] FFMPEG PATH = {FFMpegPath}", EnvTTS.FFMPEG_PATH);
 			Log.Debug("[EnsureDatabaseEntry()] FFMPEG ARGUMENTS = {FFMpegArgs}", strCmdText);
 
-			var process = System.Diagnostics.Process.Start(SharedCode.TTS.Konstants.FFMPEG_PATH, strCmdText);
+			var process = System.Diagnostics.Process.Start(EnvTTS.FFMPEG_PATH, strCmdText);
 			if (false == process.WaitForExit(5000)) {
 				return null;
 			}

@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
 using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
 using Serilog;
 using Serilog.Events;
 using SharedCode;
@@ -33,7 +31,7 @@ namespace JobRunnerAssignmentsReport
 
 			Log.Debug("Job Runner Assignments by Dan Saul https://github.com/dsaul");
 
-			string? dbConnectionPrefix = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? dbConnectionPrefix = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(dbConnectionPrefix)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -67,7 +65,7 @@ namespace JobRunnerAssignmentsReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerAssignmentsReport;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerAssignmentsReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -111,7 +109,7 @@ namespace JobRunnerAssignmentsReport
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=AssignmentsReport;");
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=AssignmentsReport;");
 			pdfLatexDB.Open();
 
 
@@ -120,7 +118,7 @@ namespace JobRunnerAssignmentsReport
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase)}ApplicationName=AssignmentsReport;");
+				using NpgsqlConnection dpDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase)}ApplicationName=AssignmentsReport;");
 				dpDB.Open();
 
 				List<Assignments> list = new List<Assignments>();
@@ -137,7 +135,7 @@ namespace JobRunnerAssignmentsReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME)}ApplicationName=AssignmentsReport;");
+				using NpgsqlConnection billingDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME)}ApplicationName=AssignmentsReport;");
 				billingDB.Open();
 
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +27,7 @@ namespace API.Hubs
 			public Guid? VoicemailId { get; set; }
 		}
 
-		public class PerformVoicemailMarkAsHandledResponse : IdempotencyResponse
+		public class PerformVoicemailMarkAsHandledResponse : PermissionsIdempotencyResponse
 		{
 			
 		}
@@ -119,8 +119,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestVoicemailsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestVoicemailsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestVoicemailsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestVoicemailsCompany);
 
 				if (!permAny && !permCompany)
 				{

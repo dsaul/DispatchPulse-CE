@@ -1,8 +1,7 @@
 ﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
-using Databases.Records.JobRunner;
-using Databases.Records.PDFLaTeX;
+using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -15,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using SharedCode;
 
 namespace JobRunnerPDFLaTeX
 {
@@ -36,7 +36,7 @@ namespace JobRunnerPDFLaTeX
 
 			Log.Debug($"Job Runner PdfLaTeX by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -70,7 +70,7 @@ namespace JobRunnerPDFLaTeX
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerPDFLaTeX;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerPDFLaTeX;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -124,7 +124,7 @@ namespace JobRunnerPDFLaTeX
 				return;
 			}
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 			pdfLatexDB.Open();
 
 			if (null == job.TaskId) {
@@ -205,7 +205,7 @@ namespace JobRunnerPDFLaTeX
 			var config = new AmazonS3Config
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
-				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ServiceURL = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI,
 				ForcePathStyle = true
 			};
 			var s3Client = new AmazonS3Client(S3_PDFLATEX_ACCESS_KEY, S3_PDFLATEX_SECRET_KEY, config);
@@ -238,12 +238,12 @@ namespace JobRunnerPDFLaTeX
 				Log.Debug($"Error encountered on server. Message:'{e.Message}' when writing an object");
 			}
 
-			json[PDFLaTeXTask.kLaTeXS3URITex] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.tex";
-			json[PDFLaTeXTask.kLaTeXS3URIPdf] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.pdf";
-			json[PDFLaTeXTask.kLaTeXS3URIAux] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.aux";
-			json[PDFLaTeXTask.kLaTeXS3URILog] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.log";
-			json[PDFLaTeXTask.kLaTeXS3URIStdout] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.stdout.txt";
-			json[PDFLaTeXTask.kLaTeXS3URIStderr] = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.stderr.txt";
+			json[PDFLaTeXTask.kLaTeXS3URITex] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.tex";
+			json[PDFLaTeXTask.kLaTeXS3URIPdf] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.pdf";
+			json[PDFLaTeXTask.kLaTeXS3URIAux] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.aux";
+			json[PDFLaTeXTask.kLaTeXS3URILog] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.log";
+			json[PDFLaTeXTask.kLaTeXS3URIStdout] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.stdout.txt";
+			json[PDFLaTeXTask.kLaTeXS3URIStderr] = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{PDFLaTeXTask.kLaTeXBucketName}/{job.TaskId}/{job.TaskId}.stderr.txt";
 
 
 

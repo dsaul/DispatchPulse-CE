@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> AssignmentsDelete { get; set; } = new List<Guid>();
 		}
-		public class DeleteAssignmentsResponse : IdempotencyResponse
+		public class DeleteAssignmentsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> AssignmentsDelete { get; set; } = new List<Guid>();
 		}
@@ -98,8 +98,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteAssignmentsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteAssignmentsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteAssignmentsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteAssignmentsCompany)
 					)
 				{
 					response.IsError = true;

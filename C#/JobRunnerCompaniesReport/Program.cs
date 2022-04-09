@@ -1,22 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
-using Amazon.S3;
-using Amazon;
-using Amazon.S3.Transfer;
 using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
-using System.Globalization;
 using Serilog;
 using Serilog.Events;
 using SharedCode;
@@ -40,7 +29,7 @@ namespace JobRunnerCompaniesReport
 
 			Log.Debug("Job Runner Companies by Dan Saul https://github.com/dsaul");
 
-			string? dbConnectionPrefix = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? dbConnectionPrefix = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(dbConnectionPrefix)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -74,7 +63,7 @@ namespace JobRunnerCompaniesReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerCompaniesReport;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerCompaniesReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 				
@@ -120,7 +109,7 @@ namespace JobRunnerCompaniesReport
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=CompaniesReport;"); ;
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=CompaniesReport;"); ;
 			pdfLatexDB.Open();
 
 
@@ -129,7 +118,7 @@ namespace JobRunnerCompaniesReport
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase));
 				dpDB.Open();
 
 				List<Companies> list = new List<Companies>();
@@ -146,7 +135,7 @@ namespace JobRunnerCompaniesReport
 					break;
 				}
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 

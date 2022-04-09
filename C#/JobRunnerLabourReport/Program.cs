@@ -1,24 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
-using Amazon.S3;
-using Amazon;
-using Amazon.S3.Transfer;
 using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
 using SharedCode;
-using Databases.Records;
-using System.Globalization;
 using Serilog;
 using Serilog.Events;
 
@@ -42,7 +32,7 @@ namespace JobRunnerLabourReport
 
 			Log.Debug("Job Runner Labour by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -76,7 +66,7 @@ namespace JobRunnerLabourReport
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerLabourReport;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerLabourReport;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -120,7 +110,7 @@ namespace JobRunnerLabourReport
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 			pdfLatexDB.Open();
 
 
@@ -129,7 +119,7 @@ namespace JobRunnerLabourReport
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase));
 				dpDB.Open();
 
 				List<Labour> list = new List<Labour>();
@@ -224,7 +214,7 @@ namespace JobRunnerLabourReport
 
 
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 

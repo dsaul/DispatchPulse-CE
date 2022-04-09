@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace API.Hubs
 			public Guid? BillingCompanyId { get; set; }
 		}
 
-		public class PerformCheckDIDPBXRegisteredResponse : IdempotencyResponse
+		public class PerformCheckDIDPBXRegisteredResponse : PermissionsIdempotencyResponse
 		{
 			public bool? IsRegistered { get; set; } = null;
 			public bool? IsRegisteredToDifferentCompany { get; set; } = null;
@@ -105,8 +105,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMRequestDIDsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMRequestDIDsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMRequestDIDsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMRequestDIDsCompany);
 
 				if (permAny)
 				{

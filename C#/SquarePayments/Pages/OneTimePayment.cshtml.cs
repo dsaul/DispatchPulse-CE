@@ -1,8 +1,6 @@
 ﻿using API.Hubs;
-using API.Utility;
 using SharedCode.DatabaseSchemas;
 using FluentEmail.Core;
-using FluentEmail.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -11,11 +9,8 @@ using Npgsql;
 using Square;
 using Square.Exceptions;
 using Square.Models;
-using SquarePayments.Properties;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Text;
 using Microsoft.AspNetCore.SignalR.Client;
 using Serilog;
@@ -66,7 +61,7 @@ namespace SquarePayments.Pages
 				return false;
 			}
 
-			//BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			//BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			//if (null == BillingDB)
 			//	return false;
 			//BillingDB.Open();
@@ -108,7 +103,7 @@ namespace SquarePayments.Pages
 
 			Permissions.UnionWith(BillingPermissionsBool.GrantedForBillingContact(BillingDB, BillingContact));
 
-			CanAccessOneTimePayments = Permissions.Contains(Databases.Konstants.kPermBillingCanMakeOneTimeCompanyCreditCardPayments);
+			CanAccessOneTimePayments = Permissions.Contains(EnvDatabases.kPermBillingCanMakeOneTimeCompanyCreditCardPayments);
 
 			if (!CanAccessOneTimePayments) {
 				return false;
@@ -239,7 +234,7 @@ namespace SquarePayments.Pages
 				//string template = Resources.CCPaymentPostedEmailTemplate;
 
 				Email
-					.From(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "Square Payments")
+					.From(EnvOnCallResponder.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "Square Payments")
 					.To(SharedCode.Konstants.ACCOUNTS_RECEIVABLE_EMAIL)
 					.Subject("Square Payment Recieved")
 					.Body(sb.ToString())

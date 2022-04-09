@@ -5,7 +5,7 @@ using System.Linq;
 using Serilog;
 using SharedCode;
 using Serilog.Events;
-using SharedCode.Databases.Records;
+using SharedCode.DatabaseSchemas;
 
 namespace DatabaseBootstrap
 {
@@ -37,7 +37,7 @@ namespace DatabaseBootstrap
 
 
 
-			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
+			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(EnvDatabases.NPGSQL_CONNECTION_STRING);
 
 			try {
 				noDatabaseConnection.Open();
@@ -102,7 +102,7 @@ namespace DatabaseBootstrap
 
 			// Run verification on job_runner
 			if (!string.IsNullOrWhiteSpace(jobRunnerDatabaseName)) {
-				using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(jobRunnerDatabaseName));
+				using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(jobRunnerDatabaseName));
 
 				db.Open();
 
@@ -116,7 +116,7 @@ namespace DatabaseBootstrap
 
 			// Run verification on pdflatex
 			if (!string.IsNullOrWhiteSpace(pdflatexDatabaseName)) {
-				using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(pdflatexDatabaseName));
+				using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(pdflatexDatabaseName));
 
 				db.Open();
 
@@ -130,7 +130,7 @@ namespace DatabaseBootstrap
 
 			// Run verification on billing
 			if (!string.IsNullOrWhiteSpace(billingDatabaseName)) {
-				using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(billingDatabaseName));
+				using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(billingDatabaseName));
 
 				db.Open();
 
@@ -144,7 +144,7 @@ namespace DatabaseBootstrap
 
 			// Run verification on tts
 			if (!string.IsNullOrWhiteSpace(ttsDatabaseName)) {
-				using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(ttsDatabaseName));
+				using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(ttsDatabaseName));
 
 				db.Open();
 

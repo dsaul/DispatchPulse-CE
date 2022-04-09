@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -22,7 +22,7 @@ namespace API.Hubs
 
 		
 
-		public class PerformBillingPermissionsBoolAddResponse : IdempotencyResponse
+		public class PerformBillingPermissionsBoolAddResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> BillingPermissionsBool { get; } = new List<Guid>();
 
@@ -97,8 +97,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingPermissionsBoolAddAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingPermissionsBoolAddCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingPermissionsBoolAddAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingPermissionsBoolAddCompany)
 					)
 				{
 					response.IsError = true;
@@ -117,7 +117,7 @@ namespace API.Hubs
 
 				// Do action
 
-				string[] permissionKeysUsersCanEdit = Databases.Konstants.PermissionKeysUsersCanEdit;
+				string[] permissionKeysUsersCanEdit = EnvDatabases.PermissionKeysUsersCanEdit;
 
 
 				// Verify we're allowed to edit these keys.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Npgsql;
-using API.Utility;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -19,7 +19,7 @@ namespace API.Hubs
 			public string? NewHash { get; set; }
 		}
 
-		public class PerformChangeSessionPasswordResponse : IdempotencyResponse
+		public class PerformChangeSessionPasswordResponse : PermissionsIdempotencyResponse
 		{
 			public bool PasswordChanged { get; set; }
 
@@ -97,9 +97,9 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAll = permissions.Contains(Databases.Konstants.kPermBillingContactsModifyAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermBillingContactsModifyCompany);
-				bool permSelf = permissions.Contains(Databases.Konstants.kPermBillingContactsModifySelf);
+				bool permAll = permissions.Contains(EnvDatabases.kPermBillingContactsModifyAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermBillingContactsModifyCompany);
+				bool permSelf = permissions.Contains(EnvDatabases.kPermBillingContactsModifySelf);
 
 				if (permAll || permCompany || permSelf)
 				{

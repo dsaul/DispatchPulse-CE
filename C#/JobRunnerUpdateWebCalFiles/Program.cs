@@ -1,14 +1,12 @@
-﻿using Databases.Records.JobRunner;
+﻿using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using Serilog;
-using API.Hubs;
 using System.Threading.Tasks;
-using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 
 namespace JobRunnerUpdateWebCalFiles
 {
@@ -28,7 +26,7 @@ namespace JobRunnerUpdateWebCalFiles
 
 			Log.Information("Job Runner Update Web Cal Files by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -42,7 +40,7 @@ namespace JobRunnerUpdateWebCalFiles
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerUpdateWebCalFiles;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerUpdateWebCalFiles;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
 				
@@ -100,7 +98,7 @@ namespace JobRunnerUpdateWebCalFiles
 				// Do Task
 
 				// Connect to 
-				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection? billingConnection = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingConnection.Open();
 
 				var resBC = BillingCompanies.AllForProvisionOnCallAutoAttendants(billingConnection, true, out Dictionary<Guid, string> databaseNames);
@@ -118,7 +116,7 @@ namespace JobRunnerUpdateWebCalFiles
 						continue;
 					}
 
-					using NpgsqlConnection? dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(dbName));
+					using NpgsqlConnection? dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(dbName));
 					dpDB.Open();
 
 					var resCalendars = Calendars.All(dpDB);

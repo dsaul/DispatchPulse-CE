@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, LabourSubtypeNonBillable> LabourSubtypeNonBillable { get; set; } = new Dictionary<Guid, LabourSubtypeNonBillable>();
 		}
-		public class PushLabourSubtypeNonBillableResponse : IdempotencyResponse
+		public class PushLabourSubtypeNonBillableResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> LabourSubtypeNonBillable { get; set; } = new List<Guid>();
 		}
@@ -105,8 +105,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushLabourSubtypeNonBillableAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushLabourSubtypeNonBillableCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushLabourSubtypeNonBillableAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushLabourSubtypeNonBillableCompany)
 					)
 				{
 					response.IsError = true;

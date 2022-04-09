@@ -1,6 +1,4 @@
-﻿using Databases.Records;
-using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+﻿using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode;
 using System;
@@ -10,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Globalization;
-using SharedCode;
 
 namespace LaTeXGenerators
 {

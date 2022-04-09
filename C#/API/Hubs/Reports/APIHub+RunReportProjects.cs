@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -26,7 +26,7 @@ namespace API.Hubs
 			public bool IncludeMaterials { get; set; } = true;
 		}
 
-		public class RunReportProjectsResponse : IdempotencyResponse
+		public class RunReportProjectsResponse : PermissionsIdempotencyResponse
 		{
 			public Guid? TaskId { get; set; } = null;
 
@@ -94,7 +94,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMReportProjectsPDF)
+				if (!permissions.Contains(EnvDatabases.kPermCRMReportProjectsPDF)
 					)
 				{
 					response.IsError = true;
@@ -106,7 +106,7 @@ namespace API.Hubs
 
 				// Create Task
 
-				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
+				using NpgsqlConnection pdfLatexDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName));
 				pdfLatexDB.Open();
 
 				response.TaskId = Guid.NewGuid();
@@ -128,7 +128,7 @@ namespace API.Hubs
 
 				// Create job.
 
-				using NpgsqlConnection jobsDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+				using NpgsqlConnection jobsDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
 				jobsDB.Open();
 
 				Guid jobId = Guid.NewGuid();

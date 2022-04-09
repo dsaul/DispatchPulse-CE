@@ -17,7 +17,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 		}
 
-		public class RunReportOnCallResponder30DayResponse : IdempotencyResponse
+		public class RunReportOnCallResponder30DayResponse : PermissionsIdempotencyResponse
 		{
 			public Guid? TaskId { get; set; }
 
@@ -86,7 +86,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMReportOnCallResponder30DayPDF)
+				if (!permissions.Contains(EnvDatabases.kPermCRMReportOnCallResponder30DayPDF)
 					)
 				{
 					response.IsError = true;

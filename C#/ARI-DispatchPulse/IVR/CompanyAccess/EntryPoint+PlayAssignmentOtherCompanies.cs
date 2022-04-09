@@ -3,7 +3,7 @@ using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using System.Linq;
 using System.Collections.Generic;
-using Databases.Records;
+using SharedCode.DatabaseSchemas;
 using System;
 
 namespace ARI.IVR.CompanyAccess

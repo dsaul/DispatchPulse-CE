@@ -1,13 +1,9 @@
-﻿using Databases.Records;
-using SharedCode.DatabaseSchemas;
+﻿using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode;
-using SharedCode;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LaTeXGenerators
 {

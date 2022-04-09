@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Npgsql;
 using Newtonsoft.Json.Linq;
 
@@ -42,14 +40,14 @@ namespace ARI.IVR.OnCall
 
 		public void ConnectToDPDBName(string dbName) {
 			if (DPDB == null) {
-				DPDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(dbName));
+				DPDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(dbName));
 				DPDB.Open();
 			}
 		}
 
 		public void ConnectToBillingDB() {
 			if (BillingDB == null) {
-				BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				BillingDB.Open();
 			}
 

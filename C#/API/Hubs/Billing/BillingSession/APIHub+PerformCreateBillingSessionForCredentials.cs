@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
-using API.Utility;
+using SharedCode;
 using Npgsql;
 
 namespace API.Hubs
@@ -20,7 +20,7 @@ namespace API.Hubs
 			public string? TzIANA { get; set; }
 
 		}
-		public class PerformCreateBillingSessionForCredentialsResponse : IdempotencyResponse
+		public class PerformCreateBillingSessionForCredentialsResponse : PermissionsIdempotencyResponse
 		{
 			public Guid? SessionId { get; set; }
 		}

@@ -7,7 +7,7 @@ using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using API.Utility;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -25,7 +25,7 @@ namespace API.Hubs
 
 		}
 
-		public class PerformRegisterMainUserResponse : IdempotencyResponse
+		public class PerformRegisterMainUserResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Saved { get; set; }
 

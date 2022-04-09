@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +16,7 @@ namespace API.Hubs
 		{
 			public Guid? SessionId { get; set; }
 		}
-		public class RequestGroupGeneralResponse : IdempotencyResponse
+		public class RequestGroupGeneralResponse : PermissionsIdempotencyResponse
 		{
 			public Dictionary<Guid, AssignmentStatus> AssignmentStatus { get; set; } = new Dictionary<Guid, AssignmentStatus>();
 			public Dictionary<Guid, AgentsEmploymentStatus> AgentsEmploymentStatus { get; set; } = new Dictionary<Guid, AgentsEmploymentStatus>();

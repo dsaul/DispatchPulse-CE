@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {
@@ -10,7 +11,7 @@ namespace ARI.IVR.OnCall
 	{
 		public static void Run() {
 
-			using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			billingDB.Open();
 
 			Log.Information("Checking PBX for any completed calls.");

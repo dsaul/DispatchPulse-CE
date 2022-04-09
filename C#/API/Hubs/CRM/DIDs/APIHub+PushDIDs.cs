@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -20,7 +20,7 @@ namespace API.Hubs
 			[DataMember(Name = "dids")]
 			public Dictionary<Guid, DIDs> DIDs { get; set; } = new Dictionary<Guid, DIDs>();
 		}
-		public class PushDIDsResponse : IdempotencyResponse
+		public class PushDIDsResponse : PermissionsIdempotencyResponse
 		{
 			[JsonProperty(PropertyName = "dids")]
 			[DataMember(Name = "dids")]
@@ -109,8 +109,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushDIDsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushDIDsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushDIDsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushDIDsCompany)
 					)
 				{
 					response.IsError = true;

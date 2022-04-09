@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
-using API.Utility;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 
 		}
-		public class LogOutSessionResponse : IdempotencyResponse
+		public class LogOutSessionResponse : PermissionsIdempotencyResponse
 		{
 			public bool? LoggedOut { get; set; } = false;
 		}
@@ -80,9 +80,9 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermBillingSessionsDeleteAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermBillingSessionsDeleteCompany);
-				bool permSelf = permissions.Contains(Databases.Konstants.kPermBillingSessionsDeleteSelf);
+				bool permAny = permissions.Contains(EnvDatabases.kPermBillingSessionsDeleteAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermBillingSessionsDeleteCompany);
+				bool permSelf = permissions.Contains(EnvDatabases.kPermBillingSessionsDeleteSelf);
 
 				// see if the user can delete their own session
 				if (permAny || permCompany || permSelf)

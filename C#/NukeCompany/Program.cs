@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Serilog;
 using Serilog.Events;
+using SharedCode;
 
 namespace NukeCompany
 {
@@ -35,7 +36,7 @@ namespace NukeCompany
 				return;
 			}
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -55,7 +56,7 @@ namespace NukeCompany
 
 			HashSet<string> databaseNames = new HashSet<string>();
 
-			using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.KBillingDatabaseConnectionString+"Include Error Detail=true;");
+			using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.KBillingDatabaseConnectionString+"Include Error Detail=true;");
 			billingDB.Open();
 
 			var transaction = billingDB.BeginTransaction();
@@ -174,7 +175,7 @@ namespace NukeCompany
 			transaction = billingDB.BeginTransaction();
 			try {
 				Console.Write("Killing connections to databases that will be deleted...");
-				using NpgsqlConnection noDBConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
+				using NpgsqlConnection noDBConnection = new NpgsqlConnection(EnvDatabases.NPGSQL_CONNECTION_STRING);
 				noDBConnection.Open();
 
 				foreach (string dbName in databaseNames) {

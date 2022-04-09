@@ -1,5 +1,5 @@
 ﻿using SharedCode.DatabaseSchemas;
-using Databases.Records.JobRunner;
+using SharedCode;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
@@ -7,7 +7,6 @@ using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace JobRunnerRemoveExpiredJobs
 {
@@ -30,7 +29,7 @@ namespace JobRunnerRemoveExpiredJobs
 
 			Log.Debug("JobRunnerRemoveExpiredJobs by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -44,7 +43,7 @@ namespace JobRunnerRemoveExpiredJobs
 
 			while (true) {
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRemoveExpiredJobs;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerRemoveExpiredJobs;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
 				

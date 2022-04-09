@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
-using SharedCode.Databases.Records;
 using Serilog;
 
 namespace JobRunnerDatabaseVerification
@@ -25,7 +23,7 @@ namespace JobRunnerDatabaseVerification
 
 			Log.Debug($"---- DPVerify.Verify {databaseName}");
 
-			using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(databaseName));
+			using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(databaseName));
 			db.Open();
 
 			Log.Debug("---- Ensuring UUID extension exists.");

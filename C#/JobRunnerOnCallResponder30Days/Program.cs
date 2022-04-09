@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Databases.Records.JobRunner;
+using SharedCode.DatabaseSchemas;
 using LaTeXGenerators;
-using Databases.Records.PDFLaTeX;
 using Serilog;
 using Serilog.Events;
 using SharedCode;
@@ -31,7 +30,7 @@ namespace JobRunnerOnCallResponder30Days
 
 			Log.Debug("Job Runner On Call Responder 30 Days by Dan Saul https://github.com/dsaul");
 
-			string? NPGSQL_CONNECTION_STRING = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? NPGSQL_CONNECTION_STRING = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(NPGSQL_CONNECTION_STRING)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -65,7 +64,7 @@ namespace JobRunnerOnCallResponder30Days
 			while (true) {
 				//Log.Debug($"Polling...");
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerOnCallResponder30Days;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerOnCallResponder30Days;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString); 
 				
@@ -108,7 +107,7 @@ namespace JobRunnerOnCallResponder30Days
 			}
 
 
-			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=OnCallResponder30DaysReport;");
+			using NpgsqlConnection pdfLatexDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(PDFLaTeXTask.kPDFLaTeXDBName)}ApplicationName=OnCallResponder30DaysReport;");
 			pdfLatexDB.Open();
 
 
@@ -117,10 +116,10 @@ namespace JobRunnerOnCallResponder30Days
 
 			do {
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(job.DPDatabase)}ApplicationName=OnCallResponder30DaysReport;");
+				using NpgsqlConnection dpDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(job.DPDatabase)}ApplicationName=OnCallResponder30DaysReport;");
 				dpDB.Open();
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection($"{Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME)}ApplicationName=OnCallResponder30DaysReport;");
+				using NpgsqlConnection billingDB = new NpgsqlConnection($"{EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME)}ApplicationName=OnCallResponder30DaysReport;");
 				billingDB.Open();
 
 

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
-using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -13,11 +12,10 @@ namespace API.Hubs
 	{
 		public class DeleteCalendarsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> CalendarsDelete { get; set; } = new List<Guid>();
 		}
 
-		public class DeleteCalendarsResponse : IdempotencyResponse
+		public class DeleteCalendarsResponse : PermissionsIdempotencyResponse
 		{
 
 			public List<Guid> CalendarsDelete { get; set; } = new List<Guid>();
@@ -100,8 +98,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteCalendarsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteCalendarsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteCalendarsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteCalendarsCompany)
 					)
 				{
 					response.IsError = true;

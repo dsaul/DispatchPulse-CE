@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
 using Amazon.S3;
-using SharedCode.S3;
 using Amazon;
-using Amazon.S3.Transfer;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -19,7 +17,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> RecordingsDelete { get; set; } = new List<Guid>();
 		}
-		public class DeleteRecordingsResponse : IdempotencyResponse
+		public class DeleteRecordingsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> RecordingsDelete { get; set; } = new List<Guid>();
 		}
@@ -101,8 +99,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteRecordingsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteRecordingsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteRecordingsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteRecordingsCompany)
 					)
 				{
 					response.IsError = true;
@@ -116,8 +114,8 @@ namespace API.Hubs
 
 				var resRec = Recordings.ForIds(dpDBConnection, p.RecordingsDelete);
 
-				string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-				string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+				string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+				string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 				foreach (KeyValuePair<Guid, Recordings> kvp in resRec)
 				{

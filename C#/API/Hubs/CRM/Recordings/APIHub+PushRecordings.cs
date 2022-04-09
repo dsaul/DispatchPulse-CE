@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using SharedCode;
 using Newtonsoft.Json.Linq;
 using Amazon.Runtime;
@@ -12,6 +12,7 @@ using Amazon.S3;
 using Amazon;
 using SharedCode.S3;
 using Amazon.S3.Transfer;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -19,10 +20,9 @@ namespace API.Hubs
 	{
 		public class PushRecordingsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Recordings> Recordings { get; set; } = new Dictionary<Guid, Recordings>();
 		}
-		public class PushRecordingsResponse : IdempotencyResponse
+		public class PushRecordingsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Recordings { get; } = new List<Guid>();
 		}
@@ -124,8 +124,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushRecordingsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushRecordingsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushRecordingsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushRecordingsCompany)
 					)
 				{
 					response.IsError = true;
@@ -136,7 +136,7 @@ namespace API.Hubs
 
 
 				// Go through all of these recordings we're uploading, send the sound files to S3, then delete the temporary files.
-				string? s3Host = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI;
+				string? s3Host = EnvAmazonS3.S3_PBX_SERVICE_URI;
 				if (string.IsNullOrWhiteSpace(s3Host))
                 {
 					response.IsError = true;
@@ -195,13 +195,13 @@ namespace API.Hubs
 							string recordingS3HttpsURI = $"{s3Host}/{bucket}/{s3Key}";
 							string s3CmdURI = $"s3://{bucket}/{s3Key}";
 
-							string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-							string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+							string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+							string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 							using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 							{
 								RegionEndpoint = RegionEndpoint.USWest1,
-								ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+								ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 								ForcePathStyle = true
 							});
 
@@ -229,13 +229,13 @@ namespace API.Hubs
 							string recordingS3HttpsURI = $"https://{s3Host}/{bucket}/{s3Key}";
 							string s3CmdURI = $"s3://{bucket}/{s3Key}";
 
-							string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-							string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+							string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+							string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 							using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 							{
 								RegionEndpoint = RegionEndpoint.USWest1,
-								ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+								ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 								ForcePathStyle = true
 							});
 
@@ -264,13 +264,13 @@ namespace API.Hubs
 							string recordingS3HttpsURI = $"https://{s3Host}/{bucket}/{s3Key}";
 							string s3CmdURI = $"s3://{bucket}/{s3Key}";
 
-							string? key = SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY;
-							string? secret = SharedCode.S3.Konstants.S3_PBX_SECRET_KEY;
+							string? key = EnvAmazonS3.S3_PBX_ACCESS_KEY;
+							string? secret = EnvAmazonS3.S3_PBX_SECRET_KEY;
 
 							using var s3Client = new AmazonS3Client(key, secret, new AmazonS3Config
 							{
 								RegionEndpoint = RegionEndpoint.USWest1,
-								ServiceURL = SharedCode.S3.Konstants.S3_PBX_SERVICE_URI,
+								ServiceURL = EnvAmazonS3.S3_PBX_SERVICE_URI,
 								ForcePathStyle = true
 							});
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -15,7 +15,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingJournalEntriesResponse : IdempotencyResponse
+		public class RequestBillingJournalEntriesResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingJournalEntries> BillingJournalEntries { get; } = new List<BillingJournalEntries> { };
 		}
@@ -80,8 +80,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingJournalEntriesReadAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingJournalEntriesReadCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingJournalEntriesReadAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingJournalEntriesReadCompany)
 					)
 				{
 					response.IsError = true;

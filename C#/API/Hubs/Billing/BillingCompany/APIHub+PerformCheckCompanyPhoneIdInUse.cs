@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-
+using SharedCode;
 namespace API.Hubs
 {
 	public partial class APIHub : Hub
@@ -17,7 +17,7 @@ namespace API.Hubs
 			public string? CompanyId { get; set; }
 		}
 
-		public class PerformCheckCompanyPhoneIdInUseResponse : IdempotencyResponse
+		public class PerformCheckCompanyPhoneIdInUseResponse : PermissionsIdempotencyResponse
 		{
 			public bool? InUse { get; set; } = false;
 
@@ -87,7 +87,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingCompaniesModifyCompanyPhoneId)
+				if (!permissions.Contains(EnvDatabases.kPermBillingCompaniesModifyCompanyPhoneId)
 					)
 				{
 					response.IsError = true;

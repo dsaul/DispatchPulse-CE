@@ -1,13 +1,10 @@
 ﻿using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ARI.IVR.OnCallRespondee
 {
@@ -24,14 +21,14 @@ namespace ARI.IVR.OnCallRespondee
 
 		public void ConnectToDPDBName(string dbName) {
 			if (DPDB == null) {
-				DPDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(dbName));
+				DPDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(dbName));
 				DPDB.Open();
 			}
 		}
 
 		public void ConnectToBillingDB() {
 			if (BillingDB == null) {
-				BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				BillingDB.Open();
 			}
 

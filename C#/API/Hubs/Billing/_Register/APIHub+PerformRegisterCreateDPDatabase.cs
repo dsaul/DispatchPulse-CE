@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -24,7 +24,7 @@ namespace API.Hubs
 
 		}
 
-		public class RegisterCreateDPDatabaseResponse : IdempotencyResponse
+		public class RegisterCreateDPDatabaseResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Created { get; set; } = false;
 

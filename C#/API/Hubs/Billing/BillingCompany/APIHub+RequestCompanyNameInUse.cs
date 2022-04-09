@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -13,7 +14,7 @@ namespace API.Hubs
 		{
 			public string? Abbreviation { get; set; }
 		}
-		public class RequestCompanyNameInUseResponse : IdempotencyResponse
+		public class RequestCompanyNameInUseResponse : PermissionsIdempotencyResponse
 		{
 			public bool? InUse { get; set; }
 		}
@@ -44,7 +45,7 @@ namespace API.Hubs
 				response.RoundTripRequestId = p.RoundTripRequestId;
 
 
-				string billingConnectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
+				string billingConnectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
 				if (null == billingConnectionString)
 				{
 					response.IsError = true;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -17,7 +17,7 @@ namespace API.Hubs
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
 
-		public class RequestLabourSubtypeExceptionResponse : IdempotencyResponse
+		public class RequestLabourSubtypeExceptionResponse : PermissionsIdempotencyResponse
 		{
 
 			public Dictionary<Guid, LabourSubtypeException> LabourSubtypeException { get; set; } = new Dictionary<Guid, LabourSubtypeException>();
@@ -90,8 +90,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMRequestLabourSubtypeExceptionAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMRequestLabourSubtypeExceptionCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMRequestLabourSubtypeExceptionAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMRequestLabourSubtypeExceptionCompany)
 					)
 				{
 					response.IsError = true;

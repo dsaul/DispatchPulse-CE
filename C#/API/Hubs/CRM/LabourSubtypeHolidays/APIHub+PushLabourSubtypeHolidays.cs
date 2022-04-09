@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -17,7 +17,7 @@ namespace API.Hubs
 			public Dictionary<Guid, LabourSubtypeHolidays> LabourSubtypeHolidays { get; set; } = new Dictionary<Guid, LabourSubtypeHolidays>();
 		}
 
-		public class PushLabourSubtypeHolidaysResponse : IdempotencyResponse
+		public class PushLabourSubtypeHolidaysResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> LabourSubtypeHolidays { get; set; } = new List<Guid>();
 		}
@@ -105,8 +105,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushLabourSubtypeHolidaysAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushLabourSubtypeHolidaysCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushLabourSubtypeHolidaysAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushLabourSubtypeHolidaysCompany)
 					)
 				{
 					response.IsError = true;

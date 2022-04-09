@@ -6,7 +6,7 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
-using SharedCode.Databases.Records;
+using SharedCode.DatabaseSchemas;
 using SharedCode;
 
 namespace CompanyBilling.Pages.Companies.Actions
@@ -30,7 +30,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 		private bool SharedSetup() {
 
 
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			
 			if (null == BillingDB)
 				return false;
@@ -98,7 +98,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 				return Page();
 
 			string? actualDBName = null;
-			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(Databases.Konstants.NPGSQL_CONNECTION_STRING);
+			using NpgsqlConnection? noDatabaseConnection = new NpgsqlConnection(EnvDatabases.NPGSQL_CONNECTION_STRING);
 			noDatabaseConnection.Open();
 			{
 				actualDBName = noDatabaseConnection.CreateDatabase(DatabaseNameUniqueSearchFragment);
@@ -110,7 +110,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 				return Page();
 			}
 
-			using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(actualDBName));
+			using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(actualDBName));
 			db.Open();
 			{
 				db.EnsureUUIDExtension();

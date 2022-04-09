@@ -1,10 +1,7 @@
-﻿using Databases.Records;
-using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+﻿using SharedCode.DatabaseSchemas;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
-using SharedCode;
 using SharedCode;
 using System;
 using System.Collections.Generic;

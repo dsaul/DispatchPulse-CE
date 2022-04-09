@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace API.Hubs
 			public List<string> PermissionKeys { get; set; } = new List<string>();
 		}
 
-		public class PerformBillingPermissionsBoolRemoveResponse : IdempotencyResponse
+		public class PerformBillingPermissionsBoolRemoveResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Removed { get; set; } = new List<Guid>();
 		}
@@ -97,8 +97,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingPermissionsBoolDeleteAny) &&
-					!permissions.Contains(Databases.Konstants.kPermBillingPermissionsBoolDeleteCompany)
+				if (!permissions.Contains(EnvDatabases.kPermBillingPermissionsBoolDeleteAny) &&
+					!permissions.Contains(EnvDatabases.kPermBillingPermissionsBoolDeleteCompany)
 					)
 				{
 					response.IsError = true;
@@ -116,7 +116,7 @@ namespace API.Hubs
 
 				// Do action
 
-				string[] permissionKeysUsersCanEdit = Databases.Konstants.PermissionKeysUsersCanEdit;
+				string[] permissionKeysUsersCanEdit = EnvDatabases.PermissionKeysUsersCanEdit;
 
 
 				// Verify we're allowed to edit these keys.

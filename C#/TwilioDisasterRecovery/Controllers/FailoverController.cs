@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Twilio.TwiML;
-using Twilio.TwiML.Voice;
 using Npgsql;
 using System.Text.RegularExpressions;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
+using SharedCode;
 using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -52,7 +49,7 @@ namespace TwilioDisasterRecovery.Controllers
 
 				string didStr = Regex.Replace(To, "[^0-9]", "");
 
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingDB.Open();
 
 				var resRegPN = RegisteredPhoneNumbers.ForPhoneNumber(billingDB, didStr);
@@ -97,7 +94,7 @@ namespace TwilioDisasterRecovery.Controllers
 					break;
 				}
 
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(subscription.ProvisionedDatabaseName));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(subscription.ProvisionedDatabaseName));
 				dpDB.Open();
 
 				var didsRes = DIDs.ForDIDNumber(dpDB, didStr);

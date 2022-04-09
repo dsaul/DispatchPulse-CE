@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -16,7 +16,7 @@ namespace API.Hubs
 		{
 			public Guid? SessionId { get; set; }
 		}
-		public class RequestGroupViewDashboardResponse : IdempotencyResponse
+		public class RequestGroupViewDashboardResponse : PermissionsIdempotencyResponse
 		{
 			public Dictionary<Guid, Agents> Agents { get; set; } = new Dictionary<Guid, Agents>();
 			public Dictionary<Guid, Assignments> Assignments { get; set; } = new Dictionary<Guid, Assignments>();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -18,7 +18,7 @@ namespace API.Hubs
 			public string? NewPhoneId { get; set; }
 		}
 
-		public class PerformUpdatePhoneIdResponse : IdempotencyResponse
+		public class PerformUpdatePhoneIdResponse : PermissionsIdempotencyResponse
 		{
 			public bool Saved { get; set; } = false;
 
@@ -94,7 +94,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermBillingCompaniesModifyCompanyPhoneId)
+				if (!permissions.Contains(EnvDatabases.kPermBillingCompaniesModifyCompanyPhoneId)
 					)
 				{
 					response.IsError = true;

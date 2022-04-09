@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -15,7 +15,7 @@ namespace API.Hubs
 		{
 			public Guid SessionId { get; set; }
 		}
-		public class RequestBillingSessionsResponse : IdempotencyResponse
+		public class RequestBillingSessionsResponse : PermissionsIdempotencyResponse
 		{
 			public List<BillingSessions> BillingSessions { get; } = new List<BillingSessions> { };
 		}
@@ -86,8 +86,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (permissions.Contains(Databases.Konstants.kPermBillingSessionsReadAny) ||
-					permissions.Contains(Databases.Konstants.kPermBillingSessionsReadCompany))
+				if (permissions.Contains(EnvDatabases.kPermBillingSessionsReadAny) ||
+					permissions.Contains(EnvDatabases.kPermBillingSessionsReadCompany))
 				{
 					List<Guid> billingContactIds = new List<Guid>();
 
@@ -102,7 +102,7 @@ namespace API.Hubs
 					Dictionary<Guid, BillingSessions> sessions = BillingSessions.ForContactIds(billingConnection, billingContactIds);
 					response.BillingSessions.AddRange(sessions.Values);
 				}
-				else if (permissions.Contains(Databases.Konstants.kPermBillingSessionsReadSelf))
+				else if (permissions.Contains(EnvDatabases.kPermBillingSessionsReadSelf))
 				{
 					Dictionary<Guid, BillingSessions> sessions = BillingSessions.ForContactId(billingConnection, billingContact.Uuid);
 					response.BillingSessions.AddRange(sessions.Values);

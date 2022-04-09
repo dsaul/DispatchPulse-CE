@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public List<Guid> LabourSubtypeHolidaysDelete { get; set; } = new List<Guid>();
 		}
-		public class DeleteLabourSubtypeHolidaysResponse : IdempotencyResponse
+		public class DeleteLabourSubtypeHolidaysResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> LabourSubtypeHolidaysDelete { get; set; } = new List<Guid>();
 		}
@@ -101,8 +101,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMDeleteLabourSubtypeHolidaysAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMDeleteLabourSubtypeHolidaysCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMDeleteLabourSubtypeHolidaysAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMDeleteLabourSubtypeHolidaysCompany)
 					)
 				{
 					response.IsError = true;

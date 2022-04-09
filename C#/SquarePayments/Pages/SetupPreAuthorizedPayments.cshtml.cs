@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Hubs;
-using API.Utility;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -98,7 +97,7 @@ namespace SquarePayments.Pages
 
 			Permissions.UnionWith(BillingPermissionsBool.GrantedForBillingContact(BillingDB, BillingContact));
 
-			CanAccessPreAuthorizedPayments = Permissions.Contains(Databases.Konstants.kPermBillingCanSetupPreAuthorizedCreditCardPayments);
+			CanAccessPreAuthorizedPayments = Permissions.Contains(EnvDatabases.kPermBillingCanSetupPreAuthorizedCreditCardPayments);
 
 			if (!CanAccessPreAuthorizedPayments) {
 				return false;
@@ -206,18 +205,18 @@ namespace SquarePayments.Pages
 						var config = new AmazonS3Config
 						{
 							RegionEndpoint = RegionEndpoint.USWest1,
-							ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+							ServiceURL = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI,
 							ForcePathStyle = true
 						};
 						var s3Client = new AmazonS3Client(
-						SharedCode.S3.Konstants.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY,
-						SharedCode.S3.Konstants.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_SECRET_KEY,
+						EnvAmazonS3.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_ACCESS_KEY,
+						EnvAmazonS3.S3_CARD_ON_FILE_AUTHORIZATION_FORMS_SECRET_KEY,
 						config);
 						var fileTransferUtility = new TransferUtility(s3Client);
 
 						using var stream = System.IO.File.OpenRead(tmpFile);
 
-						fileTransferUtility.Upload(stream, SharedCode.S3.Konstants.S3_CARD_ON_FILE_BUCKET_NAME, authorizationS3Key);
+						fileTransferUtility.Upload(stream, EnvAmazonS3.S3_CARD_ON_FILE_BUCKET_NAME, authorizationS3Key);
 					}
 					Log.Information("Done send authorization file to S3.");
 				});
@@ -231,7 +230,7 @@ namespace SquarePayments.Pages
 
 					// Send to accounts receivable to be verified.
 					Email
-						.From(SharedCode.OnCallResponder.Konstants.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "Square Pre-Authorized")
+						.From(EnvOnCallResponder.ON_CALL_RESPONDER_NOTIFICATION_EMAIL_FROM_ADDRESS, "Square Pre-Authorized")
 						.To(SharedCode.Konstants.ACCOUNTS_RECEIVABLE_EMAIL)
 						.Subject("Square Pre-Authorized")
 						.Body(sb.ToString())
@@ -261,8 +260,8 @@ namespace SquarePayments.Pages
 				modJson[BillingCompanies.kJsonKeySquareCardExpYear] = resCreateCC.Card.ExpYear;
 				modJson[BillingCompanies.kJsonKeySquareCardLast4] = resCreateCC.Card.Last4;
 				modJson[BillingCompanies.kJsonKeySquareCardId] = resCreateCC.Card.Id;
-				modJson[BillingCompanies.kJsonKeySquareCardAuthorizationS3ServiceURL] = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI;
-				modJson[BillingCompanies.kJsonKeySquareCardAuthorizationS3BucketName] = SharedCode.S3.Konstants.S3_CARD_ON_FILE_BUCKET_NAME;
+				modJson[BillingCompanies.kJsonKeySquareCardAuthorizationS3ServiceURL] = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI;
+				modJson[BillingCompanies.kJsonKeySquareCardAuthorizationS3BucketName] = EnvAmazonS3.S3_CARD_ON_FILE_BUCKET_NAME;
 				modJson[BillingCompanies.kJsonKeySquareCardAuthorizationS3Key] = authorizationS3Key;
 
 				BillingCompany = BillingCompany with

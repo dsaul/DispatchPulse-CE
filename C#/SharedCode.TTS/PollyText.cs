@@ -5,13 +5,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Databases.Records.TTS;
+using SharedCode;
 using Npgsql;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Amazon.S3;
 using Amazon.S3.Transfer;
-using SharedCode.S3;
 using Serilog;
 
 namespace TTS
@@ -41,16 +40,16 @@ namespace TTS
 			if (string.IsNullOrWhiteSpace(SharedCode.TTS.Konstants.FFMPEG_PATH)) {
 				throw new Exception("ENV VARIABLE FFMPEG_PATH NOT SET");
 			}
-			if (string.IsNullOrWhiteSpace(Databases.Konstants.NPGSQL_CONNECTION_STRING)) {
+			if (string.IsNullOrWhiteSpace(EnvDatabases.NPGSQL_CONNECTION_STRING)) {
 				throw new Exception("NPGSQL_CONNECTION_STRING_FILE NOT SET");
 			}
-			if (string.IsNullOrWhiteSpace(Databases.Konstants.PGPASSFILE)) {
+			if (string.IsNullOrWhiteSpace(EnvDatabases.PGPASSFILE)) {
 				throw new Exception("PGPASSFILE NOT SET");
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY_FILE)) {
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_ACCESS_KEY_FILE)) {
 				throw new Exception("S3_PBX_ACCESS_KEY_FILE NOT SET");
 			}
-			if (string.IsNullOrWhiteSpace(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY_FILE)) {
+			if (string.IsNullOrWhiteSpace(EnvAmazonS3.S3_PBX_SECRET_KEY_FILE)) {
 				throw new Exception("S3_PBX_SECRET_KEY_FILE NOT SET");
 			}
 			if (string.IsNullOrWhiteSpace(SharedCode.TTS.Konstants.AWS_POLLY_ACCESS_KEY_ID_FILE)) {
@@ -68,7 +67,7 @@ namespace TTS
 			//AWS_PROFILE: ari-dispatchpulse
 			// - "4573:4573"
 
-			using NpgsqlConnection cacheDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Cache.kTTSCacheDatabaseName));
+			using NpgsqlConnection cacheDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(Cache.kTTSCacheDatabaseName));
 			cacheDB.Open();
 
 			string textModified = text.Trim();
@@ -153,17 +152,17 @@ namespace TTS
 			var config = new AmazonS3Config
 			{
 				RegionEndpoint = RegionEndpoint.USWest1,
-				ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+				ServiceURL = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI,
 				ForcePathStyle = true
 			};
-			var s3Client = new AmazonS3Client(File.ReadAllText(SharedCode.S3.Konstants.S3_PBX_ACCESS_KEY_FILE), File.ReadAllText(SharedCode.S3.Konstants.S3_PBX_SECRET_KEY_FILE), config);
+			var s3Client = new AmazonS3Client(File.ReadAllText(EnvAmazonS3.S3_PBX_ACCESS_KEY_FILE), File.ReadAllText(EnvAmazonS3.S3_PBX_SECRET_KEY_FILE), config);
 			var fileTransferUtility = new TransferUtility(s3Client);
 
 			string? uriMP3 = null;
 			if (File.Exists(filenameMP3)) {
 				try {
 					fileTransferUtility.Upload(filenameMP3, Cache.kLaTeXBucketName, $"{engine}/{voice}/{entryId}/{entryId}.mp3");
-					uriMP3 = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.mp3";
+					uriMP3 = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.mp3";
 				}
 				catch (Exception e) {
 					Log.Debug($"Error encountered on server. Message:'{e.Message}' when writing an object");
@@ -174,7 +173,7 @@ namespace TTS
 			if (File.Exists(filenameWAV)) {
 				try {
 					fileTransferUtility.Upload(filenameWAV, Cache.kLaTeXBucketName, $"{engine}/{voice}/{entryId}/{entryId}.wav");
-					uriWAV = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.wav";
+					uriWAV = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.wav";
 				}
 				catch (Exception e) {
 					Log.Debug($"Error encountered on server. Message:'{e.Message}' when writing an object");
@@ -185,7 +184,7 @@ namespace TTS
 			if (File.Exists(filenamePCM)) {
 				try {
 					fileTransferUtility.Upload(filenamePCM, Cache.kLaTeXBucketName, $"{engine}/{voice}/{entryId}/{entryId}.pcm");
-					uriPCM = $"{SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.pcm";
+					uriPCM = $"{EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI}/{Cache.kLaTeXBucketName}/{engine}/{voice}/{entryId}/{entryId}.pcm";
 				}
 				catch (Exception e) {
 					Log.Debug($"Error encountered on server. Message:'{e.Message}' when writing an object");

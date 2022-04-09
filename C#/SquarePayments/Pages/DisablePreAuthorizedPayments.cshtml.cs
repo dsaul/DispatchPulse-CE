@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Hubs;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,7 +10,6 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
 using Square;
-using Square.Exceptions;
 using Square.Models;
 
 namespace SquarePayments.Pages
@@ -42,7 +39,7 @@ namespace SquarePayments.Pages
 				//.Environment(Square.Environment.Sandbox)
 				//.AccessToken(SharedCode.Square.Konstants.SQUARE_SANDBOX_ACCESS_TOKEN)
 				.Environment(Square.Environment.Production)
-				.AccessToken(SharedCode.Square.Konstants.SQUARE_PRODUCTION_ACCESS_TOKEN)
+				.AccessToken(EnvSquare.SQUARE_PRODUCTION_ACCESS_TOKEN)
 				.Build();
 
 		private bool SharedSetup() {
@@ -50,7 +47,7 @@ namespace SquarePayments.Pages
 				return false;
 			}
 
-			//BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			//BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			//if (null == BillingDB)
 			//	return false;
 			//BillingDB.Open();
@@ -92,7 +89,7 @@ namespace SquarePayments.Pages
 
 			Permissions.UnionWith(BillingPermissionsBool.GrantedForBillingContact(BillingDB, BillingContact));
 
-			CanAccessPreAuthorizedPayments = Permissions.Contains(Databases.Konstants.kPermBillingCanSetupPreAuthorizedCreditCardPayments);
+			CanAccessPreAuthorizedPayments = Permissions.Contains(EnvDatabases.kPermBillingCanSetupPreAuthorizedCreditCardPayments);
 
 			if (!CanAccessPreAuthorizedPayments) {
 				return false;

@@ -8,6 +8,7 @@ using Renci.SshNet.Sftp;
 using SharedCode.ARI;
 using Serilog;
 using System.Text.RegularExpressions;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {
@@ -189,7 +190,7 @@ namespace ARI.IVR.OnCall
 				}
 
 				// Update the call attempt.
-				using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(databaseName));
+				using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(databaseName));
 				dpDB.Open();
 
 				var resVM = Voicemails.ForId(dpDB, voicemailId.Value);

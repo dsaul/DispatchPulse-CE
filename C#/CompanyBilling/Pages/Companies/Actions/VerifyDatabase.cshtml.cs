@@ -6,7 +6,6 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
-using SharedCode.Databases.Records;
 using SharedCode;
 
 namespace CompanyBilling.Pages.Companies.Actions
@@ -32,7 +31,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 		private bool SharedSetup() {
 
 
-			BillingDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+			BillingDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 			
 			if (null == BillingDB)
 				return false;
@@ -87,7 +86,7 @@ namespace CompanyBilling.Pages.Companies.Actions
 
 			Log.Add($"---- DPVerify.Verify {DatabaseName}");
 
-			using NpgsqlConnection db = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(DatabaseName));
+			using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(DatabaseName));
 			db.Open();
 
 			Log.Add("---- Ensuring UUID extension exists.");

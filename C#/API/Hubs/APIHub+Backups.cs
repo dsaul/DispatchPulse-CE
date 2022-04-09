@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using API.Utility;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using Npgsql;
-using Newtonsoft.Json;
 using SharedCode.DatabaseSchemas;
 using SharedCode;
 
@@ -26,7 +20,7 @@ namespace API.Hubs
 			public string? TzIANA { get; set; }
 		}
 
-		public class CreateBackupTaskResponse : IdempotencyResponse
+		public class CreateBackupTaskResponse : PermissionsIdempotencyResponse
 		{
 			public class DB
 			{
@@ -128,7 +122,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permServer = permissions.Contains(Databases.Konstants.kPermCRMBackupsRunServer);
+				bool permServer = permissions.Contains(EnvDatabases.kPermCRMBackupsRunServer);
 
 				if (!permServer)
 				{

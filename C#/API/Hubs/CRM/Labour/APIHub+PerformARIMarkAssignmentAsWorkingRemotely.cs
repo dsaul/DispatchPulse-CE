@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +43,7 @@ namespace API.Hubs
 			do
 			{
 
-				using NpgsqlConnection? billingConnection = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME));
+				using NpgsqlConnection? billingConnection = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingConnection.Open();
 
 
@@ -87,7 +87,7 @@ namespace API.Hubs
 					break;
 				}
 
-				using NpgsqlConnection? dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(dbName));
+				using NpgsqlConnection? dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(dbName));
 				dpDB.Open();
 
 				// Get the agent.

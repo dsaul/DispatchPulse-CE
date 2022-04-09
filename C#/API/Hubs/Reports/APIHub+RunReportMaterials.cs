@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -21,7 +21,7 @@ namespace API.Hubs
 			public Guid? ProjectId { get; set; }
 		}
 
-		public class RunReportMaterialsResponse : IdempotencyResponse
+		public class RunReportMaterialsResponse : PermissionsIdempotencyResponse
 		{
 			public Guid? TaskId { get; set; }
 
@@ -89,7 +89,7 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMReportMaterialsPDF)
+				if (!permissions.Contains(EnvDatabases.kPermCRMReportMaterialsPDF)
 					)
 				{
 					response.IsError = true;

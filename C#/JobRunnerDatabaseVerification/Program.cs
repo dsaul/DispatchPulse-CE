@@ -1,5 +1,5 @@
 ﻿using SharedCode.DatabaseSchemas;
-using Databases.Records.JobRunner;
+using SharedCode;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;
@@ -29,7 +29,7 @@ namespace JobRunnerDatabaseVerification
 
 			Log.Debug("Database Verification by Dan Saul https://github.com/dsaul");
 
-			string? dbConnectionPrefix = Databases.Konstants.NPGSQL_CONNECTION_STRING;
+			string? dbConnectionPrefix = EnvDatabases.NPGSQL_CONNECTION_STRING;
 			if (string.IsNullOrWhiteSpace(dbConnectionPrefix)) {
 				Log.Debug("NPGSQL_CONNECTION_STRING_FILE must be set");
 				return;
@@ -43,7 +43,7 @@ namespace JobRunnerDatabaseVerification
 
 			while (true) {
 
-				string connectionString = $"{Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerDatabaseVerification;";
+				string connectionString = $"{EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName)}ApplicationName=JobRunnerDatabaseVerification;";
 				using NpgsqlConnection jobsDB = new NpgsqlConnection(connectionString);
 				//Log.Debug("Postgres Connection String: {ConnectionString}", connectionString);
 
@@ -83,7 +83,7 @@ namespace JobRunnerDatabaseVerification
 
 			// Fetch all companies.
 			{
-				using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.KBillingDatabaseConnectionString);
+				using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.KBillingDatabaseConnectionString);
 				billingDB.Open();
 
 				allCompanies = BillingCompanies.All(billingDB);
@@ -106,7 +106,7 @@ namespace JobRunnerDatabaseVerification
 
 			//#error delete job when done
 
-			using NpgsqlConnection jobsDB2 = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
+			using NpgsqlConnection jobsDB2 = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(JobRunnerJob.kJobsDBName));
 			jobsDB2.Open();
 
 			// Complete worker job.
@@ -149,7 +149,7 @@ namespace JobRunnerDatabaseVerification
 
 			Log.Debug($"--- Verifying Company \"{company.FullName}\"");
 
-			using NpgsqlConnection billingDB = new NpgsqlConnection(Databases.Konstants.KBillingDatabaseConnectionString);
+			using NpgsqlConnection billingDB = new NpgsqlConnection(EnvDatabases.KBillingDatabaseConnectionString);
 			billingDB.Open();
 
 			HashSet<string> dpDatabases = new HashSet<string>();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -25,7 +25,7 @@ namespace API.Hubs
 			public Guid? TaskId { get; set; }
 		}
 
-		public class GetPDFLaTeXTaskResponse : IdempotencyResponse
+		public class GetPDFLaTeXTaskResponse : PermissionsIdempotencyResponse
 		{
 			public bool? IsCompleted { get; set; }
 			public string? Status { get; set; }
@@ -150,13 +150,13 @@ namespace API.Hubs
 
 
 				// Make sure that the user has any report permissions.
-				bool canReportContacts = permissions.Contains(Databases.Konstants.kPermCRMReportContactsPDF);
-				bool canReportCompanies = permissions.Contains(Databases.Konstants.kPermCRMReportCompaniesPDF);
-				bool canReportProjects = permissions.Contains(Databases.Konstants.kPermCRMReportProjectsPDF);
-				bool canReportAssignments = permissions.Contains(Databases.Konstants.kPermCRMReportAssignmentsPDF);
-				bool canReportMaterials = permissions.Contains(Databases.Konstants.kPermCRMReportMaterialsPDF);
-				bool canReportLabour = permissions.Contains(Databases.Konstants.kPermCRMReportLabourPDF);
-				bool canReportOnCallResponder30Day = permissions.Contains(Databases.Konstants.kPermCRMReportOnCallResponder30DayPDF);
+				bool canReportContacts = permissions.Contains(EnvDatabases.kPermCRMReportContactsPDF);
+				bool canReportCompanies = permissions.Contains(EnvDatabases.kPermCRMReportCompaniesPDF);
+				bool canReportProjects = permissions.Contains(EnvDatabases.kPermCRMReportProjectsPDF);
+				bool canReportAssignments = permissions.Contains(EnvDatabases.kPermCRMReportAssignmentsPDF);
+				bool canReportMaterials = permissions.Contains(EnvDatabases.kPermCRMReportMaterialsPDF);
+				bool canReportLabour = permissions.Contains(EnvDatabases.kPermCRMReportLabourPDF);
+				bool canReportOnCallResponder30Day = permissions.Contains(EnvDatabases.kPermCRMReportOnCallResponder30DayPDF);
 
 				if (
 					!canReportContacts && 
@@ -327,7 +327,7 @@ namespace API.Hubs
 				using var s3Client = new AmazonS3Client(s3PDFLaTeXAccessKey, s3PDFLaTeXSecretKey, new AmazonS3Config
 				{
 					RegionEndpoint = RegionEndpoint.USWest1,
-					ServiceURL = SharedCode.S3.Konstants.S3_DISPATCH_PULSE_SERVICE_URI,
+					ServiceURL = EnvAmazonS3.S3_DISPATCH_PULSE_SERVICE_URI,
 					ForcePathStyle = true
 				});
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace API.Hubs
 			public Guid? BillingCompanyId { get; set; }
 		}
 
-		public class PerformPBXRegisterDIDResponse : IdempotencyResponse
+		public class PerformPBXRegisterDIDResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Complete { get; set; } = null;
 		}
@@ -106,8 +106,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				bool permAny = permissions.Contains(Databases.Konstants.kPermCRMPushDIDsAny);
-				bool permCompany = permissions.Contains(Databases.Konstants.kPermCRMPushDIDsCompany);
+				bool permAny = permissions.Contains(EnvDatabases.kPermCRMPushDIDsAny);
+				bool permCompany = permissions.Contains(EnvDatabases.kPermCRMPushDIDsCompany);
 
 				if (permAny)
 				{

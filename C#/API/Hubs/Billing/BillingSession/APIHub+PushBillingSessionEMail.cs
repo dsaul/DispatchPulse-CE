@@ -6,6 +6,7 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
+using SharedCode;
 
 namespace API.Hubs
 {
@@ -16,7 +17,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public string? EMail { get; set; }
 		}
-		public class PushBillingSessionEMailResponse : IdempotencyResponse
+		public class PushBillingSessionEMailResponse : PermissionsIdempotencyResponse
 		{
 			public bool? Saved { get; set; } = false;
 		}
@@ -47,7 +48,7 @@ namespace API.Hubs
 					break;
 				}
 
-				string connectionString = Databases.Konstants.DatabaseConnectionStringForDB(Databases.Konstants.BILLING_DATABASE_NAME);
+				string connectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
 				using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 				connection.Open();
 

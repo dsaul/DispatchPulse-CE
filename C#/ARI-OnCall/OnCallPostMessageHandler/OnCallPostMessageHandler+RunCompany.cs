@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
 using Serilog;
+using SharedCode;
 
 namespace ARI.IVR.OnCall
 {
@@ -10,7 +11,7 @@ namespace ARI.IVR.OnCall
 	{
 		static void RunCompany(NpgsqlConnection billingDB, Guid billingCompanyId, string databaseName) {
 
-			using NpgsqlConnection dpDB = new NpgsqlConnection(Databases.Konstants.DatabaseConnectionStringForDB(databaseName));
+			using NpgsqlConnection dpDB = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(databaseName));
 			dpDB.Open();
 
 			var resVM = Voicemails.ForOnCallAttemptsFinished(dpDB, false);

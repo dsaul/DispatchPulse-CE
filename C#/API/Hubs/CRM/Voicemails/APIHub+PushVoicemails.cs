@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Utility;
+using SharedCode;
 using SharedCode.DatabaseSchemas;
 using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +16,7 @@ namespace API.Hubs
 			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Voicemails> Voicemails { get; set; } = new Dictionary<Guid, Voicemails>();
 		}
-		public class PushVoicemailsResponse : IdempotencyResponse
+		public class PushVoicemailsResponse : PermissionsIdempotencyResponse
 		{
 			public List<Guid> Voicemails { get; set; } = new List<Guid>();
 		}
@@ -103,8 +103,8 @@ namespace API.Hubs
 				// Check permissions.
 				HashSet<string> permissions = BillingPermissionsBool.GrantedForBillingContact(billingConnection, billingContact);
 
-				if (!permissions.Contains(Databases.Konstants.kPermCRMPushVoicemailsAny) &&
-					!permissions.Contains(Databases.Konstants.kPermCRMPushVoicemailsCompany)
+				if (!permissions.Contains(EnvDatabases.kPermCRMPushVoicemailsAny) &&
+					!permissions.Contains(EnvDatabases.kPermCRMPushVoicemailsCompany)
 					)
 				{
 					response.IsError = true;
