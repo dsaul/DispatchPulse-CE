@@ -10,13 +10,13 @@ RUN apt-get update && \
 	gnupg \
 	&& rm -rf /var/lib/apt/lists/*
 	
-#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-#RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-#RUN apt-get update && \
-#	apt-get install -y \
-#	yarn \
-#	&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+	apt-get install -y \
+	yarn \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN update-ca-certificates
 
@@ -26,9 +26,9 @@ RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN git clone --depth 1 https://github.com/dsaul/DispatchPulse-CE -b master /source
 
 # Build
-#WORKDIR /source/Webapp
-#RUN yarn install
-#RUN yarn build
+WORKDIR /source/Webapp
+RUN yarn install
+RUN yarn build
 
 
 
