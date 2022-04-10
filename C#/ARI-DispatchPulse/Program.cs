@@ -31,11 +31,6 @@ namespace ARI
 
 		static async Task Main()
 		{
-			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI)) {
-				Log.Error("SIGNAL_R_HUB_URI_FILE not set!");
-				return;
-			}
-
 			Log.Logger = new LoggerConfiguration()
 				.Enrich.WithMachineName()
 				.Enrich.FromLogContext()
@@ -48,6 +43,14 @@ namespace ARI
 
 
 			Log.Information("Ari-DispatchPulse (c) 2021 Dan Saul");
+
+
+			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI)) {
+				Log.Error("SIGNAL_R_HUB_URI_FILE not set!");
+				return;
+			}
+
+			
 
 			if (string.IsNullOrWhiteSpace(SharedCode.Hubs.Konstants.ARI_AND_API_SHARED_SECRET)) {
 				Log.Error("ARI_AND_API_SHARED_SECRET_FILE not set!");
