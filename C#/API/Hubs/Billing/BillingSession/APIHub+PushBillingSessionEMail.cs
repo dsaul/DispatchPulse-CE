@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PushBillingSessionEMailParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? EMail { get; set; }
 		}
 		public class PushBillingSessionEMailResponse : PermissionsIdempotencyResponse
@@ -26,7 +25,7 @@ namespace API.Hubs
 			if (p == null)
 				return;
 
-			PushBillingSessionEMailResponse response = new PushBillingSessionEMailResponse()
+			PushBillingSessionEMailResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 				RoundTripRequestId = p.RoundTripRequestId,
@@ -49,7 +48,7 @@ namespace API.Hubs
 				}
 
 				string connectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
-				using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+				using NpgsqlConnection connection = new (connectionString);
 				connection.Open();
 
 
@@ -90,7 +89,7 @@ namespace API.Hubs
 						""uuid"" = @uuid
 					; ";
 
-				using NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+				using NpgsqlCommand cmd = new (sql, connection);
 				cmd.Parameters.AddWithValue("@email", p.EMail);
 				cmd.Parameters.AddWithValue("@uuid", contactId);
 				int rowsAffected = cmd.ExecuteNonQuery();

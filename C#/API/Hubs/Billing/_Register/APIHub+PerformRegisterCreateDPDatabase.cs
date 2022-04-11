@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using System.Globalization;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -20,7 +19,6 @@ namespace API.Hubs
 
 		public class RegisterCreateDPDatabaseParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 
 		}
 

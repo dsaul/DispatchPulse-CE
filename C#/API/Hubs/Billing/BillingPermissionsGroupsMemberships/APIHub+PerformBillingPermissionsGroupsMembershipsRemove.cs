@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PerformBillingPermissionsGroupsMembershipsRemoveParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? BillingContactId { get; set; }
 			public List<Guid> PermissionsGroupIds { get; set; } = new List<Guid>();
 		}

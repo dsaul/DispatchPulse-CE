@@ -34,7 +34,7 @@ namespace ARI.IVR.OnCall
 
 
 			try {
-				IdentifyCompany(request, channel, requestData);
+				IdentifyCompany(request, channel, requestData).Wait();
 			}
 			catch (PerformHangupException) {
 				Hangup();

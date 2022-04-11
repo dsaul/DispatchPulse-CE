@@ -8,7 +8,6 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using Serilog;

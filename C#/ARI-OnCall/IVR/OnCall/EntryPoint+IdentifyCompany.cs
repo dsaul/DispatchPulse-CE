@@ -6,12 +6,13 @@ using System.Text.RegularExpressions;
 using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace ARI.IVR.OnCall
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected void IdentifyCompany(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
+		protected async Task IdentifyCompany(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
 
 
 			string? dedicatedDid = GetFullVariable("${DEDICATED_DID}");
@@ -28,20 +29,20 @@ namespace ARI.IVR.OnCall
 			requestData.ConnectToBillingDB();
 			if (null == requestData.BillingDB) {
 				Log.Error("[{AGIRequestUniqueId}] null == data.BillingDB", request.UniqueId);
-				PlayTTS("We're sorry, there was an error connecting to database. Please try again later.", string.Empty, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("We're sorry, there was an error connecting to database. Please try again later.", string.Empty, Engine.Neural, VoiceId.Brian);
 				throw new PerformHangupException();
 			}
 
 			if (!string.IsNullOrWhiteSpace(dedicatedDid)) {
-				IdentifyCompanyDedicatedDID(request, channel, requestData, dedicatedDid);
+				await IdentifyCompanyDedicatedDID(request, channel, requestData, dedicatedDid);
 			} else {
-				IdentifyCompanyViaCallerID(request, channel, requestData);
+				await IdentifyCompanyViaCallerID(request, channel, requestData);
 			}
 
 			throw new PerformHangupException();
 		}
 
-		protected void IdentifyCompanyDedicatedDID(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData, string dedicatedDid) {
+		protected async Task IdentifyCompanyDedicatedDID(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData, string dedicatedDid) {
 
 
 			if (null == requestData.BillingDB) {
@@ -60,12 +61,12 @@ namespace ARI.IVR.OnCall
 					description: $"Identified registered phone number \"{dedicatedDid}\".",
 					colour: "#ccc");
 
-				ExistingPhoneNumber(request, channel, requestData);
+				await ExistingPhoneNumber(request, channel, requestData);
 			} else {
 
 				Log.Warning("We're sorry, this number is not registered on this system. {DedicatedDid}", dedicatedDid);
 
-				PlayTTS("We're sorry, this number is not registered on this system.", string.Empty, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("We're sorry, this number is not registered on this system.", string.Empty, Engine.Neural, VoiceId.Brian);
 				throw new PerformHangupException();
 			}
 
@@ -74,9 +75,9 @@ namespace ARI.IVR.OnCall
 		}
 
 
-		protected void IdentifyCompanyViaCallerID(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
+		protected async Task IdentifyCompanyViaCallerID(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
 			if (string.IsNullOrWhiteSpace(request.CallerId) || request.CallerId == "Anonymous") {
-				PlayTTS("Welcome to On Call Responder, by Dispatch Pulse. We did not get a caller id " +
+				await PlayTTS("Welcome to On Call Responder, by Dispatch Pulse. We did not get a caller id " +
 					"with your call, if you are not able to send caller id, we can setup a dedicated " +
 					"phone number for you. Please contact support to set this up.", string.Empty, Engine.Neural, VoiceId.Brian);
 				throw new PerformHangupException();
@@ -108,11 +109,11 @@ namespace ARI.IVR.OnCall
 					description: $"Identified registered phone number \"{requestData.CallerIdNonDigitsRemoved}\".",
 					colour: "#ccc");
 
-				ExistingPhoneNumber(request, channel, requestData);
+				await ExistingPhoneNumber(request, channel, requestData);
 			} else {
 
 				Log.Warning("Can't find {CallerIdNonDigitsRemoved} beginning new number registration.", requestData.CallerIdNonDigitsRemoved);
-				BeginNewNumberRegistration(request, channel, requestData);
+				await BeginNewNumberRegistration(request, channel, requestData);
 			}
 		}
 

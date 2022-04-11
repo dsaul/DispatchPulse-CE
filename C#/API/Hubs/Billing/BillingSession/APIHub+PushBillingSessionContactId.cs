@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PushBillingSessionContactIdParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? ContactId { get; set; } = null;
 		}
 		public class PushBillingSessionContactIdResponse : PermissionsIdempotencyResponse
@@ -26,7 +25,7 @@ namespace API.Hubs
 			if (p == null)
 				return;
 
-			PushBillingSessionContactIdResponse response = new PushBillingSessionContactIdResponse()
+			PushBillingSessionContactIdResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 				RoundTripRequestId = p.RoundTripRequestId,
@@ -49,7 +48,7 @@ namespace API.Hubs
 				}
 
 				string connectionString = EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME);
-				using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+				using NpgsqlConnection connection = new (connectionString);
 				connection.Open();
 
 
@@ -129,7 +128,7 @@ namespace API.Hubs
 						""uuid"" = @uuid
 					; ";
 
-				using NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+				using NpgsqlCommand cmd = new (sql, connection);
 				cmd.Parameters.AddWithValue("@applicationData", newJSON);
 				cmd.Parameters.AddWithValue("@uuid", billingContactId);
 				int rowsAffected = cmd.ExecuteNonQuery();
@@ -173,7 +172,7 @@ namespace API.Hubs
 					await Groups.AddToGroupAsync(Context.ConnectionId, notifyGroupName).ConfigureAwait(false);
 
 					// Send to everyone.
-					RequestBillingContactsResponse notifyOthers = new RequestBillingContactsResponse
+					RequestBillingContactsResponse notifyOthers = new ()
 					{
 						IdempotencyToken = Guid.NewGuid().ToString(),
 						RoundTripRequestId = Guid.NewGuid().ToString(),

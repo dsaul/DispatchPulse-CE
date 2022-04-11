@@ -16,7 +16,6 @@ namespace API.Hubs
 		public class CreateBackupTaskParams : IdempotencyRequest
 		{
 			public string? Id { get; set; }
-			public Guid? SessionId { get; set; }
 			public string? TzIANA { get; set; }
 		}
 
@@ -57,7 +56,7 @@ namespace API.Hubs
 
 		public async Task CreateBackupTask(CreateBackupTaskParams p)
 		{
-			CreateBackupTaskResponse response = new CreateBackupTaskResponse
+			CreateBackupTaskResponse response = new()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};

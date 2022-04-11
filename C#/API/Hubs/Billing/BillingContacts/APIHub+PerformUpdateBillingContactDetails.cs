@@ -12,7 +12,6 @@ namespace API.Hubs
 	{
 		public class PerformUpdateBillingContactDetailsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 
 			public Dictionary<Guid, BillingContacts> BillingContacts { get; set; } = new Dictionary<Guid, BillingContacts>();
 		}
@@ -30,12 +29,12 @@ namespace API.Hubs
 
 		public async Task PerformUpdateBillingContactDetails(PerformUpdateBillingContactDetailsParams p)
 		{
-			PerformUpdateBillingContactDetailsResponse response = new PerformUpdateBillingContactDetailsResponse
+			PerformUpdateBillingContactDetailsResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};
 
-			RequestBillingContactsResponse othersMsg = new RequestBillingContactsResponse
+			RequestBillingContactsResponse othersMsg = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};
@@ -43,8 +42,8 @@ namespace API.Hubs
 			NpgsqlConnection? billingConnection = null;
 			NpgsqlConnection? dpDBConnection = null;
 
-			List<Guid> callerResponse = new List<Guid>();
-			Dictionary<Guid, BillingContacts> toSendToOthers = new Dictionary<Guid, BillingContacts>();
+			List<Guid> callerResponse = new();
+			Dictionary<Guid, BillingContacts> toSendToOthers = new();
 			BillingContacts? billingContact = null;
 
 

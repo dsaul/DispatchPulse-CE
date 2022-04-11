@@ -8,7 +8,6 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using System.IO;
-using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 
@@ -34,7 +33,7 @@ namespace API.Hubs
 
 			do
 			{
-				using NpgsqlConnection? billingConnection = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
+				using NpgsqlConnection? billingConnection = new (EnvDatabases.DatabaseConnectionStringForDB(EnvDatabases.BILLING_DATABASE_NAME));
 				billingConnection.Open();
 
 				var resCompany = BillingCompanies.ForSessionId(billingConnection, p.SessionId.Value);

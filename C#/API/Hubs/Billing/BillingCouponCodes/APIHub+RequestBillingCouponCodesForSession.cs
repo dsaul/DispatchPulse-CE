@@ -12,7 +12,6 @@ namespace API.Hubs
 	{
 		public class RequestBillingCouponCodesParams : IdempotencyRequest
 		{
-			public Guid SessionId { get; set; }
 		}
 		public class RequestBillingCouponCodesResponse : PermissionsIdempotencyResponse
 		{

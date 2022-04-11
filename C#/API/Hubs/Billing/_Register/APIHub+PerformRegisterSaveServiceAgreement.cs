@@ -7,7 +7,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode;
 
@@ -19,7 +18,6 @@ namespace API.Hubs
 
 		public class PerformRegisterSaveServiceAgreementParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 
 			public string? AgreementText { get; set; }
 			public string? SignatureSVG { get; set; }

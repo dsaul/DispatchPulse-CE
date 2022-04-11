@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using SharedCode;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using Npgsql;
@@ -15,7 +14,6 @@ namespace API.Hubs
 	{
 		public class DeleteDIDsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			[JsonProperty(PropertyName = "didsDelete")]
 			[DataMember(Name = "didsDelete")]
 			public List<Guid> DIDsDelete { get; set; } = new List<Guid>();

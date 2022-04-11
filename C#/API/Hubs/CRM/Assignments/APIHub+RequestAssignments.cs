@@ -12,7 +12,6 @@ using Npgsql;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
 {
@@ -20,7 +19,6 @@ namespace API.Hubs
 	{
 		public class RequestAssignmentsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 
 

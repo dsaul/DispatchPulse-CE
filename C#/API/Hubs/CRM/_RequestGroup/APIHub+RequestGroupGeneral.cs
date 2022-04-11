@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedCode;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -14,7 +13,6 @@ namespace API.Hubs
 	{
 		public class RequestGroupGeneralParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 		}
 		public class RequestGroupGeneralResponse : PermissionsIdempotencyResponse
 		{

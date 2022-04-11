@@ -7,7 +7,6 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using SharedCode;
 
 namespace API.Hubs
 {

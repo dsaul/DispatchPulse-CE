@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using SharedCode;
 using Npgsql;

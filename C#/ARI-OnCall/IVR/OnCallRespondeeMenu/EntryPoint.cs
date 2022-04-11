@@ -4,13 +4,13 @@ using SharedCode.DatabaseSchemas;
 using SharedCode;
 using System.Linq;
 using Amazon.Polly;
-using SharedCode.DatabaseSchemas;
 using System.Text;
 using Serilog;
 using ARI_OnCall.Properties;
 using NodaTime;
 using NodaTime.Text;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace ARI.IVR.OnCallRespondee
 {
@@ -30,47 +30,47 @@ namespace ARI.IVR.OnCallRespondee
 			if (Guid.TryParse(GetFullVariable("${billingCompanyId}"), out Guid companyId))
 				respondeeRequestData.BillingCompanyId = companyId;
 			if (null == respondeeRequestData.BillingCompanyId)
-				ThrowError(request, "4532", "null == data.BillingCompanyId");
+				ThrowError(request, "4532", "null == data.BillingCompanyId").Wait();
 
 
 			if (Guid.TryParse(GetFullVariable("${voicemailId}"), out Guid voicemailId))
 				respondeeRequestData.VoicemailId = voicemailId;
 			if (null == respondeeRequestData.VoicemailId)
-				ThrowError(request, "123d", "null == data.VoicemailId");
+				ThrowError(request, "123d", "null == data.VoicemailId").Wait();
 
 			respondeeRequestData.DatabaseName = GetFullVariable("${databaseName}");
 			if (string.IsNullOrWhiteSpace(respondeeRequestData.DatabaseName))
-				ThrowError(request, "52ss", "null == data.DatabaseName");
+				ThrowError(request, "52ss", "null == data.DatabaseName").Wait();
 
 			respondeeRequestData.CallWasTo = GetFullVariable("${callWasTo}");
 			if (string.IsNullOrWhiteSpace(respondeeRequestData.CallWasTo))
-				ThrowError(request, "2543", "null == data.CallWasTo");
+				ThrowError(request, "2543", "null == data.CallWasTo").Wait();
 
 
 			respondeeRequestData.ConnectToBillingDB();
 			if (null == respondeeRequestData.BillingDB)
-				ThrowError(request, "a532", "null == data.BillingDB");
+				ThrowError(request, "a532", "null == data.BillingDB").Wait();
 
 			respondeeRequestData.ConnectToDPDBName(respondeeRequestData.DatabaseName);
 			if (null == respondeeRequestData.DPDB)
-				ThrowError(request, "222a", "null == data.DPDB");
+				ThrowError(request, "222a", "null == data.DPDB").Wait();
 
 			var resBC = BillingCompanies.ForIds(respondeeRequestData.BillingDB, respondeeRequestData.BillingCompanyId.Value);
 			if (0 == resBC.Count) {
-				ThrowError(request, "292a", "0 == resBC.Count");
+				ThrowError(request, "292a", "0 == resBC.Count").Wait();
 			}
 
 			respondeeRequestData.BillingCompany = resBC.FirstOrDefault().Value;
 
 			var resVM = Voicemails.ForId(respondeeRequestData.DPDB, respondeeRequestData.VoicemailId.Value);
 			if (0 == resVM.Count) {
-				ThrowError(request, "221a", "0 == resVM.Count");
+				ThrowError(request, "221a", "0 == resVM.Count").Wait();
 			}
 
 			respondeeRequestData.Message = resVM.FirstOrDefault().Value;
 
 			if (null == respondeeRequestData.Message.JsonObject)
-				ThrowError(request, "311s", "null == data.Message.JsonObject");
+				ThrowError(request, "311s", "null == data.Message.JsonObject").Wait();
 
 
 			respondeeRequestData.AddTimelineEntry(
@@ -82,7 +82,7 @@ namespace ARI.IVR.OnCallRespondee
 
 			// Start main menu.
 			char key = '\0';
-			key = PlayTTS($"Hello, this is the on-call responder service for {respondeeRequestData.BillingCompany.FullName}. ", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+			key = PlayTTS($"Hello, this is the on-call responder service for {respondeeRequestData.BillingCompany.FullName}. ", kEscapeAllKeys, Engine.Neural, VoiceId.Brian).Result;
 
 			int i = 3;
 
@@ -90,7 +90,7 @@ namespace ARI.IVR.OnCallRespondee
 				if (key == '\0') {
 					key = PlayTTS($"A new on-call message has been left, press one " +
 						$"to accept this message and mark this message as handled.", 
-						kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+						kEscapeAllKeys, Engine.Neural, VoiceId.Brian).Result;
 				}
 
 				if (key == '\0') {
@@ -103,38 +103,38 @@ namespace ARI.IVR.OnCallRespondee
 
 						respondeeRequestData.Message = respondeeRequestData.Message.MarkHandled(respondeeRequestData.DPDB, request.CallerId, Resources.MarkedHandledNotificationEmailTemplate, respondeeRequestData.BillingCompanyId.Value, respondeeRequestData.BillingCompany) ?? respondeeRequestData.Message;
 
-						MessageMenu(request, channel, respondeeRequestData);
+						MessageMenu(request, channel, respondeeRequestData).Wait();
 						throw new PerformHangupException();
 					default:
 						key = '\0';
 						if (i != 0) {
-							key = PlayTTS("That isn't a valid option, please try again.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS("That isn't a valid option, please try again.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian).Result;
 						} else {
-							key = PlayTTS("That isn't a valid option.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS("That isn't a valid option.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian).Result;
 						}
 
 						continue;
 				}
 			}
 
-			PlayTTS("Unfortunately we weren't able to get a response, please try again later.", string.Empty, Engine.Neural, VoiceId.Brian);
+			PlayTTS("Unfortunately we weren't able to get a response, please try again later.", string.Empty, Engine.Neural, VoiceId.Brian).Wait();
 			throw new PerformHangupException();
 		}
 
 
-		protected void MessageMenu(AGIRequest request, AGIChannel channel, RespondeeCallRequestData respondeeRequestData) {
+		protected async Task MessageMenu(AGIRequest request, AGIChannel channel, RespondeeCallRequestData respondeeRequestData) {
 
 			char key = '\0';
 
 			if (key == '\0') {
-				key = PlayTTS("Message Menu", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+				key = await PlayTTS("Message Menu", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
 			}
 
 			int i = 3;
 
 			while ((--i) >= 0) {
 				if (key == '\0') {
-					key = PlayTTS(
+					key = await PlayTTS(
 						$"Press 1 to play the date and time the message was received. " +
 						$"Press 2 to play the caller id information. " +
 						$"Press 3 to play the callback number. " +
@@ -174,11 +174,11 @@ namespace ARI.IVR.OnCallRespondee
 						key = '\0';
 						if (i != 0) {
 							if (key == '\0') {
-								key = PlayTTS("That isn't a valid option, please try again.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+								key = await PlayTTS("That isn't a valid option, please try again.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
 							}
 						} else {
 							if (key == '\0') {
-								key = PlayTTS("That isn't a valid option.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+								key = await PlayTTS("That isn't a valid option.", kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
 							}
 						}
 
@@ -186,7 +186,7 @@ namespace ARI.IVR.OnCallRespondee
 				}
 			}
 
-			PlayTTS("Unfortunately we weren't able to get a response, please try again later.", string.Empty, Engine.Neural, VoiceId.Brian);
+			await PlayTTS("Unfortunately we weren't able to get a response, please try again later.", string.Empty, Engine.Neural, VoiceId.Brian);
 			throw new PerformHangupException();
 		}
 

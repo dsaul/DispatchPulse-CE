@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PushBillingSessionMarketingCampaignParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? MarketingCampaign { get; set; }
 		}
 		public class PushBillingSessionMarketingCampaignResponse : PermissionsIdempotencyResponse

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SharedCode;
@@ -16,7 +15,6 @@ namespace API.Hubs
 
 		public class PerformRegisterMainUserParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? ContactId { get; set; }
 			public string? FullName { get; set; }
 			public string? PasswordHash { get; set; }

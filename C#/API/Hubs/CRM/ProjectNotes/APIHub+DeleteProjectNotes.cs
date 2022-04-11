@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class DeleteProjectNotesParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> ProjectNotesDelete { get; set; } = new List<Guid>();
 		}
 		public class DeleteProjectNotesResponse : PermissionsIdempotencyResponse

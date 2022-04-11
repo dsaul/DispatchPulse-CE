@@ -15,7 +15,6 @@ namespace API.Hubs
 	{
 		public class PerformBillingPermissionsBoolAddParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? BillingContactId { get; set; }
 			public List<string> PermissionKeys { get; set; } = new List<string>();
 		}
@@ -33,12 +32,12 @@ namespace API.Hubs
 			if (null == p)
 				throw new ArgumentNullException(nameof(p));
 
-			PerformBillingPermissionsBoolAddResponse response = new PerformBillingPermissionsBoolAddResponse()
+			PerformBillingPermissionsBoolAddResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};
 
-			RequestBillingPermissionsBoolResponse othersMsg = new RequestBillingPermissionsBoolResponse
+			RequestBillingPermissionsBoolResponse othersMsg = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};

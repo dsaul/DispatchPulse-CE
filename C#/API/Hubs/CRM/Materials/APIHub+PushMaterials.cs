@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
-using SharedCode;
 using SharedCode;
 
 namespace API.Hubs
@@ -14,7 +12,6 @@ namespace API.Hubs
 	{
 		public class PushMaterialsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Materials> Materials { get; set; } = new Dictionary<Guid, Materials>();
 		}
 		public class PushMaterialsResponse : PermissionsIdempotencyResponse

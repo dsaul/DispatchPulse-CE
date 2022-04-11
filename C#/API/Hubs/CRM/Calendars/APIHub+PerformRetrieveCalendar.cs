@@ -8,7 +8,6 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
-using SharedCode.DatabaseSchemas;
 using System.Net.Http;
 using System.Net;
 
@@ -18,7 +17,6 @@ namespace API.Hubs
 	{
 		public class PerformRetrieveCalendarParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? CalendarId { get; set; }
 		}
 

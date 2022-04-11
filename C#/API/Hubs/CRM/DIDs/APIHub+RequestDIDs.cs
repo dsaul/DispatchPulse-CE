@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
@@ -17,7 +16,6 @@ namespace API.Hubs
 	{
 		public class RequestDIDsParams: IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> LimitToIds { get; set; } = new List<Guid>();
 		}
 		public class RequestDIDsResponse : PermissionsIdempotencyResponse

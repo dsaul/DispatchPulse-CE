@@ -14,7 +14,6 @@ namespace API.Hubs
 
 		public class RunReportOnCallResponder30DayParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 		}
 
 		public class RunReportOnCallResponder30DayResponse : PermissionsIdempotencyResponse

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -14,7 +13,6 @@ namespace API.Hubs
 	{
 		public class PushAssignmentsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Assignments> Assignments { get; set; } = new Dictionary<Guid, Assignments>();
 		}
 		public class PushAssignmentsResponse : PermissionsIdempotencyResponse

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class DeleteEstimatingManHoursParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> EstimatingManHoursDelete { get; set; } = new List<Guid>();
 		}
 		public class DeleteEstimatingManHoursResponse : PermissionsIdempotencyResponse

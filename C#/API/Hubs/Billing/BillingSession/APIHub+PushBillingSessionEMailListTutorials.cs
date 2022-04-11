@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PushBillingSessionEMailListTutorialsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public bool? EMailListTutorials { get; set; } = null;
 		}
 		public class PushBillingSessionEMailListTutorialsResponse : PermissionsIdempotencyResponse

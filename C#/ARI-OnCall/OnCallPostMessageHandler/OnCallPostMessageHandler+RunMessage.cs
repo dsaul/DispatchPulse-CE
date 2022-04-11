@@ -7,7 +7,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
-using SharedCode.ARI;
+using SharedCode.Asterisk;
 using Twilio.Rest.Api.V2010.Account;
 using Serilog;
 using FluentEmail.Core.Models;
@@ -28,29 +28,7 @@ namespace ARI.IVR.OnCall
 
 		static void RunMessage(NpgsqlConnection billingDB, NpgsqlConnection dpDB, Voicemails message, Guid billingCompanyId, string databaseName) {
 
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE)) {
-				
-				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} ARI_TO_PBX_SSH_IDRSA_FILE not set", message.Id, billingCompanyId, databaseName);
-				return;
-			}
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_FQDN)) {
-				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} PBX_FQDN not set", message.Id, billingCompanyId, databaseName);
-				return;
-			}
-			if (null == SharedCode.ARI.Konstants.PBX_SSH_PORT) {
-				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} PBX_SSH_PORT not set", message.Id, billingCompanyId, databaseName);
-				return;
-			}
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_SSH_USER)) {
-				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} PBX_SSH_USER not set", message.Id, billingCompanyId, databaseName);
-				return;
-			}
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY)) {
-				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY not set", message.Id, billingCompanyId, databaseName);
-				return;
-			}
-
-
+			
 			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_AUTH_TOKEN)) {
 				Log.Error("{VoicemailId}, {BillingCompanyId}, {Database} TWILIO_AUTH_TOKEN not set!", message.Id, billingCompanyId, databaseName);
 				return;
@@ -181,8 +159,9 @@ namespace ARI.IVR.OnCall
 
 						foreach (string email in emails) {
 
-							JObject additionalData = new JObject();
-							additionalData["description"] = email;
+							JObject additionalData = new JObject {
+								["description"] = email
+							};
 							string additionalDataStr = additionalData.ToString();
 							byte[] additionalDataBytes = Encoding.UTF8.GetBytes(additionalDataStr);
 							string additionalDataBase64 = Convert.ToBase64String(additionalDataBytes);
@@ -223,7 +202,7 @@ namespace ARI.IVR.OnCall
 									BillingCompanyName = billingCompany.FullName,
 									DateString = dateString,
 									AdditionalDataBase64 = additionalDataBase64,
-									ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
+									EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
 								})
 								.Attach(new Attachment{
 									Data = s3ResponseStream,
@@ -473,8 +452,9 @@ namespace ARI.IVR.OnCall
 
 					// Send notification email.
 
-					JObject additionalData = new JObject();
-					additionalData["description"] = message.NoAgentResponseNotificationEMail;
+					JObject additionalData = new JObject {
+						["description"] = message.NoAgentResponseNotificationEMail
+					};
 					string additionalDataStr = additionalData.ToString();
 					byte[] additionalDataBytes = Encoding.UTF8.GetBytes(additionalDataStr);
 					string additionalDataBase64 = Convert.ToBase64String(additionalDataBytes);
@@ -514,7 +494,7 @@ namespace ARI.IVR.OnCall
 						BillingCompanyName = billingCompany.FullName,
 						DateString = dateString,
 						AdditionalDataBase64 = additionalDataBase64,
-						ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI = EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
+						EnvOnCallResponder.ON_CALL_RESPONDER_MESSAGE_ACCESS_BASE_URI
 					})
 					.Attach(new Attachment{
 						Data = s3ResponseStream,

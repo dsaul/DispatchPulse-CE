@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class DeleteAssignmentStatusParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> AssignmentStatusDelete { get; set; } = new List<Guid>();
 		}
 		public class DeleteAssignmentStatusResponse : PermissionsIdempotencyResponse

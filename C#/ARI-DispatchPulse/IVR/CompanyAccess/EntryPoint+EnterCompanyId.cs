@@ -3,12 +3,13 @@ using Npgsql;
 using System.Linq;
 using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
+using System.Threading.Tasks;
 
 namespace ARI.IVR.CompanyAccess
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected void EnterCompanyId(
+		protected async Task EnterCompanyId(
 			AGIRequest request, 
 			AGIChannel channel, 
 			RequestData data
@@ -24,7 +25,7 @@ namespace ARI.IVR.CompanyAccess
 				}
 
 
-				data.CompanyPhoneId = PromptDigitsPoundTerminated(
+				data.CompanyPhoneId = await PromptDigitsPoundTerminated(
 					new AudioPlaybackEvent[] {
 						new AudioPlaybackEvent {
 							Type = AudioPlaybackEvent.AudioPlaybackEventType.TTSText,
@@ -36,7 +37,7 @@ namespace ARI.IVR.CompanyAccess
 
 				if (string.IsNullOrEmpty(data.CompanyPhoneId)) {
 					attemptCounter++;
-					PlayTTS("I didn't recieve a company id, please try again.", "", Engine.Neural, VoiceId.Brian);
+					await PlayTTS("I didn't recieve a company id, please try again.", "", Engine.Neural, VoiceId.Brian);
 					continue;
 				}
 
@@ -53,7 +54,7 @@ namespace ARI.IVR.CompanyAccess
 					return;
 				}
 
-				data.CompanyIdConfirmed = PromptBooleanQuestion(new AudioPlaybackEvent[] {
+				data.CompanyIdConfirmed = await PromptBooleanQuestion(new AudioPlaybackEvent[] {
 					new AudioPlaybackEvent {
 						Type = AudioPlaybackEvent.AudioPlaybackEventType.TTSText,
 						Text = "Thanks, the ID I received was ",
@@ -74,7 +75,7 @@ namespace ARI.IVR.CompanyAccess
 
 				if (data.CompanyIdConfirmed == null) {
 					attemptCounter++;
-					PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
+					await PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
 					continue;
 				}
 
@@ -98,14 +99,14 @@ namespace ARI.IVR.CompanyAccess
 				data.ConnectToBillingDB();
 			}
 			if (null == data.BillingDB) {
-				PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
 
 			var resCompany = BillingCompanies.ForPhoneId(data.BillingDB, data.CompanyPhoneId);
 			if (0 == resCompany.Count) {
-				PlayTTS("I couldn't find a company for that ID, please try again.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("I couldn't find a company for that ID, please try again.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -113,11 +114,11 @@ namespace ARI.IVR.CompanyAccess
 			data.Company = company;
 
 			if (null == company.Uuid) {
-				PlayTTS("There was an error while reading the database, please try again later. Code kl3.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("There was an error while reading the database, please try again later. Code kl3.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
-			PlayTTS($"Ok, got it, you're from {data.Company.FullName}!", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+			await PlayTTS($"Ok, got it, you're from {data.Company.FullName}!", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 
 			// Look up dispatch pulse database name.
 
@@ -125,7 +126,7 @@ namespace ARI.IVR.CompanyAccess
 			var resSubs = BillingSubscriptions.ForCompanyIdPackageIdsAndHasDatabase(data.BillingDB, company.Uuid.Value, resPackages.Keys);
 
 			if (0 == resSubs.Count) {
-				PlayTTS("Hmm, I wasn't able to connect to your database, please contact support. Code kl2.", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Hmm, I wasn't able to connect to your database, please contact support. Code kl2.", "", Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -134,11 +135,11 @@ namespace ARI.IVR.CompanyAccess
 			data.Subscription = resSubs.FirstOrDefault().Value;
 
 			if (null == data.Subscription || string.IsNullOrWhiteSpace(data.Subscription.ProvisionedDatabaseName)) {
-				PlayTTS("Hmm, I wasn't able to connect to your database, please contact support. Code kl1.", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Hmm, I wasn't able to connect to your database, please contact support. Code kl1.", "", Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
-			EnterAgentId(request, channel, data);
+			await EnterAgentId(request, channel, data);
 		}
 	}
 }

@@ -3,12 +3,13 @@ using Npgsql;
 using System.Linq;
 using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
+using System.Threading.Tasks;
 
 namespace ARI.IVR.CompanyAccess
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected void EnterPasscode(AGIRequest request, AGIChannel channel, RequestData data) {
+		protected async Task EnterPasscode(AGIRequest request, AGIChannel channel, RequestData data) {
 			// Request company id.
 			int attemptCounter = 0;
 
@@ -19,7 +20,7 @@ namespace ARI.IVR.CompanyAccess
 					return;
 				}
 
-				data.EnteredPasscode = PromptDigitsPoundTerminated(
+				data.EnteredPasscode = await PromptDigitsPoundTerminated(
 					new AudioPlaybackEvent[] {
 						new AudioPlaybackEvent {
 							Type = AudioPlaybackEvent.AudioPlaybackEventType.TTSText,
@@ -31,17 +32,17 @@ namespace ARI.IVR.CompanyAccess
 
 				if (string.IsNullOrEmpty(data.AgentPhoneId)) {
 					attemptCounter++;
-					PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
+					await PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
 					continue;
 				}
 
 				break;
 			}
 
-			PlayTTS("Let me check that...", "", Engine.Neural, VoiceId.Brian);
+			await PlayTTS("Let me check that...", "", Engine.Neural, VoiceId.Brian);
 
 			if (null == data.Subscription || string.IsNullOrWhiteSpace(data.Subscription.ProvisionedDatabaseName)) {
-				PlayTTS("There was an error while reading the database, please try again later. Code 621", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("There was an error while reading the database, please try again later. Code 621", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -50,28 +51,28 @@ namespace ARI.IVR.CompanyAccess
 				data.ConnectToDPDBName(data.Subscription.ProvisionedDatabaseName);
 			}
 			if (null == data.DPDB) {
-				PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
 			var resAgents = Agents.ForPhoneId(data.DPDB, data.AgentPhoneId);
 			if (0 == resAgents.Count) {
-				PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 9db", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 9db", "", Engine.Neural, VoiceId.Brian);
 				data.AgentPhoneId = null;
 				data.AgentIdConfirmed = null;
 				data.EnteredPasscode = null;
-				EnterAgentId(request, channel, data);
+				await EnterAgentId(request, channel, data);
 				return;
 			}
 
 			data.Agent = resAgents.FirstOrDefault().Value;
 
 			if (string.IsNullOrWhiteSpace(data.Agent.Json)) {
-				PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 42x", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 42x", "", Engine.Neural, VoiceId.Brian);
 				data.AgentPhoneId = null;
 				data.AgentIdConfirmed = null;
 				data.EnteredPasscode = null;
-				EnterAgentId(request, channel, data);
+				await EnterAgentId(request, channel, data);
 				return;
 			}
 
@@ -80,21 +81,21 @@ namespace ARI.IVR.CompanyAccess
 
 			string? passcode = data.Agent.PhonePasscode;
 			if (string.IsNullOrWhiteSpace(passcode)) {
-				PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 1e2", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 1e2", "", Engine.Neural, VoiceId.Brian);
 				data.AgentPhoneId = null;
 				data.AgentIdConfirmed = null;
 				data.EnteredPasscode = null;
-				EnterAgentId(request, channel, data);
+				await EnterAgentId(request, channel, data);
 				return;
 			}
 
 
 			if (passcode != data.EnteredPasscode) {
-				PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 199", "", Engine.Neural, VoiceId.Brian);
+				await PlayTTS("Sorry, I wasn't able to find an agent for those credentials. Code 199", "", Engine.Neural, VoiceId.Brian);
 				data.AgentPhoneId = null;
 				data.AgentIdConfirmed = null;
 				data.EnteredPasscode = null;
-				EnterAgentId(request, channel, data);
+				await EnterAgentId(request, channel, data);
 				return;
 			}
 
@@ -105,7 +106,7 @@ namespace ARI.IVR.CompanyAccess
 				if (string.IsNullOrWhiteSpace(data.AgentName))
 					break;
 
-				PlayTTS($"Greetings {data.AgentName}.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				await PlayTTS($"Greetings {data.AgentName}.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 
 			} while (false);
 

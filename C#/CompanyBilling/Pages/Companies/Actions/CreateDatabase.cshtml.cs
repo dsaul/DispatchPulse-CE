@@ -6,7 +6,6 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 
 namespace CompanyBilling.Pages.Companies.Actions

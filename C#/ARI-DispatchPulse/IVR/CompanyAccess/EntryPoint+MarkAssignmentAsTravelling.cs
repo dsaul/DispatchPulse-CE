@@ -1,6 +1,5 @@
 ﻿using AsterNET.FastAGI;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using System;
 using API.Hubs;

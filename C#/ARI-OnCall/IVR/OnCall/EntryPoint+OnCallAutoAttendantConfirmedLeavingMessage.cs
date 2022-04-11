@@ -8,28 +8,29 @@ using System.Collections.Generic;
 using System;
 using Renci.SshNet;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace ARI.IVR.OnCall
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected void OnCallAutoAttendantConfirmedLeavingMessage(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
+		protected async Task OnCallAutoAttendantConfirmedLeavingMessage(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
 
 			try {
 				if (null == requestData.AutoAttendant)
-					ThrowError(request, "526a", "null == data.AutoAttendant");
+					await ThrowError(request, "526a", "null == data.AutoAttendant");
 				if (null == requestData.AutoAttendant.RecordingsAskForCallbackNumberType)
-					ThrowError(request, "3251", "null == data.AutoAttendant.RecordingsAskForCallbackNumberType");
+					await ThrowError(request, "3251", "null == data.AutoAttendant.RecordingsAskForCallbackNumberType");
 				if (null == requestData.AutoAttendant.RecordingsAskForCallbackNumberText)
-					ThrowError(request, "3a54", "null == data.AutoAttendant.RecordingsAskForCallbackNumberText");
+					await ThrowError(request, "3a54", "null == data.AutoAttendant.RecordingsAskForCallbackNumberText");
 				if (null == requestData.AutoAttendant.RecordingsAskForMessageType)
-					ThrowError(request, "s522", "null == data.AutoAttendant.RecordingsAskForMessageType");
+					await ThrowError(request, "s522", "null == data.AutoAttendant.RecordingsAskForMessageType");
 				if (null == requestData.AutoAttendant.RecordingsAskForMessageText)
-					ThrowError(request, "a9s8", "null == data.AutoAttendant.RecordingsAskForMessageText");
+					await ThrowError(request, "a9s8", "null == data.AutoAttendant.RecordingsAskForMessageText");
 				if (null == requestData.AutoAttendant.RecordingsThankYouAfterType)
-					ThrowError(request, "s542", "null == data.AutoAttendant.RecordingsThankYouAfterType");
+					await ThrowError(request, "s542", "null == data.AutoAttendant.RecordingsThankYouAfterType");
 				if (null == requestData.AutoAttendant.RecordingsThankYouAfterText)
-					ThrowError(request, "5436", "null == data.AutoAttendant.RecordingsThankYouAfterText");
+					await ThrowError(request, "5436", "null == data.AutoAttendant.RecordingsThankYouAfterText");
 
 				List<AudioPlaybackEvent> askForCallbackNumberEvents = new List<AudioPlaybackEvent>();
 
@@ -44,7 +45,7 @@ namespace ARI.IVR.OnCall
 
 						Guid? recordingId = requestData.AutoAttendant.RecordingsAskForCallbackNumberRecordingId;
 						if (null == recordingId) {
-							ThrowError(request, "2133", "null == recordingId");
+							await ThrowError(request, "2133", "null == recordingId");
 						}
 
 						askForCallbackNumberEvents.Add(new AudioPlaybackEvent {
@@ -55,7 +56,7 @@ namespace ARI.IVR.OnCall
 						break;
 				}
 
-				requestData.CallbackNumber = PromptDigitsPoundTerminated(
+				requestData.CallbackNumber = await PromptDigitsPoundTerminated(
 					askForCallbackNumberEvents,
 					kEscapeAllKeys
 				);
@@ -74,17 +75,17 @@ namespace ARI.IVR.OnCall
 
 				switch (requestData.AutoAttendant.RecordingsAskForMessageType) {
 					case OnCallAutoAttendants.RecordingTypeE.Polly:
-						PlayTTS(requestData.AutoAttendant.RecordingsAskForMessageText, kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+						await PlayTTS(requestData.AutoAttendant.RecordingsAskForMessageText, kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
 						break;
 					case OnCallAutoAttendants.RecordingTypeE.Recording:
 						if (null == requestData.DPDB) {
-							ThrowError(request, "21433", "null == requestData.DPDB");
+							await ThrowError(request, "21433", "null == requestData.DPDB");
 						}
 						Guid? recordingId = requestData.AutoAttendant.RecordingsAskForMessageRecordingId;
 						if (null == recordingId) {
-							ThrowError(request, "214354", "null == recordingId");
+							await ThrowError(request, "214354", "null == recordingId");
 						}
-						PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
+						await PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
 						break;
 				}
 
@@ -110,7 +111,7 @@ namespace ARI.IVR.OnCall
 
 
 
-					SaveAndHangup(request, channel, requestData);
+					await SaveAndHangup(request, channel, requestData);
 					throw new PerformHangupException();
 				}
 
@@ -124,21 +125,21 @@ namespace ARI.IVR.OnCall
 
 				switch (requestData.AutoAttendant.RecordingsThankYouAfterType) {
 					case OnCallAutoAttendants.RecordingTypeE.Polly:
-						PlayTTS(requestData.AutoAttendant.RecordingsThankYouAfterText, string.Empty, Engine.Neural, VoiceId.Brian);
+						await PlayTTS(requestData.AutoAttendant.RecordingsThankYouAfterText, string.Empty, Engine.Neural, VoiceId.Brian);
 						break;
 					case OnCallAutoAttendants.RecordingTypeE.Recording:
 						if (null == requestData.DPDB) {
-							ThrowError(request, "21433", "null == requestData.DPDB");
+							await ThrowError(request, "21433", "null == requestData.DPDB");
 						}
 						Guid? recordingId = requestData.AutoAttendant.RecordingsThankYouAfterKeyRecordingId;
 						if (null == recordingId) {
-							ThrowError(request, "214354", "null == recordingId");
+							await ThrowError(request, "214354", "null == recordingId");
 						}
-						PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
+						await PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
 						break;
 				}
 
-				SaveAndHangup(request, channel, requestData);
+				await SaveAndHangup(request, channel, requestData);
 
 				throw new PerformHangupException();
 			} catch {
@@ -171,26 +172,22 @@ namespace ARI.IVR.OnCall
 		}
 
 
-		void SaveAndHangup(AGIRequest request, AGIChannel channel, LeaveMessageRequestData data) {
+		async Task SaveAndHangup(AGIRequest request, AGIChannel channel, LeaveMessageRequestData data) {
 
 			Log.Information("[{AGIRequestUniqueId}] Save and hangup.", request.UniqueId);
 
 			if (null == data.BillingCompany)
-				ThrowError(request, "621a", "null == data.BillingCompany");
+				await ThrowError(request, "621a", "null == data.BillingCompany");
 			if (string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName))
-				ThrowError(request, "3525", "string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName)");
+				await ThrowError(request, "3525", "string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName)");
 			if (null == data.AutoAttendant)
-				ThrowError(request, "329", "null == data.AutoAttendant");
-			if (null == SharedCode.ARI.Konstants.PBX_SSH_PORT)
-				ThrowError(request, "as35", "null == PBX_SSH_PORT");
-			if (null == SharedCode.ARI.Konstants.PBX_SSH_USER)
-				ThrowError(request, "129s", "null == PBX_SSH_USER");
+				await ThrowError(request, "329", "null == data.AutoAttendant");
 			if (null == data.AutoAttendant.Id)
-				ThrowError(request, "222r", "null == data.AutoAttendant.Id");
+				await ThrowError(request, "222r", "null == data.AutoAttendant.Id");
 			if (null == data.MessageLeftAtISO8601)
-				ThrowError(request, "aq62", "null == data.MessageLeftAt");
+				await ThrowError(request, "aq62", "null == data.MessageLeftAt");
 			if (null == data.CallerIdNonDigitsRemoved)
-				ThrowError(request, "aq62", "null == data.CallerIdNonDigitsRemoved");
+				await ThrowError(request, "aq62", "null == data.CallerIdNonDigitsRemoved");
 
 			
 
@@ -228,11 +225,12 @@ namespace ARI.IVR.OnCall
 			{
 				List<Guid> calendarIds = data.AutoAttendant.AgentOnCallPriorityCalendars;
 				foreach (Guid calendarId in calendarIds) {
-					JObject attempt = new JObject();
-					attempt[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCalendarId] = calendarId.ToString();
-					attempt[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCallAttempts] = 0;
-					attempt[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCallAttemptsMax] = data.AutoAttendant.CallAttemptsToEachCalendarBeforeGivingUp;
-					attempt[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyGivenUp] = false;
+					JObject attempt = new JObject {
+						[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCalendarId] = calendarId.ToString(),
+						[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCallAttempts] = 0,
+						[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyCallAttemptsMax] = data.AutoAttendant.CallAttemptsToEachCalendarBeforeGivingUp,
+						[Voicemails.kJsonKeyOnCallAttemptsProgress_KeyGivenUp] = false
+					};
 					onCallAttemptsProgress.Add(attempt);
 				}
 			}
@@ -240,29 +238,16 @@ namespace ARI.IVR.OnCall
 
 
 
+			await AsyncProcess.StartProcess(
+					"/bin/bash",
+					$" -c \"s3cmd put {data.OnCallMessageRecordingPathActual} {s3CmdURI}\"",
+					null,
+					1000 * 60 * 60, // 60 minutes
+					Console.Out,
+					Console.Out);
 
 
-
-
-			string cmd = $"bash -c \"s3cmd put {data.OnCallMessageRecordingPathActual} {s3CmdURI}\"";
-
-			// Tell the PBX To download the file.
-
-			var pk = new PrivateKeyFile(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE);
-			var keyFiles = new[] { pk };
-
-			var methods = new List<AuthenticationMethod>();
-			methods.Add(new PrivateKeyAuthenticationMethod(SharedCode.ARI.Konstants.PBX_SSH_USER, keyFiles));
-
-			var conn = new ConnectionInfo(SharedCode.ARI.Konstants.PBX_FQDN, SharedCode.ARI.Konstants.PBX_SSH_PORT.Value, SharedCode.ARI.Konstants.PBX_SSH_USER, methods.ToArray());
-
-			var sshClient = new SshClient(conn);
-			sshClient.Connect();
-			SshCommand sc= sshClient.CreateCommand(cmd);
-			sc.Execute();
-
-			string answer = sc.Result;
-			Log.Information("[{AGIRequestUniqueId}] S3CMD Upload output: {UploadOutput}", request.UniqueId, answer);
+			Log.Information("[{AGIRequestUniqueId}] S3CMD Upload complete", request.UniqueId);
 
 
 

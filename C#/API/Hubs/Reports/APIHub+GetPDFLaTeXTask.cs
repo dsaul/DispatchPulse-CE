@@ -12,7 +12,6 @@ using Amazon.S3;
 using Amazon;
 using Amazon.S3.Model;
 using System.Web;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -21,7 +20,6 @@ namespace API.Hubs
 
 		public class GetPDFLaTeXTaskParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? TaskId { get; set; }
 		}
 

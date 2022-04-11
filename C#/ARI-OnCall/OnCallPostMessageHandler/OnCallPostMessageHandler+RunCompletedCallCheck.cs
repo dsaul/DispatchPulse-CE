@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using SharedCode.DatabaseSchemas;
 using Npgsql;
-using Renci.SshNet;
-using Renci.SshNet.Sftp;
-using SharedCode.ARI;
+using SharedCode.Asterisk;
 using Serilog;
 using System.Text.RegularExpressions;
 using SharedCode;
+using System.IO;
 
 namespace ARI.IVR.OnCall
 {
@@ -16,30 +15,7 @@ namespace ARI.IVR.OnCall
 	{
 		public static void RunCompletedCallCheck(NpgsqlConnection billingDB) {
 
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_FQDN)) {
-				Log.Error("PBX_FQDN not set!");
-				return;
-			}
 
-			if (null == SharedCode.ARI.Konstants.PBX_SSH_PORT) {
-				Log.Error("PBX_SSH_PORT not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE)) {
-				Log.Error("ARI_TO_PBX_SSH_IDRSA_FILE not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_SSH_USER)) {
-				Log.Error("PBX_SSH_USER not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY)) {
-				Log.Error("PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY not set!");
-				return;
-			}
 
 			/*
 			Example failed call:
@@ -75,42 +51,39 @@ namespace ARI.IVR.OnCall
 			Status: Completed
 			*/
 
-			var pk = new PrivateKeyFile(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE);
-			var keyFiles = new[] { pk };
 
-			using SftpClient sftp = new SftpClient(SharedCode.ARI.Konstants.PBX_FQDN, SharedCode.ARI.Konstants.PBX_SSH_PORT.Value, SharedCode.ARI.Konstants.PBX_SSH_USER, keyFiles);
-			sftp.Connect();
+			DirectoryInfo di = new DirectoryInfo(Konstants.PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY);
 
-			IEnumerable<SftpFile> e = sftp.ListDirectory(SharedCode.ARI.Konstants.PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY);
-			foreach (SftpFile file in e) {
+			FileInfo[] files = di.GetFiles();
+			foreach (FileInfo fi in files) {
 
-				if (file.Name.IndexOf(kOnCallCallFilePrefix) != 0) {
-					Log.Verbose("[{FileName}] Skipping file as it doesn't have the prefix {Prefix} ", file.Name, kOnCallCallFilePrefix);
+				if (fi.Name.IndexOf(kOnCallCallFilePrefix) != 0) {
+					Log.Verbose("[{FileName}] Skipping file as it doesn't have the prefix {Prefix} ", fi.Name, kOnCallCallFilePrefix);
 					continue;
 				}
 
-				Log.Information("[{FileName}] Found completed call file ", file.Name);
-				string callFilePath = file.FullName;
+				Log.Information("[{FileName}] Found completed call file ", fi.Name);
+				string callFilePath = fi.FullName;
 				//Log.Debug("Path:{CallFilePath}", callFilePath);
 
 				string? archivedCallFileContents;
 				try {
-					archivedCallFileContents = sftp.ReadAllText(callFilePath);
+					archivedCallFileContents = File.ReadAllText(fi.FullName);
 				}
 				catch (Exception ex) {
-					Log.Error(ex, "[{FileName}] Unable to read call file. {CallFilePath}", file.Name, callFilePath);
+					Log.Error(ex, "[{FileName}] Unable to read call file. {CallFilePath}", fi.Name, callFilePath);
 					continue;
 				}
 
 				// If the call file is empty, we can't do anything more, just delete it.
 				if (string.IsNullOrWhiteSpace(archivedCallFileContents)) {
-					Log.Warning("[{FileName}] Call file is empty? Deleting it. {CallFilePath}", file.Name, callFilePath);
+					Log.Warning("[{FileName}] Call file is empty? Deleting it. {CallFilePath}", fi.Name, callFilePath);
 
 					try {
-						sftp.DeleteFile(callFilePath);
+						fi.Delete();
 					}
 					catch (Exception ex) {
-						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 					}
 					continue;
 				}
@@ -165,12 +138,12 @@ namespace ARI.IVR.OnCall
 					status = statusMatch.Value;
 				}
 
-				Log.Debug("[{FileName}] billingCompanyId:{BillingCompanyId}", file.Name, billingCompanyId);
-				Log.Debug("[{FileName}] voicemailId:{VoicemailId}", file.Name, voicemailId);
-				Log.Debug("[{FileName}] databaseName:{DatabaseName}", file.Name, databaseName, callWasTo);
-				Log.Debug("[{FileName}] callWasTo:{CallWasTo}", file.Name, callWasTo);
-				Log.Debug("[{FileName}] status:{Status}", file.Name, status);
-				Log.Debug("[{FileName}] isBackupTrunk:{isBackupTrunk}", file.Name, isBackupTrunk);
+				Log.Debug("[{FileName}] billingCompanyId:{BillingCompanyId}", fi.Name, billingCompanyId);
+				Log.Debug("[{FileName}] voicemailId:{VoicemailId}", fi.Name, voicemailId);
+				Log.Debug("[{FileName}] databaseName:{DatabaseName}", fi.Name, databaseName, callWasTo);
+				Log.Debug("[{FileName}] callWasTo:{CallWasTo}", fi.Name, callWasTo);
+				Log.Debug("[{FileName}] status:{Status}", fi.Name, status);
+				Log.Debug("[{FileName}] isBackupTrunk:{isBackupTrunk}", fi.Name, isBackupTrunk);
 
 				if (null == billingCompanyId ||
 					null == voicemailId ||
@@ -181,10 +154,10 @@ namespace ARI.IVR.OnCall
 
 					Log.Error("[{FileName}] Call File is missing information required to process, deleting it.");
 					try {
-						sftp.DeleteFile(callFilePath);
+						fi.Delete();
 					}
 					catch (Exception ex) {
-						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 					}
 					continue;
 				}
@@ -195,28 +168,28 @@ namespace ARI.IVR.OnCall
 
 				var resVM = Voicemails.ForId(dpDB, voicemailId.Value);
 				if (0 == resVM.Count) {
-					Log.Error("[{FileName}] Could not find voicemail id in database, deleting call file.", file.Name);
+					Log.Error("[{FileName}] Could not find voicemail id in database, deleting call file.", fi.Name);
 					try {
-						sftp.DeleteFile(callFilePath);
+						fi.Delete();
 					}
 					catch (Exception ex) {
-						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 					}
 					continue;
 				}
 
 				Voicemails message = resVM.FirstOrDefault().Value;
 
-				message = message.UpdateVoicemailWithCompletedCallInformation(dpDB, file.Name, status, callWasTo, archivedCallFileContents) ?? message;
+				message = message.UpdateVoicemailWithCompletedCallInformation(dpDB, fi.Name, status, callWasTo, archivedCallFileContents) ?? message;
 
 				// Nothing else we need to do for completed calls except delete the call file.
 				if (status == "Completed") {
-					Log.Information("[{FileName}] Call file is successful, deleting.", file.Name);
+					Log.Information("[{FileName}] Call file is successful, deleting.", fi.Name);
 					try {
-						sftp.DeleteFile(callFilePath);
+						fi.Delete();
 					}
 					catch (Exception ex) {
-						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 					}
 					continue;
 				}
@@ -224,12 +197,12 @@ namespace ARI.IVR.OnCall
 				// If the status is something other then completed. We need to, try once more with the backup sip provider.
 
 				if (status != "Completed" && null != isBackupTrunk && true == isBackupTrunk.Value) {
-					Log.Error("[{FileName}] Call file failed, but we are already on the backup trunks so we'll stop here.", file.Name);
+					Log.Error("[{FileName}] Call file failed, but we are already on the backup trunks so we'll stop here.", fi.Name);
 					try {
-						sftp.DeleteFile(callFilePath);
+						fi.Delete();
 					}
 					catch (Exception ex) {
-						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+						Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 					}
 					continue;
 				}
@@ -241,10 +214,10 @@ namespace ARI.IVR.OnCall
 
 				// Delete the original call file so this isn't handled multiple times.
 				try {
-					sftp.DeleteFile(callFilePath);
+					fi.Delete();
 				}
 				catch (Exception ex) {
-					Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", file.Name, callFilePath);
+					Log.Error(ex, "[{FileName}] Unable to delete call file. {CallFilePath}", fi.Name, callFilePath);
 				}
 
 
@@ -258,7 +231,7 @@ namespace ARI.IVR.OnCall
 
 					foreach (Voicemails.CallFile callFile in entry.CallFiles) {
 
-						if (callFile.FileName != file.Name) {
+						if (callFile.FileName != fi.Name) {
 							continue;
 						}
 

@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class DeleteRecordingsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> RecordingsDelete { get; set; } = new List<Guid>();
 		}
 		public class DeleteRecordingsResponse : PermissionsIdempotencyResponse

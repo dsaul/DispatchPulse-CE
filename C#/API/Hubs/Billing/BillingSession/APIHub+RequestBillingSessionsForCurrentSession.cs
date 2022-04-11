@@ -13,7 +13,6 @@ namespace API.Hubs
 	{
 		public class RequestBillingSessionsParams : IdempotencyRequest
 		{
-			public Guid SessionId { get; set; }
 		}
 		public class RequestBillingSessionsResponse : PermissionsIdempotencyResponse
 		{

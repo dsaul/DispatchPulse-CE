@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class PushProductsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Products> Products { get; set; } = new Dictionary<Guid, Products>();
 		}
 		public class PushProductsResponse : PermissionsIdempotencyResponse

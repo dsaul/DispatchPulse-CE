@@ -14,7 +14,6 @@ namespace API.Hubs
 
 		public class PerformUpdatePhoneIdParams : IdempotencyRequest
 		{
-			public Guid SessionId { get; set; }
 			public string? NewPhoneId { get; set; }
 		}
 
@@ -30,7 +29,7 @@ namespace API.Hubs
 			if (null == p)
 				throw new ArgumentNullException(nameof(p));
 
-			PerformUpdatePhoneIdResponse response = new PerformUpdatePhoneIdResponse();
+			PerformUpdatePhoneIdResponse response = new ();
 
 
 			NpgsqlConnection? billingConnection = null;
@@ -131,7 +130,7 @@ namespace API.Hubs
 					; ";
 
 
-				using NpgsqlCommand cmd = new NpgsqlCommand(sql, billingConnection);
+				using NpgsqlCommand cmd = new (sql, billingConnection);
 				cmd.Parameters.AddWithValue("@json", newJSON);
 				cmd.Parameters.AddWithValue("@uuid", billingCompany.Uuid);
 

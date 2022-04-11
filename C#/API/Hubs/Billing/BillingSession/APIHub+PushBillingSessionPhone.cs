@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PushBillingSessionPhoneParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? Phone { get; set; }
 		}
 		public class PushBillingSessionPhoneResponse : PermissionsIdempotencyResponse

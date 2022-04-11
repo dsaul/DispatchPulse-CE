@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Npgsql;
 using SharedCode;
 
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class LogOutSessionParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 
 		}
 		public class LogOutSessionResponse : PermissionsIdempotencyResponse
@@ -23,7 +21,7 @@ namespace API.Hubs
 
 		public async Task PerformLogOutSession(LogOutSessionParams p)
 		{
-			LogOutSessionResponse response = new LogOutSessionResponse
+			LogOutSessionResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};

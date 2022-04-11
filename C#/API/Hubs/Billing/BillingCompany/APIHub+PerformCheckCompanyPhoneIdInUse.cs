@@ -5,7 +5,6 @@ using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using SharedCode;
 namespace API.Hubs
 {
 	public partial class APIHub : Hub
@@ -13,7 +12,6 @@ namespace API.Hubs
 
 		public class PerformCheckCompanyPhoneIdInUseParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? CompanyId { get; set; }
 		}
 

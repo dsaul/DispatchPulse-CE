@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using SharedCode;
 

@@ -12,14 +12,13 @@ namespace API.Hubs
 	{
 		public class PerformBillingPermissionsGroupsMembershipsAddParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Guid? BillingContactId { get; set; }
-			public List<Guid> PermissionsGroupIds { get; set; } = new List<Guid>();
+			public List<Guid> PermissionsGroupIds { get; set; } = new ();
 		}
 
 		public class PerformBillingPermissionsGroupsMembershipsAddResponse : PermissionsIdempotencyResponse
 		{
-			public List<Guid> BillingPermissionsGroupsMemberships { get; } = new List<Guid>();
+			public List<Guid> BillingPermissionsGroupsMemberships { get; } = new ();
 
 		}
 
@@ -28,12 +27,12 @@ namespace API.Hubs
 			if (null == p)
 				throw new ArgumentNullException(nameof(p));
 
-			PerformBillingPermissionsGroupsMembershipsAddResponse response = new PerformBillingPermissionsGroupsMembershipsAddResponse()
+			PerformBillingPermissionsGroupsMembershipsAddResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};
 
-			RequestBillingPermissionsGroupsMembershipsResponse othersMsg = new RequestBillingPermissionsGroupsMembershipsResponse
+			RequestBillingPermissionsGroupsMembershipsResponse othersMsg = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};

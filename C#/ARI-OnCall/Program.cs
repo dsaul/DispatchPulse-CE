@@ -79,35 +79,7 @@ namespace ARI.IVR.OnCall
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.ARI_TO_PBX_SSH_IDRSA_FILE)) {
-				Log.Error("ARI_TO_PBX_SSH_IDRSA_FILE not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_FQDN)) {
-				Log.Error("PBX_FQDN not set!");
-				return;
-			}
-
-			if (null == SharedCode.ARI.Konstants.PBX_SSH_PORT) {
-				Log.Error("PBX_SSH_PORT not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_SSH_USER)) {
-				Log.Error("PBX_SSH_USER not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY)) {
-				Log.Error("PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY not set!");
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(SharedCode.ARI.Konstants.PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY)) {
-				Log.Error("PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY not set!");
-				return;
-			}
+			
 
 			if (string.IsNullOrWhiteSpace(EnvTwilio.TWILIO_AUTH_TOKEN)) {
 				Log.Error("TWILIO_AUTH_TOKEN_FILE not set!");
@@ -202,7 +174,7 @@ namespace ARI.IVR.OnCall
 			NpgsqlConnection.GlobalTypeMapper.UseJsonNet();
 
 			
-			AsteriskFastAGI agi = new AsteriskFastAGI();
+			AsteriskFastAGI agi = new ();
 			// Remove the lines below to enable the default (resource based) MappingStrategy
 			// You can use an XML file with XmlMappingStrategy, or simply pass in a list of
 			// ScriptMapping. 

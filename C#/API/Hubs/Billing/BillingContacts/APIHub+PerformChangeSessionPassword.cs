@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode;
 using Npgsql;
 using SharedCode;
 
@@ -14,7 +13,6 @@ namespace API.Hubs
 		
 		public class PerformChangeSessionPasswordParams : IdempotencyRequest
 		{
-			public Guid SessionId { get; set; }
 			public string? CurrentPassword { get; set; }
 			public string? NewHash { get; set; }
 		}
@@ -27,7 +25,7 @@ namespace API.Hubs
 
 		public async Task PerformChangeSessionPassword(PerformChangeSessionPasswordParams p)
 		{
-			PerformChangeSessionPasswordResponse response = new PerformChangeSessionPasswordResponse()
+			PerformChangeSessionPasswordResponse response = new ()
 			{
 				IdempotencyToken = Guid.NewGuid().ToString(),
 			};

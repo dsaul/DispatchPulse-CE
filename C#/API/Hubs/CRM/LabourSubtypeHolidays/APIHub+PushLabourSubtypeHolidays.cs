@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class PushLabourSubtypeHolidaysParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, LabourSubtypeHolidays> LabourSubtypeHolidays { get; set; } = new Dictionary<Guid, LabourSubtypeHolidays>();
 		}
 

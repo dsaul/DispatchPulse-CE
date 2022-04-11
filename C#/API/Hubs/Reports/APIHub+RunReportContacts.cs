@@ -7,7 +7,6 @@ using SharedCode.DatabaseSchemas;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -16,7 +15,6 @@ namespace API.Hubs
 
 		public class RunReportContactsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public bool? RunOnAllContacts { get; set; } = false;
 			public List<Guid> ContactIds { get; set; } = new List<Guid>();
 		}

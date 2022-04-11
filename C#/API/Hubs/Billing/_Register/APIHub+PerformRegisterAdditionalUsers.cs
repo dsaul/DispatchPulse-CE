@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SharedCode;
@@ -25,7 +24,6 @@ namespace API.Hubs
 
 		public class PerformRegisterAdditionalUsersParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<PerformRegisterAdditionalUsersAdditionalUser> OtherAccountsToAdd { get; set; } = new List<PerformRegisterAdditionalUsersAdditionalUser>();
 
 		}

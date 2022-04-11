@@ -5,7 +5,6 @@ using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 
 
 namespace API.Hubs
@@ -14,7 +13,6 @@ namespace API.Hubs
 	{
 		public class PushCompaniesParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public Dictionary<Guid, Companies> Companies { get; set; } = new Dictionary<Guid, Companies>();
 		}
 

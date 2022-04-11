@@ -12,7 +12,6 @@ namespace API.Hubs
 	{
 		public class RequestBillingJournalEntriesTypeParams : IdempotencyRequest
 		{
-			public Guid SessionId { get; set; }
 		}
 		public class RequestBillingJournalEntriesTypeResponse : PermissionsIdempotencyResponse
 		{

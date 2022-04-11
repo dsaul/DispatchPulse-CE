@@ -5,7 +5,6 @@ using SharedCode;
 using Microsoft.AspNetCore.SignalR;
 using Npgsql;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 
 namespace API.Hubs
 {
@@ -13,7 +12,6 @@ namespace API.Hubs
 	{
 		public class DeleteSkillsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public List<Guid> SkillsDelete { get; set; } = new List<Guid>();
 		}
 		public class DeleteSkillsResponse : PermissionsIdempotencyResponse

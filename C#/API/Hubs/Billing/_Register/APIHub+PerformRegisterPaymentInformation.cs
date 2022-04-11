@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SharedCode.DatabaseSchemas;
-using SharedCode.DatabaseSchemas;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Collections.Generic;
@@ -18,7 +17,6 @@ namespace API.Hubs
 		public class PerformRegisterPaymentInformationParams : IdempotencyRequest
 		{
 
-			public Guid? SessionId { get; set; }
 
 			public string? PaymentFrequency { get; set; }
 

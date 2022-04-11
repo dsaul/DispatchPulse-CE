@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using System.Globalization;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -16,7 +15,6 @@ namespace API.Hubs
 
 		public class RunReportAssignmentsParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public bool? RunOnAllAssignments { get; set; }
 			public List<Guid> AssignmentIds { get; set; } = new List<Guid>();
 		}

@@ -8,7 +8,6 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using System.IO;
-using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 

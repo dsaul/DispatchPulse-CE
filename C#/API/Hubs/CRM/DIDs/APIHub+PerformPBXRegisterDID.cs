@@ -8,7 +8,6 @@ using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using SharedCode.DatabaseSchemas;
 using Newtonsoft.Json.Linq;
-using SharedCode;
 
 namespace API.Hubs
 {
@@ -16,7 +15,6 @@ namespace API.Hubs
 	{
 		public class PerformPBXRegisterDIDParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? Did { get; set; }
 			public string? DidPassword { get; set; }
 			public Guid? BillingCompanyId { get; set; }

@@ -2,12 +2,9 @@
 using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using API.Hubs;
-using System.IO;
-using System;
 using Microsoft.AspNetCore.SignalR.Client;
-using SharedCode.DatabaseSchemas;
-using SharedCode;
 using Serilog;
+using SharedCode;
 
 namespace ARI.IVR.CompanyAccess
 {

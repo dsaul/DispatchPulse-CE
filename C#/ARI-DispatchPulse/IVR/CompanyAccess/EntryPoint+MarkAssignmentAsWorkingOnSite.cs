@@ -5,7 +5,6 @@ using API.Hubs;
 using System.IO;
 using System;
 using Microsoft.AspNetCore.SignalR.Client;
-using SharedCode.DatabaseSchemas;
 using SharedCode;
 using Serilog;
 

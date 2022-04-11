@@ -14,7 +14,6 @@ namespace API.Hubs
 	{
 		public class PerformCheckDIDPBXRegisteredParams : IdempotencyRequest
 		{
-			public Guid? SessionId { get; set; }
 			public string? Did { get; set; }
 			public Guid? BillingCompanyId { get; set; }
 		}
