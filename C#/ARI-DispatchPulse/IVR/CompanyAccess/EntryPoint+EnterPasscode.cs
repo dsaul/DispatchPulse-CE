@@ -110,7 +110,7 @@ namespace ARI.IVR.CompanyAccess
 
 			} while (false);
 
-			AgentOverview(request, channel, data);
+			await AgentOverview(request, channel, data);
 		}
 	}
 }

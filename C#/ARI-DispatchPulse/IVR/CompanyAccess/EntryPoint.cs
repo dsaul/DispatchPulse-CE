@@ -18,7 +18,7 @@ namespace ARI.IVR.CompanyAccess
 			SetAutoHangup(60 * 20); // These calls shouldn't take more than 20 minutes. Set auto hang up not waste too much money on dead channels.
 
 			try {
-				WelcomeToCompanyAccess(request, channel, data);
+				WelcomeToCompanyAccess(request, channel, data).Wait();
 			} catch (PerformHangupException) {
 				Hangup();
 				return;

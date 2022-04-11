@@ -37,6 +37,7 @@ FROM maskawanian/dotnet-aspnet-runtime-6-with-ffmpeg
 
 RUN apt-get update && apt-get install -y \
 	ffmpeg \
+	s3cmd \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p /srv/generated-voice
 
