@@ -133,3 +133,5 @@
 /C#/CompanyBilling/node_modules
 /C#/SquarePayments/node_modules
 /Webapp/node_modules
+/C#/ARI-ProjectsSchedulingTime/obj
+/C#/ARI-ProjectsSchedulingTime/bin
