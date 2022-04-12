@@ -71,9 +71,16 @@ namespace ARI
 				await SignalRConnection.StartAsync();
 			};
 
-			await SignalRConnection.StartAsync();
 			Log.Information("SignalR API Connection API URI {ApiURI}", SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI);
 
+			try {
+				await SignalRConnection.StartAsync();
+			}
+			catch (Exception ex) {
+				Log.Error("We were unable to connect to the singalr endpoint {uri}", SharedCode.Hubs.Konstants.SIGNAL_R_HUB_URI);
+				Log.Error(ex, "Exception");
+			}
+			
 			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Debug);
 			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Error);
 			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Info);
