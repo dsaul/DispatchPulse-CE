@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
 	sngrep \
 	nano \
 	gettext \
+	iputils-ping \
 	&& rm -rf /var/lib/apt/lists/*
 
 
