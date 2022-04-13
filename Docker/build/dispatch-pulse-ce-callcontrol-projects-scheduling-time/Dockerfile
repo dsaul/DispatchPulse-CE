@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
 	asterisk \
 	openssh-server \
 	sngrep \
+	nano \
 	&& rm -rf /var/lib/apt/lists/*
 
 
