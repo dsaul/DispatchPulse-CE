@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 	openssh-server \
 	sngrep \
 	nano \
-	envsubst \
+	gettext \
 	&& rm -rf /var/lib/apt/lists/*
 
 
