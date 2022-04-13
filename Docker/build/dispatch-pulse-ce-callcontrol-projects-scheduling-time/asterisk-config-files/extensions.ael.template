@@ -1,0 +1,13 @@
+
+
+context app {
+	_.X => {
+		AGI(agi://$ARI_HOST:$ARI_PORT/$ARI_ENDPOINT);
+		Hangup();
+	}
+	
+	h => {
+		Hangup();
+	}
+}
+
