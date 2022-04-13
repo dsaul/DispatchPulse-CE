@@ -151,7 +151,7 @@ namespace DatabaseBootstrap
 				db.EnsureUUIDExtension();
 				db.EnsureTimestampISO8601();
 
-				Verification.VerifyJobRunnerDatabase(db, true);
+				Verification.VerifyTTSDatabase(db, true);
 
 				db.Close();
 			}
