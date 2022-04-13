@@ -2,7 +2,7 @@
 
 context app {
 	_.X => {
-		AGI(agi://192.168.135.182/CompanyAccess);
+		AGI(agi://dispatch-pulse-ce-ari-projects-scheduling-time/CompanyAccess);
 		Hangup();
 	}
 	
