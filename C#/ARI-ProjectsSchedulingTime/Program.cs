@@ -81,10 +81,7 @@ namespace ARI
 				Log.Error(ex, "Exception");
 			}
 			
-			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Debug);
-			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Error);
-			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Info);
-			AsterNET.Logger.Instance().Visible(true, AsterNET.Logger.MessageLevel.Warning);
+			
 
 
 			NpgsqlConnection.GlobalTypeMapper.UseJsonNet();
