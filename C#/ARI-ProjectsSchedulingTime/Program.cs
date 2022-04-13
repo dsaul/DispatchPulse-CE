@@ -87,13 +87,14 @@ namespace ARI
 			NpgsqlConnection.GlobalTypeMapper.UseJsonNet();
 
             AsteriskFastAGI agi = new ();
-            // Remove the lines below to enable the default (resource based) MappingStrategy
-            // You can use an XML file with XmlMappingStrategy, or simply pass in a list of
-            // ScriptMapping. 
-            // If you wish to save it to a file, use ScriptMapping.SaveMappings and pass in a path.
-            // This can then be used to load the mappings without having to change the source code!
+			agi.BindPort = 7780;
+			// Remove the lines below to enable the default (resource based) MappingStrategy
+			// You can use an XML file with XmlMappingStrategy, or simply pass in a list of
+			// ScriptMapping. 
+			// If you wish to save it to a file, use ScriptMapping.SaveMappings and pass in a path.
+			// This can then be used to load the mappings without having to change the source code!
 
-            agi.MappingStrategy = new GeneralMappingStrategy(new List<ScriptMapping>()
+			agi.MappingStrategy = new GeneralMappingStrategy(new List<ScriptMapping>()
             {
                 new ScriptMapping() {
                     ScriptClass = "ARI.IVR.CompanyAccess.EntryPoint",
