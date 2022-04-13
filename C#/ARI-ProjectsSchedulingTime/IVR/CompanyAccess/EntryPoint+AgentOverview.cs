@@ -8,25 +8,24 @@ using SharedCode;
 using SharedCode.DatabaseSchemas;
 using Amazon.Polly;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace ARI.IVR.CompanyAccess
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected async Task AgentOverview(
+		protected void AgentOverview(
 			AGIRequest request,
 			AGIChannel channel,
 			RequestData data) {
-			await PlayTTS("Here is an overview for today.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+			PlayTTS("Here is an overview for today.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 
 			if (null == data.Subscription || string.IsNullOrWhiteSpace(data.Subscription.ProvisionedDatabaseName)) {
-				await PlayTTS("There was an error while reading the database, please try again later. Code 98a", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				PlayTTS("There was an error while reading the database, please try again later. Code 98a", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
 			if (null == data.Agent) {
-				await PlayTTS("There was an error while reading the database, please try again later. Code 232", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				PlayTTS("There was an error while reading the database, please try again later. Code 232", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -34,7 +33,7 @@ namespace ARI.IVR.CompanyAccess
 				data.ConnectToDPDBName(data.Subscription.ProvisionedDatabaseName);
 			}
 			if (null == data.DPDB) {
-				await PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -133,9 +132,9 @@ namespace ARI.IVR.CompanyAccess
 				stringBuilder.Append($"and {data.UnscheduledAssignments.Count} unscheduled assignment{(data.UnscheduledAssignments.Count == 1 ? "" : "s")} today. ");
 			}
 
-			await PlayTTS(stringBuilder.ToString(), escapeAllKeys, Engine.Neural, VoiceId.Brian);
+			PlayTTS(stringBuilder.ToString(), escapeAllKeys, Engine.Neural, VoiceId.Brian);
 
-			await AgentMenu(request, channel, data);
+			AgentMenu(request, channel, data);
 		}
 	}
 }

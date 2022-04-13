@@ -23,7 +23,7 @@ namespace ARI.IVR.CompanyAccess
 
 			//PlayPollyText("1234", escapeAllKeys);
 
-			await PlayTTS("Welcome to company access.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+			PlayTTS("Welcome to company access.", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 
 			
 
@@ -33,7 +33,7 @@ namespace ARI.IVR.CompanyAccess
 				if (attempt > 3)
 					throw new PerformHangupException();
 
-				await EnterCompanyId(request, channel, data);
+				EnterCompanyId(request, channel, data);
 
 				attempt ++;
 			}

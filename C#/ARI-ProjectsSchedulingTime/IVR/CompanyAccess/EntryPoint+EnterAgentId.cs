@@ -6,7 +6,7 @@ namespace ARI.IVR.CompanyAccess
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected async Task EnterAgentId(
+		protected void EnterAgentId(
 			AGIRequest request, 
 			AGIChannel channel, 
 			RequestData data
@@ -22,7 +22,7 @@ namespace ARI.IVR.CompanyAccess
 					return;
 				}
 
-				data.AgentPhoneId = await PromptDigitsPoundTerminated(
+				data.AgentPhoneId = PromptDigitsPoundTerminated(
 					new AudioPlaybackEvent[] {
 						new AudioPlaybackEvent {
 							Type = AudioPlaybackEvent.AudioPlaybackEventType.TTSText,
@@ -34,7 +34,7 @@ namespace ARI.IVR.CompanyAccess
 
 				if (string.IsNullOrEmpty(data.AgentPhoneId)) {
 					attemptCounter++;
-					await PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
+					PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
 					continue;
 				}
 
@@ -50,7 +50,7 @@ namespace ARI.IVR.CompanyAccess
 					return;
 				}
 
-				data.AgentIdConfirmed = await PromptBooleanQuestion(new AudioPlaybackEvent[] {
+				data.AgentIdConfirmed = PromptBooleanQuestion(new AudioPlaybackEvent[] {
 					new AudioPlaybackEvent {
 						Type = AudioPlaybackEvent.AudioPlaybackEventType.TTSText,
 						Text = "Thanks, the ID i received was ",
@@ -72,7 +72,7 @@ namespace ARI.IVR.CompanyAccess
 
 				if (data.AgentIdConfirmed == null) {
 					attemptCounter++;
-					await PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
+					PlayTTS("I didn't recieve an answer, please try again.", "", Engine.Neural, VoiceId.Brian);
 					continue;
 				}
 
@@ -93,7 +93,7 @@ namespace ARI.IVR.CompanyAccess
 				return;
 			}
 
-			await EnterPasscode(request, channel, data);
+			EnterPasscode(request, channel, data);
 		}
 	}
 }

@@ -10,14 +10,14 @@ namespace ARI.IVR.CompanyAccess
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected async Task AssignmentDetail(
+		protected void AssignmentDetail(
 			AGIRequest request, 
 			AGIChannel channel,
 			RequestData data, 
 			Assignments assignment
 			) {
 			if (null == data.Subscription || string.IsNullOrWhiteSpace(data.Subscription.ProvisionedDatabaseName)) {
-				await PlayTTS("There was an error while reading the database, please try again later. Code 731", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				PlayTTS("There was an error while reading the database, please try again later. Code 731", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -25,7 +25,7 @@ namespace ARI.IVR.CompanyAccess
 				data.ConnectToDPDBName(data.Subscription.ProvisionedDatabaseName);
 			}
 			if (null == data.DPDB) {
-				await PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+				PlayTTS("There was an error while reading the database, please try again later. Code 233", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 				return;
 			}
 
@@ -51,7 +51,7 @@ namespace ARI.IVR.CompanyAccess
 				char key = '\0';
 
 				if (key == '\0') {
-					key = await PlayAssignmentProjectName(request, channel, data, assignment);
+					key = PlayAssignmentProjectName(request, channel, data, assignment);
 				}
 
 				if (key == '\0' && !string.IsNullOrWhiteSpace(startISO8601) && null != hasStartISO8601 && hasStartISO8601.Value) {
@@ -59,10 +59,10 @@ namespace ARI.IVR.CompanyAccess
 					DateTime startISO = DateTime.Parse(startISO8601, null, System.Globalization.DateTimeStyles.RoundtripKind);
 
 					if (null == data.Company) {
-						await ThrowError(request, "2n32", "null == data.Company");
+						ThrowError(request, "2n32", "null == data.Company");
 					}
 					if (string.IsNullOrWhiteSpace(data.Company.IANATimezone)) {
-						await ThrowError(request, "2n33", "string.IsNullOrWhiteSpace(data.Company.IANATimezone)");
+						ThrowError(request, "2n33", "string.IsNullOrWhiteSpace(data.Company.IANATimezone)");
 					}
 
 					TzTimeZone zoneWpg = TzTimeInfo.GetZone(data.Company.IANATimezone);
@@ -72,22 +72,22 @@ namespace ARI.IVR.CompanyAccess
 						case "none":
 							break;
 						case "morning-first-thing":
-							key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} first thing in the morning. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} first thing in the morning. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							break;
 						case "morning-second-thing":
-							key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} second thing in the morning. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} second thing in the morning. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							break;
 						case "afternoon-first-thing":
-							key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} first thing in the afternoon. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} first thing in the afternoon. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							break;
 						case "afternoon-second-thing":
-							key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} second thing in the afternoon. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+							key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} second thing in the afternoon. ", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							break;
 						case "time":
 							if (startISOLocal.Minute == 0) {
-								key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} at {startISOLocal:H tt}", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+								key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} at {startISOLocal:H tt}", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							} else {
-								key = await PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} at {startISOLocal:H mm tt}", escapeAllKeys, Engine.Neural, VoiceId.Brian);
+								key = PlayTTS($"The scheduled start time is {startISOLocal:MMMM d} at {startISOLocal:H mm tt}", escapeAllKeys, Engine.Neural, VoiceId.Brian);
 							}
 
 							break;
@@ -111,7 +111,7 @@ namespace ARI.IVR.CompanyAccess
 						case Labour.LocationTypeE.Travel:
 							
 							if (key == '\0') {
-								key = await PlayTTS(
+								key = PlayTTS(
 									"Press 1 for the work requested. " +
 									"Press 2 to hear a list of the addresses. " +
 									"Press 3 to list any phone numbers listed on the account. " +
@@ -164,7 +164,7 @@ namespace ARI.IVR.CompanyAccess
 						case Labour.LocationTypeE.Remote:
 						case Labour.LocationTypeE.OnSite:
 							if (key == '\0') {
-								key = await PlayTTS(
+								key = PlayTTS(
 									"Press 1 for the work requested. " +
 									"Press 2 to hear a list of the addresses. " +
 									"Press 3 to list any phone numbers listed on the account. " +
@@ -220,7 +220,7 @@ namespace ARI.IVR.CompanyAccess
 
 				} else if (filtered.Count == 0) {
 					if (key == '\0') {
-						key = await PlayTTS(
+						key = PlayTTS(
 							"Press 1 for the work requested. " +
 							"Press 2 to hear a list of the addresses. " +
 							"Press 3 to list any phone numbers listed on the account. " +
@@ -267,7 +267,7 @@ namespace ARI.IVR.CompanyAccess
 
 
 
-				await PlayTTS("I didn't get a response, please try again.", "", Engine.Neural, VoiceId.Brian);
+				PlayTTS("I didn't get a response, please try again.", "", Engine.Neural, VoiceId.Brian);
 				repeatCount++;
 			}
 
