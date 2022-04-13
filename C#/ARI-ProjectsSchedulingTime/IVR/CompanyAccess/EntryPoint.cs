@@ -24,7 +24,6 @@ namespace ARI.IVR.CompanyAccess
 				return;
 			} catch (Exception e) {
 				Log.Debug($"Exception: {e.Message}");
-				throw;
 			}
 		}
 		
