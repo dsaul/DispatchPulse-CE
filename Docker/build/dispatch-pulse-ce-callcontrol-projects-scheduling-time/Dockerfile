@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 
 RUN rm -rv /etc/asterisk/*
-COPY asterisk-config-files/* /etc/asterisk/*
+COPY asterisk-config-files/* /etc/asterisk/
 
 COPY entry.sh /entry.sh
 RUN chmod +x /entry.sh
