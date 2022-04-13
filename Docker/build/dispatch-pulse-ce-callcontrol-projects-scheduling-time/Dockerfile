@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
 	tini \
 	asterisk \
 	openssh-server \
+	sngrep \
 	&& rm -rf /var/lib/apt/lists/*
 
 
