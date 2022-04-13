@@ -2,7 +2,8 @@
 
 context app {
 	_.X => {
-		Playback(tt-monkeys);
+		AGI(agi://192.168.135.182/CompanyAccess);
+		Hangup();
 	}
 	
 	h => {
