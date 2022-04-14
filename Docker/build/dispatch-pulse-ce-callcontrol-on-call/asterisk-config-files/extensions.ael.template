@@ -1,0 +1,17 @@
+
+
+context app {
+	$ARI_ENDPOINT_ON_CALL => {
+		AGI(agi://$ARI_HOST:$ARI_PORT/$ARI_ENDPOINT_ON_CALL);
+		Hangup();
+	}
+	$ARI_ENDPOINT_RESPONDEE_MENU => {
+		AGI(agi://$ARI_HOST:$ARI_PORT/$ARI_ENDPOINT_RESPONDEE_MENU);
+		Hangup();
+	}
+	
+	h => {
+		Hangup();
+	}
+}
+

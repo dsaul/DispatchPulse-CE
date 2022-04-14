@@ -1,0 +1,12 @@
+[global]
+endpoint_identifier_order = auth_username,username,ip,anonymous
+
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0:7781
+allow_reload=no
+tos=cs3
+cos=3
+external_media_address=$DOCKERHOSTIP
+external_signaling_address=$DOCKERHOSTIP
