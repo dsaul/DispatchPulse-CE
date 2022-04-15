@@ -7,7 +7,7 @@
         "S3_PBX_SERVICE_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\S3_PBX_SERVICE_URI.txt",
         "SIGNAL_R_HUB_URI_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SIGNAL_R_HUB_URI-staging.txt",
         "FFMPEG_PATH": "%USERPROFILE%\\Desktop\\ffmpeg\\bin\\ffmpeg.exe",
-        "PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY": "/var/spool/asterisk/outgoing_done",
+        "ARI_SPOOL_COMPLETED_DIRECTORY": "/var/spool/asterisk/outgoing_done",
         "SMTP_PASSWORD_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-password-1.txt",
         "SMTP_USERNAME_FILE": "%USERPROFILE%\\Desktop\\Secrets\\on-call-smtp-username-1.txt",
         "AWS_POLLY_ACCESS_KEY_ID_FILE": "%USERPROFILE%\\Desktop\\Secrets\\aws-polly-access-key-id-1.txt",

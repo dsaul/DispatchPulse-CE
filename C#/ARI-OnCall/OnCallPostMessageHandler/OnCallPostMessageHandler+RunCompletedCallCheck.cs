@@ -52,7 +52,7 @@ namespace ARI.IVR.OnCall
 			*/
 
 
-			DirectoryInfo di = new DirectoryInfo(EnvAsterisk.PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY);
+			DirectoryInfo di = new DirectoryInfo(EnvAsterisk.ARI_OUTGOING_SPOOL_COMPLETED_DIRECTORY);
 
 			FileInfo[] files = di.GetFiles();
 			foreach (FileInfo fi in files) {

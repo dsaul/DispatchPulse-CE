@@ -19,7 +19,7 @@
         "PBX_FQDN_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\integrationtest\\pbx-fqdn.txt",
         "PBX_SSH_USER": "root",
         "PBX_SSH_PORT": "22",
-        "PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY": "/var/spool/asterisk/outgoing_done",
+        "ARI_SPOOL_COMPLETED_DIRECTORY": "/var/spool/asterisk/outgoing_done",
         "PBX_LOCAL_CLIENT_RECORDINGS_DIRECTORY": "/srv/client-recordings/",
         "RECORDINGS_DIRECTORY": "/srv/on-call-temp-recordings",
         "PBX_LOCAL_TTS_CACHE_BUCKET_DIRECTORY": "/srv/tts-cache/",
