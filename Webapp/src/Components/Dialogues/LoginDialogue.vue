@@ -47,6 +47,7 @@
 								<v-col cols="10" sm="10" offset="1" style="padding: 0px; margin-top:0px; margin-bottom:0px;">
 									<v-text-field
 										v-model="companyAbbreviation"
+										:disabled="true"
 										label="Company Abbreviation"
 										prepend-icon="business"
 										hint="The short abbreviated name for your company. Example: &quot;DP&quot; for Dispatch Pulse"
@@ -130,7 +131,7 @@
 		},
 	})
 	export default class LoginDialogue extends DialogueBase {
-		public companyAbbreviation = '';
+		public companyAbbreviation = 'CE';
 		public contactEMail = '';
 		public contactPassword = '';
 		

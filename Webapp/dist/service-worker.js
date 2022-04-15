@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.c45f2599507f6477a43b0527a1e7a88b.js"
+  "/precache-manifest.f12d194f1ab3d09fad07c7f8ad5f5b33.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dispatch-pulse-ce"});
