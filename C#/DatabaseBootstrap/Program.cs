@@ -97,6 +97,19 @@ namespace DatabaseBootstrap
 				);
 			}
 
+			// Make sure the dp client database exists.
+			string? dpClientDatabaseName = BillingSubscriptions.CEDatabaseName;
+			if (false == noDatabaseConnection.DatabaseExists(dpClientDatabaseName)) {
+				Log.Warning("{DatabaseName} database doesn't exist, creating.", ttsDatabaseName);
+				ttsDatabaseName = noDatabaseConnection.CreateDatabase(
+					dbName: dpClientDatabaseName,
+					prefix: "",
+					suffixBeforeNumber: "",
+					noNumberIteration: true
+				);
+			}
+
+
 
 			noDatabaseConnection.Close();
 
@@ -155,6 +168,22 @@ namespace DatabaseBootstrap
 
 				db.Close();
 			}
+
+			// Run verification on client db
+			if (!string.IsNullOrWhiteSpace(ttsDatabaseName)) {
+				using NpgsqlConnection db = new NpgsqlConnection(EnvDatabases.DatabaseConnectionStringForDB(BillingSubscriptions.CEDatabaseName));
+
+				db.Open();
+
+				db.EnsureUUIDExtension();
+				db.EnsureTimestampISO8601();
+
+				Verification.VerifyDPClientDatabase(db, true);
+
+				db.Close();
+			}
+
+
 
 
 			noDatabaseConnection.Close();
