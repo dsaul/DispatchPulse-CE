@@ -14,23 +14,23 @@ namespace ARI.IVR.OnCall
 {
 	public partial class EntryPoint : AGIScriptPlus
 	{
-		protected async Task OnCallAutoAttendantConfirmedLeavingMessage(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
+		protected void OnCallAutoAttendantConfirmedLeavingMessage(AGIRequest request, AGIChannel channel, LeaveMessageRequestData requestData) {
 
 			try {
 				if (null == requestData.AutoAttendant)
-					await ThrowError(request, "526a", "null == data.AutoAttendant");
+					ThrowError(request, "526a", "null == data.AutoAttendant");
 				if (null == requestData.AutoAttendant.RecordingsAskForCallbackNumberType)
-					await ThrowError(request, "3251", "null == data.AutoAttendant.RecordingsAskForCallbackNumberType");
+					ThrowError(request, "3251", "null == data.AutoAttendant.RecordingsAskForCallbackNumberType");
 				if (null == requestData.AutoAttendant.RecordingsAskForCallbackNumberText)
-					await ThrowError(request, "3a54", "null == data.AutoAttendant.RecordingsAskForCallbackNumberText");
+					ThrowError(request, "3a54", "null == data.AutoAttendant.RecordingsAskForCallbackNumberText");
 				if (null == requestData.AutoAttendant.RecordingsAskForMessageType)
-					await ThrowError(request, "s522", "null == data.AutoAttendant.RecordingsAskForMessageType");
+					ThrowError(request, "s522", "null == data.AutoAttendant.RecordingsAskForMessageType");
 				if (null == requestData.AutoAttendant.RecordingsAskForMessageText)
-					await ThrowError(request, "a9s8", "null == data.AutoAttendant.RecordingsAskForMessageText");
+					ThrowError(request, "a9s8", "null == data.AutoAttendant.RecordingsAskForMessageText");
 				if (null == requestData.AutoAttendant.RecordingsThankYouAfterType)
-					await ThrowError(request, "s542", "null == data.AutoAttendant.RecordingsThankYouAfterType");
+					ThrowError(request, "s542", "null == data.AutoAttendant.RecordingsThankYouAfterType");
 				if (null == requestData.AutoAttendant.RecordingsThankYouAfterText)
-					await ThrowError(request, "5436", "null == data.AutoAttendant.RecordingsThankYouAfterText");
+					ThrowError(request, "5436", "null == data.AutoAttendant.RecordingsThankYouAfterText");
 
 				List<AudioPlaybackEvent> askForCallbackNumberEvents = new List<AudioPlaybackEvent>();
 
@@ -45,7 +45,7 @@ namespace ARI.IVR.OnCall
 
 						Guid? recordingId = requestData.AutoAttendant.RecordingsAskForCallbackNumberRecordingId;
 						if (null == recordingId) {
-							await ThrowError(request, "2133", "null == recordingId");
+							ThrowError(request, "2133", "null == recordingId");
 						}
 
 						askForCallbackNumberEvents.Add(new AudioPlaybackEvent {
@@ -56,7 +56,7 @@ namespace ARI.IVR.OnCall
 						break;
 				}
 
-				requestData.CallbackNumber = await PromptDigitsPoundTerminated(
+				requestData.CallbackNumber = PromptDigitsPoundTerminated(
 					askForCallbackNumberEvents,
 					kEscapeAllKeys
 				);
@@ -75,17 +75,17 @@ namespace ARI.IVR.OnCall
 
 				switch (requestData.AutoAttendant.RecordingsAskForMessageType) {
 					case OnCallAutoAttendants.RecordingTypeE.Polly:
-						await PlayTTS(requestData.AutoAttendant.RecordingsAskForMessageText, kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
+						PlayTTS(requestData.AutoAttendant.RecordingsAskForMessageText, kEscapeAllKeys, Engine.Neural, VoiceId.Brian);
 						break;
 					case OnCallAutoAttendants.RecordingTypeE.Recording:
 						if (null == requestData.DPDB) {
-							await ThrowError(request, "21433", "null == requestData.DPDB");
+							ThrowError(request, "21433", "null == requestData.DPDB");
 						}
 						Guid? recordingId = requestData.AutoAttendant.RecordingsAskForMessageRecordingId;
 						if (null == recordingId) {
-							await ThrowError(request, "214354", "null == recordingId");
+							ThrowError(request, "214354", "null == recordingId");
 						}
-						await PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
+						PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
 						break;
 				}
 
@@ -94,7 +94,7 @@ namespace ARI.IVR.OnCall
 
 
 				requestData.OnCallMessageRecordingId = Guid.NewGuid();
-				requestData.OnCallMessageRecordingPathAsterisk = $"{Program.PBX_LOCAL_RECORD_FILE_DIRECTORY}/on-call-message-{requestData.OnCallMessageRecordingId}";
+				requestData.OnCallMessageRecordingPathAsterisk = $"{Program.RECORDINGS_DIRECTORY}/on-call-message-{requestData.OnCallMessageRecordingId}";
 				requestData.OnCallMessageRecordingPathActual = $"{requestData.OnCallMessageRecordingPathAsterisk}.wav";
 
 				int recordRes = RecordFile(requestData.OnCallMessageRecordingPathAsterisk,"wav", kEscapeAllKeys, 1000 * 60 * 2, 0, true, 10);
@@ -111,7 +111,7 @@ namespace ARI.IVR.OnCall
 
 
 
-					await SaveAndHangup(request, channel, requestData);
+					SaveAndHangup(request, channel, requestData);
 					throw new PerformHangupException();
 				}
 
@@ -125,21 +125,21 @@ namespace ARI.IVR.OnCall
 
 				switch (requestData.AutoAttendant.RecordingsThankYouAfterType) {
 					case OnCallAutoAttendants.RecordingTypeE.Polly:
-						await PlayTTS(requestData.AutoAttendant.RecordingsThankYouAfterText, string.Empty, Engine.Neural, VoiceId.Brian);
+						PlayTTS(requestData.AutoAttendant.RecordingsThankYouAfterText, string.Empty, Engine.Neural, VoiceId.Brian);
 						break;
 					case OnCallAutoAttendants.RecordingTypeE.Recording:
 						if (null == requestData.DPDB) {
-							await ThrowError(request, "21433", "null == requestData.DPDB");
+							ThrowError(request, "21433", "null == requestData.DPDB");
 						}
 						Guid? recordingId = requestData.AutoAttendant.RecordingsThankYouAfterKeyRecordingId;
 						if (null == recordingId) {
-							await ThrowError(request, "214354", "null == recordingId");
+							ThrowError(request, "214354", "null == recordingId");
 						}
-						await PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
+						PlayRecording(requestData.DPDB, recordingId.Value, kEscapeAllKeys);
 						break;
 				}
 
-				await SaveAndHangup(request, channel, requestData);
+				SaveAndHangup(request, channel, requestData);
 
 				throw new PerformHangupException();
 			} catch {
@@ -172,22 +172,22 @@ namespace ARI.IVR.OnCall
 		}
 
 
-		async Task SaveAndHangup(AGIRequest request, AGIChannel channel, LeaveMessageRequestData data) {
+		void SaveAndHangup(AGIRequest request, AGIChannel channel, LeaveMessageRequestData data) {
 
 			Log.Information("[{AGIRequestUniqueId}] Save and hangup.", request.UniqueId);
 
 			if (null == data.BillingCompany)
-				await ThrowError(request, "621a", "null == data.BillingCompany");
+				ThrowError(request, "621a", "null == data.BillingCompany");
 			if (string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName))
-				await ThrowError(request, "3525", "string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName)");
+				ThrowError(request, "3525", "string.IsNullOrWhiteSpace(data.BillingCompany.S3BucketName)");
 			if (null == data.AutoAttendant)
-				await ThrowError(request, "329", "null == data.AutoAttendant");
+				ThrowError(request, "329", "null == data.AutoAttendant");
 			if (null == data.AutoAttendant.Id)
-				await ThrowError(request, "222r", "null == data.AutoAttendant.Id");
+				ThrowError(request, "222r", "null == data.AutoAttendant.Id");
 			if (null == data.MessageLeftAtISO8601)
-				await ThrowError(request, "aq62", "null == data.MessageLeftAt");
+				ThrowError(request, "aq62", "null == data.MessageLeftAt");
 			if (null == data.CallerIdNonDigitsRemoved)
-				await ThrowError(request, "aq62", "null == data.CallerIdNonDigitsRemoved");
+				ThrowError(request, "aq62", "null == data.CallerIdNonDigitsRemoved");
 
 			
 
@@ -238,13 +238,13 @@ namespace ARI.IVR.OnCall
 
 
 
-			await AsyncProcess.StartProcess(
+			AsyncProcess.StartProcess(
 					"/bin/bash",
 					$" -c \"s3cmd put {data.OnCallMessageRecordingPathActual} {s3CmdURI}\"",
 					null,
 					1000 * 60 * 60, // 60 minutes
 					Console.Out,
-					Console.Out);
+					Console.Out).Wait();
 
 
 			Log.Information("[{AGIRequestUniqueId}] S3CMD Upload complete", request.UniqueId);

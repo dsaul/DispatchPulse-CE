@@ -25,10 +25,10 @@ namespace ARI.IVR.OnCall
 	{
 		
 
-		public static string? PBX_LOCAL_RECORD_FILE_DIRECTORY
+		public static string? RECORDINGS_DIRECTORY
 		{
 			get {
-				string? str = Environment.GetEnvironmentVariable("PBX_LOCAL_RECORD_FILE_DIRECTORY");
+				string? str = Environment.GetEnvironmentVariable("RECORDINGS_DIRECTORY");
 				if (!string.IsNullOrWhiteSpace(str)) {
 					return str;
 				}
@@ -74,8 +74,8 @@ namespace ARI.IVR.OnCall
 			}
 
 
-			if (string.IsNullOrWhiteSpace(PBX_LOCAL_RECORD_FILE_DIRECTORY)) {
-				Log.Error("PBX_LOCAL_RECORD_FILE_DIRECTORY not set!");
+			if (string.IsNullOrWhiteSpace(RECORDINGS_DIRECTORY)) {
+				Log.Error("RECORDINGS_DIRECTORY not set!");
 				return;
 			}
 

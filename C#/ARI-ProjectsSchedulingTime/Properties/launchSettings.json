@@ -21,7 +21,7 @@
         "PBX_SSH_PORT": "22",
         "PBX_LOCAL_OUTGOING_SPOOL_COMPLETED_DIRECTORY": "/var/spool/asterisk/outgoing_done",
         "PBX_LOCAL_CLIENT_RECORDINGS_DIRECTORY": "/srv/client-recordings/",
-        "PBX_LOCAL_RECORD_FILE_DIRECTORY": "/srv/on-call-temp-recordings",
+        "RECORDINGS_DIRECTORY": "/srv/on-call-temp-recordings",
         "PBX_LOCAL_TTS_CACHE_BUCKET_DIRECTORY": "/srv/tts-cache/",
         "PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY": "/var/spool/asterisk/outgoing",
         "ARI_TO_PBX_SSH_IDRSA_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\integrationtest\\ari-to-pbx-idrsa.txt",

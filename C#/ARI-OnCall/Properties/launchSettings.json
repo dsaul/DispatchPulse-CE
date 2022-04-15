@@ -17,7 +17,7 @@
         "AWS_PROFILE": "ari-dispatchpulse",
         "S3_PBX_SECRET_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-secret-key-2.txt",
         "S3_PBX_ACCESS_KEY_FILE": "%USERPROFILE%\\Desktop\\Secrets\\s3-linode-tts-cache-access-key-2.txt",
-        "PBX_LOCAL_RECORD_FILE_DIRECTORY": "/srv/on-call-temp-recordings",
+        "RECORDINGS_DIRECTORY": "/srv/on-call-temp-recordings",
         "NPGSQL_CONNECTION_STRING_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\NPGSQL_CONNECTION_STRING.txt",
         "SMTP_HOST_PORT_FILE": "%USERPROFILE%\\Documents\\RuntimeVariables\\SMTP_HOST_PORT.txt",
         "PBX_LOCAL_CLIENT_RECORDINGS_DIRECTORY": "/srv/client-recordings/",
