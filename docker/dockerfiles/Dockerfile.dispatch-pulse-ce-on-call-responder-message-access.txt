@@ -21,7 +21,7 @@ RUN git clone --depth 1 https://github.com/dsaul/DispatchPulse-CE -b master /sou
 WORKDIR /source
 RUN ls -la
 
-WORKDIR /source/C#/OnCallResponderMessageAccess
+WORKDIR /source/backend/OnCallResponderMessageAccess
 RUN npm install
 RUN dotnet restore
 

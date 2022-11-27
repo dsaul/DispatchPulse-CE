@@ -19,7 +19,7 @@ RUN git clone --depth 1 https://github.com/dsaul/DispatchPulse-CE -b master /sou
 WORKDIR /source
 RUN ls -la
 
-WORKDIR /source/C#/JobRunnerOnCallResponder30Days
+WORKDIR /source/backend/JobRunnerOnCallResponder30Days
 RUN dotnet restore
 
 RUN dotnet publish --output /app --configuration Debug

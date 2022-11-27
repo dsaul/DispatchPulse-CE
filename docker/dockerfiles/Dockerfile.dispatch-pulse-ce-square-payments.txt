@@ -21,7 +21,7 @@ RUN git clone --depth 1 https://github.com/dsaul/DispatchPulse-CE -b master /sou
 WORKDIR /source
 RUN ls -la
 
-WORKDIR /source/C#/SquarePayments
+WORKDIR /source/backend/SquarePayments
 RUN npm install
 RUN dotnet restore
 

@@ -21,7 +21,7 @@ RUN git clone --depth 1 https://github.com/dsaul/DispatchPulse-CE -b master /sou
 WORKDIR /source
 RUN ls -la
 
-WORKDIR /source/C#/TwilioDisasterRecovery
+WORKDIR /source/backend/TwilioDisasterRecovery
 RUN npm install
 RUN dotnet restore
 
