@@ -351,32 +351,6 @@ services:
       - S3_DISPATCH_PULSE_SERVICE_URI_FILE=/var/run/secrets/S3_DISPATCH_PULSE_SERVICE_URI
       - BILLING_DATABASE_NAME=billing
       
-      
-  dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:
-    build:
-      context: ./
-      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-ensure-company-s3-buckets.txt
-    image: maskawanian/dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:latest
-    container_name: dispatch-pulse-ce-job-runners-ensure-company-s3-buckets
-    restart: unless-stopped
-    
-    depends_on:
-      - "minio"
-    networks:
-     - backend
-    volumes:
-     - ./secrets:/var/run/secrets
-    environment:
-      - NPGSQL_CONNECTION_STRING_FILE=/var/run/secrets/NPGSQL_CONNECTION_STRING
-      - PGPASSFILE=/var/run/secrets/PGPASSFILE
-      - S3_PDFLATEX_ACCESS_KEY_FILE=/var/run/secrets/S3_PDFLATEX_ACCESS_KEY
-      - S3_PDFLATEX_SECRET_KEY_FILE=/var/run/secrets/S3_PDFLATEX_SECRET_KEY
-      - APP_BASE_URI_FILE=/var/run/secrets/APP_BASE_URI
-      - S3_DISPATCH_PULSE_SERVICE_URI_FILE=/var/run/secrets/S3_DISPATCH_PULSE_SERVICE_URI
-      - S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY_FILE=/var/run/secrets/S3_MANAGE_CLIENT_BUCKETS_ACCESS_KEY
-      - S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY_FILE=/var/run/secrets/S3_MANAGE_CLIENT_BUCKETS_SECRET_KEY
-      - BILLING_DATABASE_NAME=billing 
-      
   dispatch-pulse-ce-webapp:
     build:
       context: ./
