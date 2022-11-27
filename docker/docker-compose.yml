@@ -21,6 +21,9 @@ services:
       POSTGRES_PASSWORD: changeme
   
   dispatch-pulse-ce-database-bootstrap:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-database-bootstrap.txt
     image: maskawanian/dispatch-pulse-ce-database-bootstrap:latest
     container_name: dispatch-pulse-ce-database-bootstrap
     depends_on:
@@ -59,6 +62,9 @@ services:
     command: server /data --console-address ":9001"
     
   dispatch-pulse-ce-minio-bootstrap:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-minio-bootstrap.txt
     image: maskawanian/dispatch-pulse-ce-minio-bootstrap:latest
     container_name: dispatch-pulse-ce-minio-bootstrap
     depends_on:
@@ -79,6 +85,9 @@ services:
 # Job Runners
 #
   dispatch-pulse-ce-job-runner-assignments-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-assignments-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-assignments-report
     container_name: dispatch-pulse-ce-job-runners-assignments-report
     restart: unless-stopped
@@ -98,6 +107,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-companies-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-companies-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-companies-report
     container_name: dispatch-pulse-ce-job-runners-companies-report
     restart: unless-stopped
@@ -117,6 +129,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-contacts-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-contacts-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-contacts-report
     container_name: dispatch-pulse-ce-job-runners-contacts-report
     restart: unless-stopped
@@ -136,6 +151,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-database-verification:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-database-verification.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-database-verification:latest
     container_name: dispatch-pulse-ce-job-runners-database-verification-report
     restart: unless-stopped
@@ -155,6 +173,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-labour-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-labour-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-labour-report
     container_name: dispatch-pulse-ce-job-runners-labour-report
     restart: unless-stopped
@@ -174,6 +195,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-materials-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-materials-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-materials-report
     container_name: dispatch-pulse-ce-job-runners-materials-report
     restart: unless-stopped
@@ -193,6 +217,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-on-call-responder-30-day-report-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-on-call-responder-30-day-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-on-call-responder-30-day-report:latest
     container_name: dispatch-pulse-ce-job-runners-on-call-responder-30-day-report-report
     restart: unless-stopped
@@ -212,6 +239,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-pdflatex:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-pdflatex.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-pdflatex
     container_name: dispatch-pulse-ce-job-runner-pdflatex
     restart: unless-stopped
@@ -232,6 +262,9 @@ services:
 
 
   dispatch-pulse-ce-job-runner-projects-report:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-projects-report.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-projects-report
     container_name: dispatch-pulse-ce-job-runners-projects-report
     restart: unless-stopped
@@ -251,6 +284,9 @@ services:
       - BILLING_DATABASE_NAME=billing
 
   dispatch-pulse-ce-job-runner-recurring-task-scheduler:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-recurring-task-scheduler.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-recurring-task-scheduler
     container_name: dispatch-pulse-ce-job-runner-recurring-task-scheduler
     restart: unless-stopped
@@ -271,6 +307,9 @@ services:
 
 
   dispatch-pulse-ce-job-runner-remove-expired-jobs:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-remove-expired-jobs.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-remove-expired-jobs
     container_name: dispatch-pulse-ce-job-runner-remove-expired-jobs
     restart: unless-stopped
@@ -291,6 +330,9 @@ services:
 
 
   dispatch-pulse-ce-job-runner-update-web-cal-files:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-update-web-cal-files.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-update-web-cal-files:latest
     container_name: dispatch-pulse-ce-job-runner-update-web-cal-files
     restart: unless-stopped
@@ -311,6 +353,9 @@ services:
       
       
   dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-job-runner-ensure-company-s3-buckets.txt
     image: maskawanian/dispatch-pulse-ce-job-runner-ensure-company-s3-buckets:latest
     container_name: dispatch-pulse-ce-job-runners-ensure-company-s3-buckets
     restart: unless-stopped
@@ -333,6 +378,9 @@ services:
       - BILLING_DATABASE_NAME=billing 
       
   dispatch-pulse-ce-webapp:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-webapp.txt
     image: maskawanian/dispatch-pulse-ce-webapp:latest
     container_name: dispatch-pulse-ce-webapp
     restart: unless-stopped
@@ -346,6 +394,9 @@ services:
      - API_ROOT=https://changemeapi.b7q.org
      
   dispatch-pulse-ce-api:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-api.txt
     image: maskawanian/dispatch-pulse-ce-api
     container_name: dispatch-pulse-ce-api
     restart: unless-stopped
@@ -380,6 +431,9 @@ services:
       - BILLING_DATABASE_NAME=billing 
      
   dispatch-pulse-ce-callcontrol-projects-scheduling-time:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-callcontrol-projects-scheduling-time.txt
     image: maskawanian/dispatch-pulse-ce-callcontrol-projects-scheduling-time
     container_name: dispatch-pulse-ce-callcontrol-projects-scheduling-time
     restart: unless-stopped
@@ -400,6 +454,9 @@ services:
      - ARI_ENDPOINT=CompanyAccess
     
   dispatch-pulse-ce-ari-projects-scheduling-time:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-ari-projects-scheduling-time.txt
     image: maskawanian/dispatch-pulse-ce-ari-projects-scheduling-time
     container_name: dispatch-pulse-ce-ari-projects-scheduling-time
     restart: unless-stopped
@@ -432,6 +489,9 @@ services:
 
 
   dispatch-pulse-ce-callcontrol-on-call:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-callcontrol-on-call.txt
     image: maskawanian/dispatch-pulse-ce-callcontrol-on-call
     container_name: dispatch-pulse-ce-callcontrol-on-call
     restart: unless-stopped
@@ -455,6 +515,9 @@ services:
      - ARI_ENDPOINT_RESPONDEE_MENU=RespondeeMenu
 
   dispatch-pulse-ce-ari-on-call:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-ari-on-call.txt
     image: maskawanian/dispatch-pulse-ce-ari-on-call
     container_name: dispatch-pulse-ce-ari-on-call
     restart: unless-stopped
@@ -500,6 +563,9 @@ services:
       - SMTP_PASSWORD_FILE=/var/run/secrets/SMTP_PASSWORD
       
   dispatch-pulse-ce-on-call-responder-message-access:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-on-call-responder-message-access.txt
     image: maskawanian/dispatch-pulse-ce-on-call-responder-message-access
     container_name: dispatch-pulse-ce-on-call-responder-message-access
     restart: unless-stopped
@@ -523,6 +589,9 @@ services:
       - SMTP_PASSWORD_FILE=/var/run/secrets/SMTP_PASSWORD
 
   dispatch-pulse-ce-square-payments:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-square-payments.txt
     image: maskawanian/dispatch-pulse-ce-square-payments
     container_name: dispatch-pulse-ce-square-payments
     restart: unless-stopped
@@ -550,6 +619,9 @@ services:
       - ACCOUNTS_RECEIVABLE_EMAIL_FILE=/var/run/secrets/ACCOUNTS_RECEIVABLE_EMAIL
 
   dispatch-pulse-ce-twilio-disaster-recovery:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.dispatch-pulse-ce-twilio-disaster-recovery.txt
     image: maskawanian/dispatch-pulse-ce-twilio-disaster-recovery
     container_name: dispatch-pulse-ce-twilio-disaster-recovery
     restart: unless-stopped
