@@ -57,8 +57,8 @@ namespace ARI
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(EnvAsterisk.ARI_SPOOL_DIRECTORY)) {
-				Log.Error("ARI_SPOOL_DIRECTORY not set!");
+			if (string.IsNullOrWhiteSpace(EnvAsterisk.ARI_OUTGOING_SPOOL_DIRECTORY)) {
+				Log.Error("ARI_OUTGOING_SPOOL_DIRECTORY not set!");
 				return;
 			}
 
