@@ -2,9 +2,9 @@
   "version": "1.0.0",
   "name": "asp.net",
   "private": true,
-  "dependencies": {
-    "luxon": "^2.1.1",
-    "iframe-resizer": "^4.3.2"
-  },
+    "dependencies": {
+        "luxon": "^3.0.4",
+        "iframe-resizer": "^4.3.2"
+    },
   "devDependencies": {}
 }
