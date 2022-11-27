@@ -17,14 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.4" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.8.17" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.101.22" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
-    <PackageReference Include="DanSaul.SharedCode.DatabaseSchemas" Version="2022.4.722.8" />
-    <PackageReference Include="DanSaul.SharedCode.Npgsql" Version="2022.4.721.48" />
-    <PackageReference Include="DanSaul.SharedCode.SignalR" Version="2022.4.807.12" />
-    <PackageReference Include="DanSaul.SharedCode.StandardizedEnvironmentVariables" Version="2022.4.722.2" />
+    <PackageReference Include="Castle.Core" Version="5.1.0" />
+    <PackageReference Include="DanSaul.SharedCode.DatabaseSchemas" Version="2022.11.2714.42" />
+    <PackageReference Include="DanSaul.SharedCode.Npgsql" Version="2022.11.2714.30" />
+    <PackageReference Include="DanSaul.SharedCode.SignalR" Version="2022.11.2714.30" />
+    <PackageReference Include="DanSaul.SharedCode.StandardizedEnvironmentVariables" Version="2022.11.2714.30" />
     <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
@@ -33,20 +33,20 @@
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Square" Version="17.3.0" />
-    <PackageReference Include="Stripe.net" Version="39.103.0" />
+    <PackageReference Include="Square" Version="24.0.0" />
+    <PackageReference Include="Stripe.net" Version="41.1.0" />
 	<PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.6" PrivateAssets="All" />
-	<PackageReference Include="TimeZoneConverter" Version="5.0.0" />
-	<PackageReference Include="Twilio" Version="5.74.0" />
+	<PackageReference Include="TimeZoneConverter" Version="6.0.1" />
+	<PackageReference Include="Twilio" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
