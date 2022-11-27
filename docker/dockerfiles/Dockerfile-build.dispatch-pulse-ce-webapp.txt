@@ -38,7 +38,7 @@ FROM nginx:latest
 # Remove the default html.
 WORKDIR /usr/share/nginx/html
 RUN rm -rf * 
-COPY --from=build /source/Webapp/dist /usr/share/nginx/html/
+COPY --from=build /source/frontend/dist /usr/share/nginx/html/
 
 # Install our own config file.
 WORKDIR /etc/nginx/conf.d/
