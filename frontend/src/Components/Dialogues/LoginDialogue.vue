@@ -131,7 +131,7 @@
 		},
 	})
 	export default class LoginDialogue extends DialogueBase {
-		public companyAbbreviation = 'CE';
+		public companyAbbreviation = 'CWE';
 		public contactEMail = '';
 		public contactPassword = '';
 		
