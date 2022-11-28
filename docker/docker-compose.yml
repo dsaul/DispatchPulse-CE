@@ -1,6 +1,24 @@
 version: "3.2"
 services:
 
+# 
+# Reverse Proxy
+# 
+
+  proxy:
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile.proxy.txt
+    working_dir: /var/www
+    container_name: proxy
+    restart: always
+    ports:
+     - '80:80'
+     - '443:443'
+    networks:
+     - backend
+
+
 #
 # Database
 #
@@ -456,11 +474,11 @@ services:
       - AWS_POLLY_ACCESS_KEY_ID_FILE=/var/run/secrets/AWS_POLLY_ACCESS_KEY_ID
       - AWS_POLLY_SECRET_ACCESS_KEY_FILE=/var/run/secrets/AWS_POLLY_SECRET_ACCESS_KEY
       - ARI_AND_API_SHARED_SECRET_FILE=/var/run/secrets/ARI_AND_API_SHARED_SECRET
-      - PBX_LOCAL_OUTGOING_SPOOL_DIRECTORY=/var/spool/asterisk/outgoing
       - SIGNAL_R_HUB_URI_FILE=/var/run/secrets/SIGNAL_R_HUB_URI
       - ARI_SPOOL_DIRECTORY=/var/spool/asterisk
       - BILLING_DATABASE_NAME=billing
-
+      - ARI_OUTGOING_SPOOL_DIRECTORY=/var/spool/asterisk/outgoing
+      - ARI_OUTGOING_SPOOL_COMPLETED_DIRECTORY=/var/spool/asterisk/outgoing_done
 
   dispatch-pulse-ce-callcontrol-on-call:
     build:
