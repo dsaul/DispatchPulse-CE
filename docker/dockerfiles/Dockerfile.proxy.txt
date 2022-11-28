@@ -17,12 +17,6 @@ COPY docker-includes/proxy.default.conf default.conf
 COPY docker-includes/proxy.site-backend.conf site-backend.conf
 COPY docker-includes/proxy.site-frontend.conf site-frontend.conf
 
-WORKDIR /etc/nginx/
-COPY docker-includes/proxy.self-signed-backend.crt /etc/nginx/self-signed-backend.crt
-COPY docker-includes/proxy.self-signed-backend.key /etc/nginx/self-signed-backend.key
-COPY docker-includes/proxy.self-signed-frontend.crt /etc/nginx/self-signed-frontend.crt
-COPY docker-includes/proxy.self-signed-frontend.key /etc/nginx/self-signed-frontend.key
-
 # Install our own scripts to manage this container.
 WORKDIR /
 COPY docker-includes/proxy.entry.sh /entry.sh
