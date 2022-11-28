@@ -1,7 +1,6 @@
 import GenerateID from '@/Utility/GenerateID';
 import _ from 'lodash';
 import { RPCRequestBillingCurrencyForCurrentSession } from '@/Data/Billing/BillingCurrency/RPCRequestBillingCurrencyForCurrentSession';
-import { RPCPerformGetIPCurrencyPerUserCost } from '@/Data/Billing/BillingCurrency/RPCPerformGetIPCurrencyPerUserCost';
 import { RPCMethod } from '@/RPC/RPCMethod';
 
 
@@ -17,9 +16,6 @@ export class BillingCurrency {
 	public static RequestBillingCurrencyForCurrentSession = 
 		RPCMethod.Register<RPCRequestBillingCurrencyForCurrentSession>(
 			new RPCRequestBillingCurrencyForCurrentSession());
-	public static PerformGetIPCurrencyPerUserCost = 
-		RPCMethod.Register<RPCPerformGetIPCurrencyPerUserCost>(
-			new RPCPerformGetIPCurrencyPerUserCost());
 	
 	public static GetMerged(mergeValues: Record<string, any>): IBillingCurrency {
 		const ret = this.GetEmpty();

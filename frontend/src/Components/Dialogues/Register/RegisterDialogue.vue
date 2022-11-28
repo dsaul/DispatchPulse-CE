@@ -533,7 +533,6 @@ import { BillingPermissionsGroupsMemberships } from '@/Data/Billing/BillingPermi
 import { BillingCurrency } from '@/Data/Billing/BillingCurrency/BillingCurrency';
 import { BillingContacts } from '@/Data/Billing/BillingContacts/BillingContacts';
 import { BillingPaymentMethod } from '@/Data/Billing/BillingPaymentMethod/BillingPaymentMethod';
-import { IPerformGetIPCurrencyPerUserCostCB } from '@/Data/Billing/BillingCurrency/RPCPerformGetIPCurrencyPerUserCost';
 import { VForm } from '@/Components/Editors/EditorBase';
 import { IPerformRegisterNewCompanyCB } from '@/Data/Billing/BillingCompanies/RPCPerformRegisterNewCompany';
 import { IPerformRegisterMainUserCB } from '@/Data/Billing/BillingContacts/RPCPerformRegisterMainUser';
@@ -615,30 +614,6 @@ export default class RegisterDialogue extends DialogueBase {
 	
 	public mounted(): void {
 		// https://github.com/szimek/signature_pad
-		
-		const state = this.ModelState as IRegisterDialogueModelState;
-		if (!state.perUserCost || !state.ip || !state.currency) {
-			SignalRConnection.Ready(() => {
-				const rtr = BillingCurrency.PerformGetIPCurrencyPerUserCost.Send({
-					sessionId: BillingSessions.CurrentSessionId(),
-					idempotencyToken: GenerateID(),
-				});
-				
-				if (rtr.completeRequestPromise) {
-					rtr.completeRequestPromise.then((payload: IPerformGetIPCurrencyPerUserCostCB) => {
-						
-						const state2 = this.ModelState as IRegisterDialogueModelState;
-						state2.ip = payload.ip;
-						state2.currency = payload.currency;
-						state2.perUserCost = payload.perUserCost;
-						this.ModelState = state2;
-						
-					});
-				}
-			});
-		}
-		
-		
 		
 		//console.log(StripeManager);
 		
