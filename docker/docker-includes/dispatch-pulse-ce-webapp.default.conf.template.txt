@@ -10,6 +10,10 @@ server {
 		add_header Content-Type text/plain;
 	}
 	
+	location /env/NAV_PICTURE_URI {
+		return 301 ${NAV_PICTURE_URI};
+	}
+	
 	location /css {
 		#root	 /usr/share/nginx/html/css;
 		index	index.html index.htm;

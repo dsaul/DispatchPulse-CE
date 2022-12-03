@@ -8,7 +8,7 @@
 		mobile-breakpoint="960"
 		>
 		<v-img
-			src="https://static.dispatchpulse.com/app-version-images/v3-on-call.jpg"
+			src="/env/NAV_PICTURE_URI"
 			style="max-height: 185px;"
 			dark
 			>
