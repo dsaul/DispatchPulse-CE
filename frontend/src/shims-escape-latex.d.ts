@@ -1,1 +1,1 @@
-declare module "escape-latex";
+declare module 'escape-latex';

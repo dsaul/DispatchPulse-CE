@@ -1,1 +1,1 @@
-declare module "cal-parser";
+declare module 'cal-parser';

@@ -1,7 +1,13 @@
 <template>
-	<v-btn class="ma-2" :loading="loading" :disabled="disabled || loading" color="green" style="color: white;"
-		@click="OnClick">
-		Sync {{ calendar.json.name }}
+	<v-btn
+		class="ma-2"
+		:loading="loading"
+		:disabled="disabled || loading"
+		color="green"
+		style="color: white;"
+		@click="OnClick"
+		>
+		Sync {{calendar.json.name}}
 	</v-btn>
 </template>
 
@@ -17,44 +23,44 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
 	components: {
-
+		
 	},
 })
 export default class SyncCalendarButton extends Vue {
-
+	
 	@Prop({ default: null }) public readonly calendar!: ICalendar | null;
 	@Prop({ default: false }) public readonly disabled!: boolean;
-
+	
 	protected loading = false;
-
+	
 	protected mounted(): void {
-
+		
 		//
-
+		
 	}
-
+	
 	protected OnClick(): void {
-
+		
 		if (!this.calendar) {
 			console.error('!this.calendar');
 			return;
 		}
-
+		
 		if (!this.calendar.id) {
 			console.error('!this.calendar.id');
 			return;
 		}
-
+		
 		console.log('OnClick');
-
+		
 		const contact = BillingContacts.ForCurrentSession();
 		if (!contact) {
 			console.error('!contact');
 			return;
 		}
-
+		
 		this.loading = true;
-
+		
 		const rtr = Calendar.PerformRetrieveCalendar.Send({
 			calendarId: this.calendar.id,
 			sessionId: BillingSessions.CurrentSessionId(),
@@ -68,9 +74,9 @@ export default class SyncCalendarButton extends Vue {
 						autoClearInSeconds: 10,
 					});
 				}
-
-
-
+				
+				
+				
 				console.debug('IPerformRetrieveCalendarCB', payload);
 			});
 			rtr.completeRequestPromise.finally(() => {
@@ -79,7 +85,7 @@ export default class SyncCalendarButton extends Vue {
 			});
 		}
 	}
-
-
+	
+	
 }
 </script>

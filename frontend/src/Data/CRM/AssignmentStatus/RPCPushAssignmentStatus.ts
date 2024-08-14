@@ -1,8 +1,9 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { IAssignmentStatus } from "./AssignmentStatus";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { IAssignmentStatus } from './AssignmentStatus';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+
 
 export interface IPushAssignmentStatusPayload extends IIdempotencyRequest {
 	assignmentStatus: Record<string, IAssignmentStatus>;
@@ -17,26 +18,23 @@ export class RPCPushAssignmentStatus extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PushAssignmentStatus";
+		return 'PushAssignmentStatus';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PushAssignmentStatusCB";
+		return 'PushAssignmentStatusCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPushAssignmentStatusCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushAssignmentStatusCB): boolean {
+		
 		if (!payload.assignmentStatus) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying assignment status #2.`)
-				);
+					new Error(`Error modifying assignment status #2.`));
 			}
 			return false;
 		}
-
+	
 		// Default action
-
+		
 		return true;
 	}
 }

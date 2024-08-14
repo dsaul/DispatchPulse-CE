@@ -1,15 +1,27 @@
 <template>
 	<div>
-		<audio v-if="hasS3Link" controls preload="auto" autoplay>
+		<audio
+			v-if="hasS3Link"
+			controls
+			preload="auto"
+			autoplay
+			>
 			<source :src="s3URI">
 			Your browser does not support the audio element.
 		</audio>
 		<!-- <a v-if="hasS3Link" :href="s3URI">test</a> -->
-		<v-btn v-else class="ma-2" :loading="loading" :disabled="disabled || loading" color="green"
-			style="color: white;" @click="OnClick">
+		<v-btn
+			v-else
+			class="ma-2"
+			:loading="loading"
+			:disabled="disabled || loading"
+			color="green"
+			style="color: white;"
+			@click="OnClick"
+			>
 			Click to Play
 		</v-btn>
-
+		
 	</div>
 </template>
 
@@ -24,44 +36,44 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
 	components: {
-
+		
 	},
 })
 export default class S3VoicemailPlayer extends Vue {
-
+	
 	@Prop({ default: null }) public readonly voicemail!: null | IVoicemail;
 	@Prop({ default: false }) public readonly disabled!: boolean;
-
+	
 	protected loading = false;
 	protected hasS3Link = false;
 	protected s3URI: string | null = null;
-
+	
 	protected mounted(): void {
-
+		
 		//
-
+		
 	}
-
+	
 	protected OnClick(): void {
 		if (!this.voicemail || !this.voicemail.id) {
 			console.error('!this.voicemail || !this.voicemail.id');
 			return;
 		}
-
+		
 		const sessionId = BillingSessions.CurrentSessionId();
 		if (!sessionId) {
 			console.error('!sessionId');
 			return;
 		}
-
+		
 		const contact = BillingContacts.ForCurrentSession();
 		if (!contact || !contact.companyId) {
 			console.error('!contact || !contact.companyId');
 			return;
 		}
-
+		
 		this.loading = true;
-
+		
 		const rtr = Voicemail.PerformGetVoicemailRecordingLink.Send({
 			sessionId,
 			voicemailId: this.voicemail.id,
@@ -76,9 +88,9 @@ export default class S3VoicemailPlayer extends Vue {
 				this.loading = false;
 			});
 		}
-
+		
 	}
-
-
+	
+	
 }
 </script>

@@ -1,8 +1,8 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { guid } from "@/Utility/GlobalTypes";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { guid } from '@/Utility/GlobalTypes';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
 export interface IRunReportCompaniesPayload extends IIdempotencyRequest {
 	runOnAllCompanies: boolean;
@@ -18,16 +18,15 @@ export class RPCRunReportCompanies extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "RunReportCompanies";
+		return 'RunReportCompanies';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "RunReportCompaniesCB";
+		return 'RunReportCompaniesCB';
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IRunReportCompaniesCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRunReportCompaniesCB): boolean {
+		
+		
 		return true;
 	}
 }

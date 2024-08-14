@@ -1,5 +1,9 @@
 <template>
-	<v-btn dark icon @click="$emit('reload')">
+	<v-btn
+		dark
+		icon
+		@click="$emit('reload')"
+		>
 		<v-icon>sync</v-icon>
 	</v-btn>
 </template>
@@ -8,12 +12,12 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
 	props: {
-
+		
 	},
 })
 export default class HelpMenuButton extends Vue {
-
-
+	
+	
 
 
 }

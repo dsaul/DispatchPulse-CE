@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 export default (str: string | null | undefined): boolean => {
-	if (typeof str === "undefined") {
+	if (typeof str === 'undefined') {
 		return true;
 	}
 	if (undefined === str) {
@@ -16,7 +16,7 @@ export default (str: string | null | undefined): boolean => {
 	if (str.length && 0 === str.length) {
 		return true;
 	}
-	if (str.trim && "" === str.trim()) {
+	if (str.trim && '' === str.trim()) {
 		return true;
 	}
 	return false;

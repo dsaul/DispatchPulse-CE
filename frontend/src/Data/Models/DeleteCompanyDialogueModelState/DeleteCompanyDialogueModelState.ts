@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 export interface IDeleteCompanyDialogueModelState {
 	redirectToIndex: boolean;
@@ -6,22 +6,25 @@ export interface IDeleteCompanyDialogueModelState {
 }
 
 export class DeleteCompanyDialogueModelState {
-	public static GetMerged(
-		mergeValues: Record<string, any>
-	): IDeleteCompanyDialogueModelState {
+	
+	public static GetMerged(mergeValues: Record<string, any>): IDeleteCompanyDialogueModelState {
 		const ret = this.GetEmpty();
 		_.merge(ret, mergeValues);
 		return ret;
 	}
-
+	
 	public static GetEmpty(): IDeleteCompanyDialogueModelState {
 		const ret: IDeleteCompanyDialogueModelState = {
 			redirectToIndex: false,
-			id: null
+			id: null,
 		};
-
+		
 		return ret;
 	}
+	
 }
 
+ 
+
 export default {};
+

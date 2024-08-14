@@ -17,63 +17,65 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 
 @Component({
 	components: {
-
+		
 	},
-
+	
 })
 
 export default class DataLoaderProduct extends Vue {
-
-
-	@Prop({ default: null }) public readonly productId!: string;
-
-
+	
+	
+	@Prop({	default: null }) public readonly productId!: string;
+	
+	
 	protected loadingData = false;
-
-
+	
+	
 	public mounted(): void {
 		this.LoadData();
 	}
-
+	
 	public LoadData(): void {
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-
+				
 				if (null == Product.ForId(this.productId)) {
-
+					
 					const promises: Array<Promise<any>> = [];
-
+					
 					if (Product.PermProductsCanRequest()) {
 						const rtr = Product.FetchForId(this.productId);
 						if (rtr.completeRequestPromise) {
 							promises.push(rtr.completeRequestPromise);
 						}
 					}
-
-
+					
+					
 					if (promises.length > 0) {
-
+						
 						this.loadingData = true;
-
+						
 						Promise.all(promises).finally(() => {
 							this.loadingData = false;
 						});
 					}
-
-
+					
+					
 				}
-
-
+				
+				
 			});
 		});
 	}
-
+	
 	@Watch('productId')
 	protected productIdChanged(val: string, oldVal: string): void { // eslint-disable-line @typescript-eslint/no-unused-vars
 		this.LoadData();
 	}
-
+	
 }
 
 </script>
-<style scoped></style>
+<style scoped>
+
+</style>

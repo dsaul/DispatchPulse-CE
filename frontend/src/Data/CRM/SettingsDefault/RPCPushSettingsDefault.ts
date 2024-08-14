@@ -1,8 +1,9 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
-import { ISettingsDefault } from "./SettingsDefault";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import { ISettingsDefault } from './SettingsDefault';
+
 
 export interface IPushSettingsDefaultPayload extends IIdempotencyRequest {
 	settingsDefault: Record<string, ISettingsDefault>;
@@ -17,26 +18,24 @@ export class RPCPushSettingsDefault extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PushSettingsDefault";
+		return 'PushSettingsDefault';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PushSettingsDefaultCB";
+		return 'PushSettingsDefaultCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPushSettingsDefaultCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushSettingsDefaultCB): boolean {
+		
 		if (!payload.settingsDefault) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying settings default #2.`)
-				);
+					new Error(`Error modifying settings default #2.`));
 			}
 			return false;
 		}
-
+	
 		// Default action
-
+		
+		
 		return true;
 	}
 }

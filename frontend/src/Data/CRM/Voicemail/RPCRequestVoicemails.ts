@@ -1,17 +1,17 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
 
-import store from "@/plugins/store/store";
-import { IVoicemail } from "./Voicemail";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import store from '@/plugins/store/store';
+import { IVoicemail } from './Voicemail';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
 export interface IRequestVoicemailsPayload extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
 }
 
 export interface IRequestVoicemailsCB extends IIdempotencyResponse {
-	voicemails: { [id: string]: IVoicemail };
+	voicemails: { [id: string]: IVoicemail; };
 }
 
 export class RPCRequestVoicemails extends RPCMethod {
@@ -19,28 +19,25 @@ export class RPCRequestVoicemails extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "RequestVoicemails";
+		return 'RequestVoicemails';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "RequestVoicemailsCB";
+		return 'RequestVoicemailsCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IRequestVoicemailsCB
-	): boolean {
-		if (!payload.hasOwnProperty("voicemails")) {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestVoicemailsCB): boolean {
+		
+		if (!payload.hasOwnProperty('voicemails')) {
 			if (rtr && rtr._completeRequestPromiseReject) {
-				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting autoAttendants #2.`)
-				);
+				rtr._completeRequestPromiseReject(new Error(`Error requesting autoAttendants #2.`));
+				
 			}
-
+			
 			return false;
 		}
 
 		// Default action
-		store.commit("UpdateVoicemailsRemote", payload.voicemails);
-
+		store.commit('UpdateVoicemailsRemote', payload.voicemails);
+		
 		return true;
 	}
 }

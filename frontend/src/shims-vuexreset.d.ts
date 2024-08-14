@@ -1,1 +1,1 @@
-declare module "@ianwalter/vuex-reset";
+declare module '@ianwalter/vuex-reset';

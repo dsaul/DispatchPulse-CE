@@ -1,29 +1,48 @@
 <template>
 	<div style="padding: 15px; padding-top: 5px; background: white;">
-
+		
 		<div :class="{
 			'grid-container': true,
 			'grid-container-with-minimized-elements': HasMinimizedColumns,
 		}">
 			<div class="options" style="display: flex; justify-content: center;">
-
+				
 				<v-btn icon x-large @click="GoToPreviousDate">
 					<v-icon>navigate_before</v-icon>
 				</v-btn>
+				
+				<v-menu
+					style="flex: 1;"
+					v-model="showDateSelect"
+					:close-on-content-click="false"
+					:nudge-right="30"
+					:nudge-top="25"
+					transition="scale-transition"
 
-				<v-menu style="flex: 1;" v-model="showDateSelect" :close-on-content-click="false" :nudge-right="30"
-					:nudge-top="25" transition="scale-transition" offset-y min-width="290px">
+					offset-y
+					min-width="290px"
+				>
 					<template v-slot:activator="{ on }">
-						<v-text-field v-model="date" label="Date" prepend-icon="event" readonly v-on="on"
-							style="max-width:300px;"></v-text-field>
+					<v-text-field
+						v-model="date"
+						label="Date"
+						prepend-icon="event"
+						readonly
+						v-on="on"
+						style="max-width:300px;"
+					></v-text-field>
 					</template>
-					<v-date-picker v-model="date" @input="showDateSelect = false" :elevation="1"></v-date-picker>
+					<v-date-picker
+						v-model="date"
+						@input="showDateSelect = false"
+						:elevation="1"
+						></v-date-picker>
 				</v-menu>
-
+				
 				<v-btn icon x-large @click="GoToNextDate">
 					<v-icon>navigate_next</v-icon>
 				</v-btn>
-
+				
 			</div>
 			<scroll-sync class="header-name">
 				Agent
@@ -32,11 +51,15 @@
 				Unassigned
 			</div>
 			<scroll-sync group="scheduler" horizontal class="header-content">
-				<SchedulerHeader v-for="(column, index) in columns" :key="index" :cellWidthPx="cellWidthPx"
-					:cellWidthMinimizedPx="cellWidthMinimizedPx" :column="column"
-					:minimized="MinimizedColumns[index]" />
-				<div style="min-width: 5000px;height: 1px;"></div>
-				<!-- Padding to ensure the two scroll areas keep being aligned. -->
+				<SchedulerHeader 
+					v-for="(column, index) in columns"
+					:key="index"
+					:cellWidthPx="cellWidthPx"
+					:cellWidthMinimizedPx="cellWidthMinimizedPx"
+					:column="column"
+					:minimized="MinimizedColumns[index]"
+					/>
+				<div style="min-width: 5000px;height: 1px;"></div> <!-- Padding to ensure the two scroll areas keep being aligned. -->
 			</scroll-sync>
 			<scroll-sync group="scheduler" vertical class="main-name">
 				<v-list-item-group color="primary">
@@ -48,9 +71,15 @@
 						:placeholderValues="{ name: 'Unassigned' }" 
 						/> -->
 					<div v-if="Rows">
-						<AgentsListItem :class="`agent-row _${row.id}`" :showMenuButton="false" :reducePadding="true"
-							v-for="(row, index) in Rows" :key="row.id" v-model="Rows[index]"
-							:showEmploymentStatus="false" />
+						<AgentsListItem 
+							:class="`agent-row _${row.id}`" 
+							:showMenuButton="false" 
+							:reducePadding="true" 
+							v-for="(row, index) in Rows" 
+							:key="row.id" 
+							v-model="Rows[index]" 
+							:showEmploymentStatus="false"
+							/>
 					</div>
 				</v-list-item-group>
 				<div style="height: 5000px;"></div> <!-- Padding to ensure the two scroll areas keep being aligned. -->
@@ -67,24 +96,43 @@
 					:minimizedColumns="MinimizedColumns"
 					/> -->
 				<div v-if="Rows">
-					<SchedulerRow :date="date" :cellWidthPx="cellWidthPx" :cellWidthMinimizedPx="cellWidthMinimizedPx"
-						class="schedule-row" v-for="row in Rows" :key="row.id"
-						:pushHeightTargetSelector="`.agent-row._${row.id}`" :agentId="row.id" :columns="columns"
-						:minimizedColumns="MinimizedColumns" />
+					<SchedulerRow
+						:date="date"
+						:cellWidthPx="cellWidthPx"
+						:cellWidthMinimizedPx="cellWidthMinimizedPx"
+						class="schedule-row"
+						v-for="row in Rows"
+						:key="row.id"
+						:pushHeightTargetSelector="`.agent-row._${row.id}`"
+						:agentId="row.id"
+						:columns="columns"
+						:minimizedColumns="MinimizedColumns"
+						/>
 				</div>
 			</scroll-sync>
 			<div class="main-unassigned">
-				<SchedulerCell :date="date" :agentId="null" :cellWidthPx="cellWidthPx"
-					:cellWidthMinimizedPx="cellWidthMinimizedPx" :isUnscheduled="true" :isFirstAM="false"
-					:isSecondAM="false" :isFirstPM="false" :isSecondPM="false" :localTimeStart="null"
-					:localTimeEnd="null" :minimized="false" style="min-height: 100%;" />
-
+				<SchedulerCell
+					:date="date"
+					:agentId="null"
+					:cellWidthPx="cellWidthPx"
+					:cellWidthMinimizedPx="cellWidthMinimizedPx"
+					:isUnscheduled="true"
+					:isFirstAM="false"
+					:isSecondAM="false"
+					:isFirstPM="false"
+					:isSecondPM="false"
+					:localTimeStart="null"
+					:localTimeEnd="null"
+					:minimized="false"
+					style="min-height: 100%;"
+					/>
+				
 			</div>
-
-
+			
+			
 		</div>
 	</div>
-
+	
 </template>
 <script lang="ts">
 
@@ -124,23 +172,23 @@ export interface SchedulerColumn {
 		Draggable,
 	},
 	props: {
-
+		
 	},
 })
 export default class Scheduler extends Vue {
-
+	
 	@Prop({ default: 150 }) public readonly cellWidthPx!: number;
 	@Prop({ default: 40 }) public readonly cellWidthMinimizedPx!: number;
-
+	
 	@Prop({ default: () => DateTime.local().toFormat('yyyy-MM-dd') }) public readonly date!: string;
-
+	
 	protected filter = '';
-
+	
 	protected loadingData = false;
 	protected _LoadDataTimeout: ReturnType<typeof setTimeout> | null = null;
-
+	
 	protected showDateSelect = false;
-
+	
 	protected columns: SchedulerColumn[] = [
 		{
 			type: 'unscheduled',
@@ -239,7 +287,7 @@ export default class Scheduler extends Vue {
 			columnHeaderMinimized: '3 PM',
 			localTimeStart: { hour: 15, minute: 0, second: 0 },
 			localTimeEnd: { hour: 15, minute: 59, second: 59 },
-
+			
 		},
 		{
 			type: 'timespan',
@@ -263,29 +311,29 @@ export default class Scheduler extends Vue {
 			localTimeEnd: { hour: 23, minute: 59, second: 59 },
 		},
 	];
-
+	
 	public get IsLoadingData(): boolean {
-
+		
 		return this.loadingData;
 	}
-
+	
 	public LoadData(): void {
-
+		
 		//console.debug('LabourList LoadData()');
-
+		
 		// In timeout to debounce
 		if (this._LoadDataTimeout) {
 			clearTimeout(this._LoadDataTimeout);
 			this._LoadDataTimeout = null;
 		}
-
+		
 		this._LoadDataTimeout = setTimeout(() => {
-
+		
 			SignalRConnection.Ready(() => {
 				BillingPermissionsBool.Ready(() => {
-
+					
 					const promises: Array<Promise<any>> = [];
-
+					
 					if (Agent.PermAgentsCanRequest()) {
 						const rtrAgents = Agent.RequestAgents.Send({
 							sessionId: BillingSessions.CurrentSessionId(),
@@ -294,7 +342,7 @@ export default class Scheduler extends Vue {
 							promises.push(rtrAgents.completeRequestPromise);
 						}
 					}
-
+					
 					if (Assignment.PermAssignmentCanRequest()) {
 						const rtrAssignments = Assignment.RequestAssignments.Send({
 							sessionId: BillingSessions.CurrentSessionId(),
@@ -303,256 +351,257 @@ export default class Scheduler extends Vue {
 							promises.push(rtrAssignments.completeRequestPromise);
 						}
 					}
-
+					
 					if (promises.length > 0) {
 						this.loadingData = true;
-
+						
 						Promise.all(promises).finally(() => {
 							this.loadingData = false;
 						});
 					}
 				});
 			});
-
+		
 		}, 250);
-
+		
 	}
-
+	
 	public get HasMinimizedColumns(): boolean {
-
+		
 		for (const b of this.MinimizedColumns) {
 			if (b) {
 				return true;
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	public get MinimizedColumns(): boolean[] {
-
+		
 		const ret: boolean[] = [];
-
+		
 		for (const column of this.columns) {
-
+			
 			switch (column.type) {
 				case 'unscheduled':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: true,
-							isFirstAM: false,
-							isSecondAM: false,
-							isFirstPM: false,
-							isSecondPM: false,
-							localTimeStart: null,
-							localTimeEnd: null,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: true,
+						isFirstAM: false,
+						isSecondAM: false,
+						isFirstPM: false,
+						isSecondPM: false,
+						localTimeStart: null,
+						localTimeEnd: null,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 				case 'am1':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: false,
-							isFirstAM: true,
-							isSecondAM: false,
-							isFirstPM: false,
-							isSecondPM: false,
-							localTimeStart: null,
-							localTimeEnd: null,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: false,
+						isFirstAM: true,
+						isSecondAM: false,
+						isFirstPM: false,
+						isSecondPM: false,
+						localTimeStart: null,
+						localTimeEnd: null,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 				case 'am2':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: false,
-							isFirstAM: false,
-							isSecondAM: true,
-							isFirstPM: false,
-							isSecondPM: false,
-							localTimeStart: null,
-							localTimeEnd: null,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: false,
+						isFirstAM: false,
+						isSecondAM: true,
+						isFirstPM: false,
+						isSecondPM: false,
+						localTimeStart: null,
+						localTimeEnd: null,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 				case 'pm1':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: false,
-							isFirstAM: false,
-							isSecondAM: false,
-							isFirstPM: true,
-							isSecondPM: false,
-							localTimeStart: null,
-							localTimeEnd: null,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: false,
+						isFirstAM: false,
+						isSecondAM: false,
+						isFirstPM: true,
+						isSecondPM: false,
+						localTimeStart: null,
+						localTimeEnd: null,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 				case 'pm2':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: false,
-							isFirstAM: false,
-							isSecondAM: false,
-							isFirstPM: false,
-							isSecondPM: true,
-							localTimeStart: null,
-							localTimeEnd: null,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: false,
+						isFirstAM: false,
+						isSecondAM: false,
+						isFirstPM: false,
+						isSecondPM: true,
+						localTimeStart: null,
+						localTimeEnd: null,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 				case 'timespan':
-					{
-						const hasItems = Assignment.ForSchedulerMinimization({
-							date: this.date,
-							isUnscheduled: false,
-							isFirstAM: false,
-							isSecondAM: false,
-							isFirstPM: false,
-							isSecondPM: false,
-							localTimeStart: column.localTimeStart,
-							localTimeEnd: column.localTimeEnd,
-						});
-						ret.push(!hasItems);
-					}
-					break;
+				{
+					const hasItems = Assignment.ForSchedulerMinimization({
+						date: this.date,
+						isUnscheduled: false,
+						isFirstAM: false,
+						isSecondAM: false,
+						isFirstPM: false,
+						isSecondPM: false,
+						localTimeStart: column.localTimeStart,
+						localTimeEnd: column.localTimeEnd,
+					});
+					ret.push(!hasItems);
+				}
+				break;
 			}
 		}
-
+		
 		return ret;
 	}
-
+	
 	public get Rows(): IAgent[] {
-
-
+		
+		
 		//console.log('rows',this);
-
+		
 		const filtered: IAgent[] = _.filter(
 			this.$store.state.Database.agents,
 			(o: IAgent) => {
-
-
+				
+				
 				let result = true;
-
+				
 				do {
-
+					
 					const employmentStatusId = o.json.employmentStatusId;
 					if (null == employmentStatusId || IsNullOrEmpty(employmentStatusId)) {
 						result = false;
 						break;
 					}
-
+					
 					const employmentStatus = EmploymentStatus.ForId(employmentStatusId);
 					if (null == employmentStatus) {
 						result = false;
 						break;
 					}
-
+					
 					if (false === employmentStatus.json.shouldBeListedInScheduler) {
 						result = false;
 						break;
 					}
-
-
-
-
+					
+					
+					
+					
 					let haystack = '';
 					haystack += o.json.name;
 					haystack = haystack.replace(/\W/g, '');
 					haystack = haystack.toLowerCase();
-
-
+					
+					
 					let needle = this.filter.toLowerCase();
 					needle = needle.replace(/\W/g, '');
-
+					
 					//console.log('haystack:',haystack,'needle:',needle);
-
+					
 					if (haystack.indexOf(needle) === -1) {
 						result = false;
 						break;
 					}
-
+					
 				} while (false);
-
+				
 				return result;
 			},
 		);
-
+		
 		//console.log(filtered);
-
+		
 		const sorted: IAgent[] = _.sortBy(filtered, (o: IAgent) => {
 			return o.json.name;
 		});
-
-
+		
+		
 		return sorted;
 	}
-
+	
 	protected GoToPreviousDate(): void {
-
+		
 		//console.debug('GoToPreviousDate', this.date);
-
+		
 		const dateLocal = DateTime.fromFormat(this.date, 'yyyy-MM-dd', {
 			zone: 'local',
 			setZone: true,
 		});
-
+		
 		const yesterdayDateLocal = dateLocal.minus({ days: 1 });
 		const newDate = yesterdayDateLocal.toFormat('yyyy-MM-dd');
-
+		
 		console.debug('newDate', newDate);
 		//this.date = newDate;
-
+		
 		this.$emit('OnDateChanged', newDate);
-
-
+		
+		
 	}
-
+	
 	protected GoToNextDate(): void {
 		//console.debug('GoToNextDate', this.date);
-
+		
 		const dateLocal = DateTime.fromFormat(this.date, 'yyyy-MM-dd', {
 			zone: 'local',
 			setZone: true,
 		});
-
+		
 		const tomorrowDateLocal = dateLocal.plus({ days: 1 });
 		const newDate = tomorrowDateLocal.toFormat('yyyy-MM-dd');
-
+		
 		//this.date = newDate;
 		this.$emit('OnDateChanged', newDate);
-
+		
 		//console.debug('newDate', newDate);
 	}
-
+	
 	protected mounted(): void {
 		//console.log(this);
-
+		
 		this.LoadData();
 	}
-
-
-
+	
+	
+	
 }
 </script>
 <style scoped>
+
 .grid-container {
 	display: grid;
 	grid-template-columns: 200px auto 168px;
 	grid-template-rows: 70px 45px auto 50px;
 	height: 100vh;
 	margin-top: calc(-112px + -48px + -41px + -5px + -15px);
-	padding-top: calc(112px + 48px + 41px + 5px + 15px);
+	padding-top: calc(112px + 48px + 41px + 5px + 15px); 
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -562,14 +611,13 @@ export default class Scheduler extends Vue {
 }
 
 @media only screen and (max-width: 279px) {
-	.grid-container {
+	.grid-container  {
 		margin-top: calc(-104px + -48px + -61px + -5px + -15px);
 		padding-top: calc(104px + 48px + 61px + 5px + 15px);
 	}
 }
-
 @media only screen and (max-width: 959px) {
-	.grid-container {
+	.grid-container  {
 		margin-top: calc(-104px + -48px + -41px + -5px + -15px);
 		padding-top: calc(104px + 48px + 41px + 5px + 15px);
 	}
@@ -609,7 +657,7 @@ export default class Scheduler extends Vue {
 	grid-row: 2;
 	overflow: hidden;
 	border-bottom: 1px solid #111;
-	display: flex;
+	display:flex;
 	/*margin-top: 20px;*/
 }
 
@@ -621,12 +669,12 @@ export default class Scheduler extends Vue {
 }
 
 .main-content {
-
+	
 	grid-column: 2;
 	grid-row: 3 / span 4;
 	overflow: auto;
 	/* background: url('https://static.dispatchpulse.com/subtle-patterns/so-white.png'); */
-
+	
 }
 
 .main-unassigned {
@@ -643,4 +691,5 @@ export default class Scheduler extends Vue {
 	grid-row: 1;
 	grid-column: 1 / span 3;
 }
+
 </style>

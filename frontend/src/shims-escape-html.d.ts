@@ -1,1 +1,1 @@
-declare module "html-escaper";
+declare module 'html-escaper';

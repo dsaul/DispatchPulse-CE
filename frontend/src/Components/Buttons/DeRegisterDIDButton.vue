@@ -1,6 +1,11 @@
 <template>
-	<v-btn class="ma-2" :loading="loading" :disabled="disabled || loading" @click="OnClick">
-		De-register {{ DIDNumber.json.DIDNumber }}
+	<v-btn
+		class="ma-2"
+		:loading="loading"
+		:disabled="disabled || loading"
+		@click="OnClick"
+		>
+		De-register {{DIDNumber.json.DIDNumber}}
 	</v-btn>
 </template>
 
@@ -16,39 +21,39 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
 	components: {
-
+		
 	},
 })
 export default class DeRegisterDIDButton extends Vue {
-
+	
 	@Prop({ default: null }) public readonly DIDNumber!: IDID | null;
 	@Prop({ default: false }) public readonly disabled!: boolean;
-
+	
 	protected loading = false;
-
+	
 	protected mounted(): void {
-
+		
 		//
-
+		
 	}
-
+	
 	protected OnClick(): void {
-
+		
 		if (!this.DIDNumber) {
 			console.error('!this.DIDNumber');
 			return;
 		}
-
+		
 		console.log('OnClick');
-
+		
 		const contact = BillingContacts.ForCurrentSession();
 		if (!contact) {
 			console.error('!contact');
 			return;
 		}
-
+		
 		this.loading = true;
-
+		
 		const rtr = DID.PerformPBXDeRegisterDID.Send({
 			billingCompanyId: contact.companyId,
 			did: this.DIDNumber.json.DIDNumber,
@@ -63,9 +68,9 @@ export default class DeRegisterDIDButton extends Vue {
 						autoClearInSeconds: 10,
 					});
 				}
-
-
-
+				
+				
+				
 				console.debug('IPerformPBXDeRegisterDIDCB', payload);
 			});
 			rtr.completeRequestPromise.finally(() => {
@@ -74,7 +79,7 @@ export default class DeRegisterDIDButton extends Vue {
 			});
 		}
 	}
-
-
+	
+	
 }
 </script>

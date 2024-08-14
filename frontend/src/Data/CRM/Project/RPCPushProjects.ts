@@ -1,8 +1,9 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { IProject } from "./Project";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { IProject } from './Project';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+
 
 export interface IPushProjectsPayload extends IIdempotencyRequest {
 	projects: Record<string, IProject>;
@@ -17,26 +18,26 @@ export class RPCPushProjects extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PushProjects";
+		return 'PushProjects';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PushProjectsCB";
+		return 'PushProjectsCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPushProjectsCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushProjectsCB): boolean {
+		
 		if (!payload.projects) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying projects #2.`)
-				);
+					new Error(`Error modifying projects #2.`));
 			}
 			return false;
 		}
-
+	
 		// Default action
-
+		
+	
+	
+		
 		return true;
 	}
 }

@@ -1,8 +1,8 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { guid } from "@/Utility/GlobalTypes";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { guid } from '@/Utility/GlobalTypes';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
 export interface IGetPDFLaTeXTaskPayload extends IIdempotencyRequest {
 	taskId: guid;
@@ -18,16 +18,15 @@ export class RPCGetPDFLaTeXTask extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "GetPDFLaTeXTask";
+		return 'GetPDFLaTeXTask';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "GetPDFLaTeXTaskCB";
+		return 'GetPDFLaTeXTaskCB';
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IGetPDFLaTeXTaskCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IGetPDFLaTeXTaskCB): boolean {
+		
+		
 		return true;
 	}
 }

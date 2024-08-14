@@ -7,6 +7,7 @@ interface PasswordEntropyCharset {
 }
 
 export default abstract class PasswordEntropy {
+	
 	/**
 	 * Calculate the given password entropy.
 	 *
@@ -14,14 +15,9 @@ export default abstract class PasswordEntropy {
 	 * @returns {number}        the calculated entropy.
 	 */
 	public static Determine(string: string): number {
-		return string
-			? PasswordEntropy.CalcEntropy(
-					PasswordEntropy.calcCharsetLength(string),
-					string.length
-			  )
-			: 0;
+		return string ? PasswordEntropy.CalcEntropy(PasswordEntropy.calcCharsetLength(string), string.length) : 0;
 	}
-
+	
 	/**
 	 * Standard character sets list.
 	 *
@@ -33,37 +29,37 @@ export default abstract class PasswordEntropy {
 	 */
 	private static stdCharsets: PasswordEntropyCharset[] = [
 		{
-			name: "lowercase",
+			name: 'lowercase',
 			re: /[a-z]/, // abcdefghijklmnopqrstuvwxyz
-			length: 26
+			length: 26,
 		},
 		{
-			name: "uppercase",
+			name: 'uppercase',
 			re: /[A-Z]/, // ABCDEFGHIJKLMNOPQRSTUVWXYZ
-			length: 26
+			length: 26,
 		},
 		{
-			name: "numbers",
+			name: 'numbers',
 			re: /[0-9]/, // 1234567890
-			length: 10
+			length: 10,
 		},
 		{
-			name: "symbols",
+			name: 'symbols',
 			re: /[^a-zA-Z0-9]/, //  !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ (and any other)
-			length: 33
-		}
+			length: 33,
+		},
 	];
-
+	
 	/**
 	 * Helper function to calculate the total charset lengths of a given string
 	 * using the standard character sets.
 	 *
 	 * @type {Function}
 	 */
-	private static calcCharsetLength = PasswordEntropy.calcCharsetLengthWith(
-		PasswordEntropy.stdCharsets
-	);
-
+	private static calcCharsetLength = PasswordEntropy.calcCharsetLengthWith(PasswordEntropy.stdCharsets);
+	
+	
+	
 	/**
 	 * Calculate the entropy of a string based on the size of the charset used and
 	 * the length of the string.
@@ -75,11 +71,13 @@ export default abstract class PasswordEntropy {
 	 * @param   {number} length  is the length of the string.
 	 * @returns {number}         the calculated entropy.
 	 */
-
+	
 	private static CalcEntropy(charset: number, length: number): number {
-		return Math.round((length * Math.log(charset)) / Math.LN2);
+		return Math.round(length * Math.log(charset) / Math.LN2);
 	}
-
+	
+	
+	
 	/**
 	 * Creates a function to calculate the total charset length of a string based on
 	 * the given charsets.
@@ -91,14 +89,22 @@ export default abstract class PasswordEntropy {
 	 * @returns {Function}         a function that will receive a string and return
 	 *                             the total charset length.
 	 */
-	private static calcCharsetLengthWith(
-		charsets: PasswordEntropyCharset[]
-	): (str: string) => number {
+	private static calcCharsetLengthWith(charsets: PasswordEntropyCharset[]): (str: string) => number {
 		return (string: string) =>
-			charsets.reduce(
-				(length, charset) =>
-					length + (charset.re.test(string) ? charset.length : 0),
-				0
-			);
+		charsets.reduce((length, charset) =>
+			length + (charset.re.test(string) ? charset.length : 0), 0);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+

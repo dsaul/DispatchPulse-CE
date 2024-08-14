@@ -1,8 +1,8 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { guid } from "@/Utility/GlobalTypes";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { guid } from '@/Utility/GlobalTypes';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
 export interface IPerformRetrieveCalendarPayload extends IIdempotencyRequest {
 	calendarId: guid | null;
@@ -17,29 +17,24 @@ export class RPCPerformRetrieveCalendar extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PerformRetrieveCalendar";
+		return 'PerformRetrieveCalendar';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PerformRetrieveCalendarCB";
+		return 'PerformRetrieveCalendarCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPerformRetrieveCalendarCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPerformRetrieveCalendarCB): boolean {
+		
 		if (!payload.complete) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(
-						`Error PerformRetrieveCalendarCB RecieveDefaultAction`
-					)
-				);
+					new Error(`Error PerformRetrieveCalendarCB RecieveDefaultAction`));
 			}
 			return false;
 		}
 
 		// Default action
 		//store.commit('UpdateDIDRemote', payload.dids);
-
+		
 		return true;
 	}
 }

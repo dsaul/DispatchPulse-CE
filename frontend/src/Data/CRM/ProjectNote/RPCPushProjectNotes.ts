@@ -1,8 +1,9 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
-import { IProjectNote } from "./ProjectNote";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import { IProjectNote } from './ProjectNote';
+
 
 export interface IPushProjectNotesPayload extends IIdempotencyRequest {
 	projectNotes: Record<string, IProjectNote>;
@@ -17,26 +18,25 @@ export class RPCPushProjectNotes extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PushProjectNotes";
+		return 'PushProjectNotes';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PushProjectNotesCB";
+		return 'PushProjectNotesCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPushProjectNotesCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushProjectNotesCB): boolean {
+		
 		if (!payload.projectNotes) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying project notes #2.`)
-				);
+					new Error(`Error modifying project notes #2.`));
 			}
 			return false;
 		}
-
+	
 		// Default action
-
+		
+	
+		
 		return true;
 	}
 }

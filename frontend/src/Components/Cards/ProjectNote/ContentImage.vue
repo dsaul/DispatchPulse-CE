@@ -1,5 +1,7 @@
 <template>
-	<v-card-text class="value-image">
+	<v-card-text
+		class="value-image"
+		>
 		<img :src="value.uri" style="max-width: 100%;" />
 	</v-card-text>
 </template>
@@ -13,9 +15,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 	},
 })
 export default class ContentImage extends Vue {
-
+	
 	@Prop({ default: null }) public readonly value!: IProjectNoteImage;
-
+	
 }
 </script>
 <style scoped>

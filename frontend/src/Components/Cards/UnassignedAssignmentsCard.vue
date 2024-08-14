@@ -1,10 +1,20 @@
 <template>
-	<v-card class="e2e-unassigned-assignments-card" style="margin: 30px; margin-top: 15px;">
+	<v-card
+		class="e2e-unassigned-assignments-card"
+		style="margin: 30px; margin-top: 15px;"
+		>
 		<v-progress-linear v-if="loadingData" indeterminate></v-progress-linear>
 		<v-card-title>Unassigned Assignments</v-card-title>
 		<v-card-text>
-			<AssignmentsList ref="assignmentsList" :showOnlyUnassigned="true" :focusIsProject="true" :showFilter="false"
-				:showTopPagination="false" :rowsPerPage="5" :disabled="disabled" />
+			<AssignmentsList
+				ref="assignmentsList"
+				:showOnlyUnassigned="true"
+				:focusIsProject="true"
+				:showFilter="false"
+				:showTopPagination="false"
+				:rowsPerPage="5"
+				:disabled="disabled"
+				/>
 		</v-card-text>
 	</v-card>
 </template>
@@ -19,47 +29,47 @@ import AssignmentsList from '@/Components/Lists/AssignmentsList.vue';
 	},
 })
 export default class UnassignedAssignmentsCard extends CardBase {
-
+	
 	public $refs!: {
 		assignmentsList: AssignmentsList,
 	};
-
-
-
-
+	
+	
+	
+	
 	protected loadingData = false;
 	protected _LoadDataTimeout: ReturnType<typeof setTimeout> | null = null;
-
+	
 	public get IsLoadingData(): boolean {
-
+		
 		if (this.$refs.assignmentsList && this.$refs.assignmentsList.IsLoadingData) {
 			return true;
 		}
-
+		
 		return this.loadingData;
 	}
-
+	
 	public LoadData(): void {
-
+		
 		this.loadingData = true;
-
+		
 		// In timeout to debounce
 		if (this._LoadDataTimeout) {
 			clearTimeout(this._LoadDataTimeout);
 			this._LoadDataTimeout = null;
 		}
-
+		
 		this._LoadDataTimeout = setTimeout(() => {
-
+			
 			this.loadingData = false;
-
+			
 		}, 250);
-
+		
 		if (this.$refs.assignmentsList) {
 			this.$refs.assignmentsList.LoadData();
 		}
-
+		
 	}
-
+	
 }
 </script>

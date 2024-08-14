@@ -1,12 +1,11 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
 
-import store from "@/plugins/store/store";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import store from '@/plugins/store/store';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
-export interface IDeleteOnCallAutoAttendantsPayload
-	extends IIdempotencyRequest {
+export interface IDeleteOnCallAutoAttendantsPayload extends IIdempotencyRequest {
 	onCallAutoAttendantsDelete: string[];
 }
 
@@ -15,33 +14,25 @@ export interface IDeleteOnCallAutoAttendantsCB extends IIdempotencyResponse {
 }
 
 export class RPCDeleteOnCallAutoAttendants extends RPCMethod {
-	public Send(
-		payload: IDeleteOnCallAutoAttendantsPayload
-	): IRoundTripRequest {
+	public Send(payload: IDeleteOnCallAutoAttendantsPayload): IRoundTripRequest {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "DeleteOnCallAutoAttendants";
+		return 'DeleteOnCallAutoAttendants';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "DeleteOnCallAutoAttendantsCB";
+		return 'DeleteOnCallAutoAttendantsCB';
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IDeleteOnCallAutoAttendantsCB
-	): boolean {
-		if (
-			payload.onCallAutoAttendantsDelete &&
-			payload.onCallAutoAttendantsDelete.length > 0
-		) {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IDeleteOnCallAutoAttendantsCB): boolean {
+		
+		
+		if (payload.onCallAutoAttendantsDelete && payload.onCallAutoAttendantsDelete.length > 0) {
 			// Default action
-			store.commit(
-				"DeleteOnCallAutoAttendantsRemote",
-				payload.onCallAutoAttendantsDelete
-			);
+			store.commit('DeleteOnCallAutoAttendantsRemote', payload.onCallAutoAttendantsDelete);
 		}
-
+		
+		
 		return true;
 	}
 }

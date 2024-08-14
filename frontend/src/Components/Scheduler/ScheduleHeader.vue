@@ -1,13 +1,13 @@
 <template>
-	<div class="base" :style="{
+	<div class="base" :style="{ 
 		minWidth: `${minimized ? cellWidthMinimizedPx : cellWidthPx}px`,
 		display: 'flex',
 		alignItems: 'flex-end',
-	}">
+		}">
 		<div :class="{
-		headerTextMinimized: minimized
-	}">
-			{{ minimized ? column.columnHeaderMinimized : column.columnHeader }}
+			headerTextMinimized: minimized
+		}">
+			{{minimized ? column.columnHeaderMinimized : column.columnHeader}}
 		</div>
 	</div>
 </template>
@@ -20,21 +20,21 @@ import { SchedulerColumn } from './Scheduler.vue';
 	},
 })
 export default class SchedulerHeader extends Vue {
-
+	
 	@Prop({ default: false }) public readonly minimized!: boolean;
 	@Prop({ default: 150 }) public readonly cellWidthPx!: number;
 	@Prop({ default: 50 }) public readonly cellWidthMinimizedPx!: number;
-
+	
 	@Prop({ default: null }) public readonly column!: SchedulerColumn;
-
+	
 	constructor() {
 		super();
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 }
 </script>
 <style scoped>
@@ -50,4 +50,5 @@ div.base {
 	writing-mode: vertical-lr;
 	transform: rotate(-180deg);
 }
+
 </style>

@@ -1,9 +1,9 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
 
-import { guid } from "@/Utility/GlobalTypes";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { guid } from '@/Utility/GlobalTypes';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
 
 export interface IPerformPBXRegisterDIDPayload extends IIdempotencyRequest {
 	did: string | null;
@@ -20,29 +20,24 @@ export class RPCPerformPBXRegisterDID extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PerformPBXRegisterDID";
+		return 'PerformPBXRegisterDID';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PerformPBXRegisterDIDCB";
+		return 'PerformPBXRegisterDIDCB';
 	}
-	public RecievefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPerformPBXRegisterDIDCB
-	): boolean {
+	public RecievefaultAction(rtr: IRoundTripRequest, payload: IPerformPBXRegisterDIDCB): boolean {
+		
 		if (!payload.complete) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(
-						`Error PerformPBXRegisterDIDCB RecieveDefaultAction`
-					)
-				);
+					new Error(`Error PerformPBXRegisterDIDCB RecieveDefaultAction`));
 			}
 			return false;
 		}
 
 		// Default action
 		//store.commit('UpdateDIDRemote', payload.dids);
-
+		
 		return true;
 	}
 }

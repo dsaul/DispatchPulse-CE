@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 export interface IChangeCompanyPhoneIdModel {
 	originalId: string | null;
@@ -6,22 +6,26 @@ export interface IChangeCompanyPhoneIdModel {
 }
 
 export class ChangeCompanyPhoneIdModel {
-	public static GetMerged(
-		mergeValues: Record<string, any>
-	): IChangeCompanyPhoneIdModel {
+	
+	public static GetMerged(mergeValues: Record<string, any>): IChangeCompanyPhoneIdModel {
 		const ret = this.GetEmpty();
 		_.merge(ret, mergeValues);
 		return ret;
 	}
-
+	
 	public static GetEmpty(): IChangeCompanyPhoneIdModel {
 		const ret: IChangeCompanyPhoneIdModel = {
 			originalId: null,
-			newId: null
+			newId: null,
 		};
-
+		
 		return ret;
 	}
+	
+	
 }
 
+
+
 export default {};
+

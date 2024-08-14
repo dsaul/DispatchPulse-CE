@@ -1,8 +1,10 @@
-import { RPCMethod } from "@/RPC/RPCMethod";
-import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
-import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
-import { ICompany } from "./Company";
-import { IRoundTripRequest } from "@/RPC/SignalRConnection";
+import { RPCMethod } from '@/RPC/RPCMethod';
+import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
+import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { ICompany } from './Company';
+import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+
+
 
 export interface IPushCompaniesPayload extends IIdempotencyRequest {
 	companies: Record<string, ICompany>;
@@ -17,26 +19,23 @@ export class RPCPushCompanies extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return "PushCompanies";
+		return 'PushCompanies';
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return "PushCompaniesCB";
+		return 'PushCompaniesCB';
 	}
-	public RecieveDefaultAction(
-		rtr: IRoundTripRequest,
-		payload: IPushCompaniesCB
-	): boolean {
+	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushCompaniesCB): boolean {
+		
 		if (!payload.companies) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying companies #2.`)
-				);
+					new Error(`Error modifying companies #2.`));
 			}
 			return false;
 		}
-
+	
 		// Default action
-
+		
 		return true;
 	}
 }

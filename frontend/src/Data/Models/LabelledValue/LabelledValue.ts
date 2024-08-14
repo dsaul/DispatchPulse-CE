@@ -4,4 +4,7 @@ export interface ILabelledValue {
 	value: string | null;
 }
 
-export class LabelledValue {}
+export class LabelledValue {
+	
+}
+

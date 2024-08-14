@@ -1,14 +1,19 @@
 <template>
-
+	
 	<div>
-
-		<v-app-bar color="#747389" dark fixed app clipped-right>
-			<v-progress-linear v-if="loadingData" :indeterminate="true" absolute top color="white"></v-progress-linear>
-			<v-app-bar-nav-icon
-				@click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
+	
+		<v-app-bar color="#747389" dark fixed app clipped-right >
+			<v-progress-linear
+				v-if="loadingData"
+				:indeterminate="true"
+				absolute
+				top
+				color="white"
+			></v-progress-linear>
+			<v-app-bar-nav-icon @click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
 				<v-icon>menu</v-icon>
 			</v-app-bar-nav-icon>
-
+			
 			<v-toolbar-title class="white--text">Labour Entry</v-toolbar-title>
 
 			<v-spacer></v-spacer>
@@ -23,7 +28,11 @@
 
 			<v-menu bottom left offset-y>
 				<template v-slot:activator="{ on }">
-					<v-btn dark icon v-on="on">
+					<v-btn
+					dark
+					icon
+					v-on="on"
+					>
 						<v-icon>more_vert</v-icon>
 					</v-btn>
 				</template>
@@ -36,10 +45,16 @@
 					</v-list-item>
 				</v-list>
 			</v-menu>
-
-
+			
+			
 			<template v-slot:extension>
-				<v-tabs v-model="tab" background-color="transparent" align-with-title show-arrows>
+				<v-tabs
+				v-model="tab"
+				
+				background-color="transparent"
+				align-with-title
+				show-arrows
+				>
 					<v-tabs-slider color="white"></v-tabs-slider>
 
 					<v-tab>
@@ -47,26 +62,33 @@
 					</v-tab>
 				</v-tabs>
 			</template>
-
+			
 		</v-app-bar>
-
+			
 		<v-tabs-items v-model="tab" style="background: transparent;">
 			<v-tab-item style="flex: 1;">
 				<v-card flat>
 					<v-card-text>
-
+						
 						hello
-
+						
 					</v-card-text>
 				</v-card>
 			</v-tab-item>
 		</v-tabs-items>
-
+		
 		<div style="height: 50px;"></div>
-
+		
 		<v-footer color="#747389" class="white--text" app inset>
-			<v-row no-gutters>
-				<v-btn color="white" text rounded class="my-2">
+			<v-row
+			no-gutters
+			>
+				<v-btn
+					color="white"
+					text
+					rounded
+					class="my-2"
+					>
 					test
 				</v-btn>
 			</v-row>
@@ -96,46 +118,46 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 		CommitSessionGlobalButton,
 		NotificationBellButton,
 	},
-
+	
 })
 export default class Settings extends ViewBase {
-
+	
 	public tab = 0;
 	public tabNameToIndex: Record<string, number> = {
 		General: 0,
 		general: 0,
 	};
-
+	
 	protected loadingData = false;
-
+	
 	public LoadData(): void {
-
+		
 		if (!this.$route.params.id || IsNullOrEmpty(this.$route.params.id)) {
 			return;
 		}
-
+		
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-
+				
 				const rtr = Labour.FetchForId(this.$route.params.id);
 				if (rtr.completeRequestPromise) {
-
+					
 					this.loadingData = true;
-
+					
 					rtr.completeRequestPromise.finally(() => {
 						this.loadingData = false;
 					});
 				}
-
+				
 			});
 		});
 	}
-
+	
 	protected MountedAfter(): void {
 		this.SwitchToTabFromRoute();
 		this.LoadData();
 	}
-
+	
 	protected SwitchToTabFromRoute(): void {
 		// Select the tab in the query string.
 		if (IsNullOrEmpty(this.$route.query.tab as string | null)) {
@@ -145,11 +167,11 @@ export default class Settings extends ViewBase {
 			this.tab = index;
 		}
 	}
-
-
+	
+	
 	protected DoChangePassword(): void {
 		console.log('DoChangePassword()');
 	}
-
+	
 }
 </script>
