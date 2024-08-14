@@ -1,19 +1,15 @@
 <template>
-	
+
 	<div>
-	
-		<v-app-bar color="#747389" dark fixed app clipped-right >
-			<v-progress-linear
-				v-if="IsLoadingData"
-				:indeterminate="true"
-				absolute
-				top
-				color="white"
-			></v-progress-linear>
-			<v-app-bar-nav-icon @click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
+
+		<v-app-bar color="#747389" dark fixed app clipped-right>
+			<v-progress-linear v-if="IsLoadingData" :indeterminate="true" absolute top
+				color="white"></v-progress-linear>
+			<v-app-bar-nav-icon
+				@click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
 				<v-icon>menu</v-icon>
 			</v-app-bar-nav-icon>
-			
+
 			<v-toolbar-title class="white--text">Employment Status Definitions</v-toolbar-title>
 
 			<v-spacer></v-spacer>
@@ -28,11 +24,7 @@
 
 			<v-menu bottom left offset-y>
 				<template v-slot:activator="{ on }">
-					<v-btn
-					dark
-					icon
-					v-on="on"
-					>
+					<v-btn dark icon v-on="on">
 						<v-icon>more_vert</v-icon>
 					</v-btn>
 				</template>
@@ -48,10 +40,8 @@
 							<v-list-item-title>Print/Report&hellip;</v-list-item-title>
 						</v-list-item-content>
 					</v-list-item>-->
-					<v-list-item
-						@click="CSVDownloadAgentsEmploymentStatuses()"
-						:disabled="!PermCRMExportEmploymentStatusCSV()"
-						>
+					<v-list-item @click="CSVDownloadAgentsEmploymentStatuses()"
+						:disabled="!PermCRMExportEmploymentStatusCSV()">
 						<v-list-item-icon>
 							<v-icon>import_export</v-icon>
 						</v-list-item-icon>
@@ -61,68 +51,49 @@
 					</v-list-item>
 				</v-list>
 			</v-menu>
-			
-			
+
+
 			<template v-slot:extension>
-				<v-tabs
-				v-model="tab"
-				
-				background-color="transparent"
-				align-with-title
-				show-arrows
-				>
+				<v-tabs v-model="tab" background-color="transparent" align-with-title show-arrows>
 					<v-tabs-slider color="white"></v-tabs-slider>
 
-					<v-tab @click="$router.replace({query: { ...$route.query, tab: 'Definitions'}}).catch(((e) => {}));">
+					<v-tab
+						@click="$router.replace({ query: { ...$route.query, tab: 'Definitions' } }).catch(((e) => { }));">
 						Definitions
 					</v-tab>
 				</v-tabs>
 			</template>
-			
+
 		</v-app-bar>
-		
+
 		<v-breadcrumbs :items="breadcrumbs" style="background: white; padding-bottom: 5px; padding-top: 15px;">
 			<template v-slot:divider>
 				<v-icon>mdi-forward</v-icon>
 			</template>
 		</v-breadcrumbs>
-		
-		<v-alert
-			v-if="connectionStatus != 'Connected'"
-			type="error"
-			elevation="2"
-			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;"
-			>
+
+		<v-alert v-if="connectionStatus != 'Connected'" type="error" elevation="2"
+			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;">
 			Disconnected from server.
 		</v-alert>
-		
+
 		<v-tabs-items v-model="tab" style="background: transparent;">
 			<v-tab-item style="flex: 1;">
-				
-				<EmploymentStatusDataTable
-					ref="dataTable"
-					:disabled="connectionStatus != 'Connected'"
-					/>
-				
+
+				<EmploymentStatusDataTable ref="dataTable" :disabled="connectionStatus != 'Connected'" />
+
 			</v-tab-item>
 		</v-tabs-items>
-		
+
 		<div style="height: 50px;"></div>
-		
+
 		<v-footer color="#747389" class="white--text" app inset>
-			<v-row
-				no-gutters
-				>
+			<v-row no-gutters>
 				<v-spacer />
-				
-				<AddMenuButton
-					:disabled="connectionStatus != 'Connected'"
-					>
-					<v-list-item
-						@click="AddDefinition()"
-						class="e2e-employment-status-definitons-add-definition"
-						:disabled="connectionStatus != 'Connected' || !PermEmploymentStatusCanPush()"
-						>
+
+				<AddMenuButton :disabled="connectionStatus != 'Connected'">
+					<v-list-item @click="AddDefinition()" class="e2e-employment-status-definitons-add-definition"
+						:disabled="connectionStatus != 'Connected' || !PermEmploymentStatusCanPush()">
 						<v-list-item-icon>
 							<v-icon>add</v-icon>
 						</v-list-item-icon>
@@ -131,10 +102,10 @@
 						</v-list-item-content>
 					</v-list-item>
 				</AddMenuButton>
-				
+
 			</v-row>
 		</v-footer>
-		
+
 	</div>
 </template>
 
@@ -167,13 +138,13 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 	},
 })
 export default class EmploymentStatusDefinitions extends ViewBase {
-	
-	
+
+
 	public $refs!: {
 		dataTable: EmploymentStatusDataTable,
 	};
-	
-	
+
+
 	public tab = 0;
 	public tabNameToIndex: Record<string, number> = {
 		Contacts: 0,
@@ -181,7 +152,7 @@ export default class EmploymentStatusDefinitions extends ViewBase {
 		Companies: 1,
 		companies: 1,
 	};
-	
+
 	public breadcrumbs = [
 		{
 			text: 'Dashboard',
@@ -194,7 +165,7 @@ export default class EmploymentStatusDefinitions extends ViewBase {
 			to: '/section/employment-status-definitions',
 		},
 	];
-	
+
 	protected PermEmploymentStatusCanPush = EmploymentStatus.PermEmploymentStatusCanPush;
 	protected PermEmploymentStatusCanRequest = EmploymentStatus.PermEmploymentStatusCanRequest;
 	protected PermEmploymentStatusCanDelete = EmploymentStatus.PermEmploymentStatusCanDelete;
@@ -202,49 +173,49 @@ export default class EmploymentStatusDefinitions extends ViewBase {
 	protected CSVDownloadAgentsEmploymentStatuses = CSVDownloadAgentsEmploymentStatuses;
 	protected PermCRMExportEmploymentStatusCSV = EmploymentStatus.PermCRMExportEmploymentStatusCSV;
 	protected loadingData = false;
-	
-	
+
+
 
 	public get IsLoadingData(): boolean {
-		
+
 		if (this.$refs.dataTable && this.$refs.dataTable.IsLoadingData) {
 			return true;
 		}
 		return this.loadingData;
 	}
-	
+
 	public ReLoadData(): void {
-		
+
 		this.LoadData();
-		
+
 		if (this.$refs.dataTable) {
 			this.$refs.dataTable.LoadData();
 		}
-		
+
 	}
-	
+
 	public LoadData(): void {
-		
+
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-				
+
 				this.loadingData = true;
-			
+
 				setTimeout(() => {
 					this.loadingData = false;
 				}, 250);
-				
-				
+
+
 			});
 		});
-		
+
 	}
-	
+
 	protected MountedAfter(): void {
 		this.SwitchToTabFromRoute();
 		this.LoadData();
 	}
-	
+
 	protected SwitchToTabFromRoute(): void {
 		// Select the tab in the query string.
 		if (IsNullOrEmpty(this.$route.query.tab as string | null)) {
@@ -254,10 +225,10 @@ export default class EmploymentStatusDefinitions extends ViewBase {
 			this.tab = index;
 		}
 	}
-	
+
 	protected AddDefinition(): void {
-		Dialogues.Open({ name: 'ModifyEmploymentStatusDialogue', state: null});
+		Dialogues.Open({ name: 'ModifyEmploymentStatusDialogue', state: null });
 	}
-	
+
 }
 </script>

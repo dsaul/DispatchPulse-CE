@@ -1,28 +1,6 @@
-import { Component, Vue  } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-	components: {
-		
-	},
+	components: {}
 })
-export default class ComponentBase extends Vue {
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
+export default class ComponentBase extends Vue {}

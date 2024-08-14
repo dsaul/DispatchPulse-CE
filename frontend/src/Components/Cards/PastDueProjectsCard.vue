@@ -1,23 +1,12 @@
 <template>
-	<v-card
-		class="e2e-past-due-projects-card"
-		style="margin: 30px; margin-top: 15px;"
-		>
+	<v-card class="e2e-past-due-projects-card" style="margin: 30px; margin-top: 15px;">
 		<v-progress-linear v-if="loadingData" indeterminate></v-progress-linear>
 		<v-card-title>Past Due Projects</v-card-title>
 		<v-card-text>
-			<ProjectList
-				ref="projectList"
-				:showOnlyPastDue="true"
-				:showAwaitingPayment="false"
-				:showOpen="true"
+			<ProjectList ref="projectList" :showOnlyPastDue="true" :showAwaitingPayment="false" :showOpen="true"
 				:showClosed="false"
 				emptyMessage="There are no projects to show, make sure to add a scheduled end to projects for them to show here."
-				:showFilter="false"
-				:showTopPagination="false"
-				:rowsPerPage="5"
-				:disabled="disabled"
-				/>
+				:showFilter="false" :showTopPagination="false" :rowsPerPage="5" :disabled="disabled" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -33,49 +22,49 @@ import ProjectList from '@/Components/Lists/ProjectList.vue';
 	},
 })
 export default class PastDueAssignmentsCard extends CardBase {
-	
+
 	public $refs!: {
 		projectList: ProjectList,
 	};
-	
-	
-	
-	
+
+
+
+
 	protected loadingData = false;
 	protected _LoadDataTimeout: ReturnType<typeof setTimeout> | null = null;
-	
+
 	public get IsLoadingData(): boolean {
-		
+
 		if (this.$refs.projectList && this.$refs.projectList.IsLoadingData) {
 			return true;
 		}
-		
+
 		return this.loadingData;
 	}
-	
+
 	public LoadData(): void {
-		
+
 		//console.log('@@@');
-		
+
 		this.loadingData = true;
-		
+
 		// In timeout to debounce
 		if (this._LoadDataTimeout) {
 			clearTimeout(this._LoadDataTimeout);
 			this._LoadDataTimeout = null;
 		}
-		
+
 		this._LoadDataTimeout = setTimeout(() => {
-			
+
 			this.loadingData = false;
-			
+
 		}, 250);
-		
+
 		if (this.$refs.projectList) {
 			this.$refs.projectList.LoadData();
 		}
-		
+
 	}
-	
+
 }
 </script>

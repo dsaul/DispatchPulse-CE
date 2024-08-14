@@ -1,27 +1,23 @@
 <template>
-	<v-dialog
-		v-model="IsOpen"
-		persistent
-		scrollable
-		:fullscreen="MobileDeviceWidth()"
-		>
+	<v-dialog v-model="IsOpen" persistent scrollable :fullscreen="MobileDeviceWidth()">
 		<v-card>
 			<v-card-title>Dispatch Pulse Demo</v-card-title>
 			<v-divider></v-divider>
 			<v-card-text>
-				
-			<p style='margin-top: 12px;'>Thank you for giving our demo a try, a few notes before we begin:</p>
-			<ul>
-				<li>The content of the demo is re-done every time you open it.</li>
-				<li>Any changes you put in are lost when it is closed.</li>
-				<li>You can export anything you put into the demo in settings, but you won't be able to import it until you have a activated account.</li>
-			</ul>
-			<p style='margin-top: 12px;'>With that said, click Launch Demo to begin!</p>
+
+				<p style='margin-top: 12px;'>Thank you for giving our demo a try, a few notes before we begin:</p>
+				<ul>
+					<li>The content of the demo is re-done every time you open it.</li>
+					<li>Any changes you put in are lost when it is closed.</li>
+					<li>You can export anything you put into the demo in settings, but you won't be able to import it
+						until you have a activated account.</li>
+				</ul>
+				<p style='margin-top: 12px;'>With that said, click Launch Demo to begin!</p>
 
 			</v-card-text>
 			<v-divider></v-divider>
 			<v-card-actions>
-				<v-spacer/>
+				<v-spacer />
 				<v-btn color='red darken-1' text @click='Cancel()'>Back to Login</v-btn>
 				<v-btn color='green darken-1' text @click='LaunchDemo()'>Launch Demo</v-btn>
 			</v-card-actions>
@@ -85,50 +81,50 @@ import { IProjectNoteStyledText } from '@/Data/CRM/ProjectNoteStyledText/Project
 	},
 })
 export default class DemoIntroductionDialogue extends DialogueBase {
-	
+
 	//public $refs!: {
 	//	editor: EmploymentStatusEditor,
 	//};
-	
+
 	protected MobileDeviceWidth = MobileDeviceWidth;
-	
+
 	constructor() {
 		super();
 		this.ModelState = DemoIntroductionDialogueModelState.GetEmpty();
 	}
-	
-	
-	
+
+
+
 	get DialogueName(): string {
 		return 'DemoIntroductionDialogue';
 	}
-	
+
 	protected Cancel(): void {
 		Dialogues.Close(this.DialogueName);
 		this.ModelState = DemoIntroductionDialogueModelState.GetEmpty();
 		this.$store.commit('SetDemoMode', false);
 	}
-	
+
 	protected LaunchDemo(): void {
 		console.log('Launch Demo');
-		
+
 		this.$store.commit('SetDemoMode', true);
-		
+
 		this.BuildFakeDatabase();
-		
+
 		Dialogues.Close(this.DialogueName);
 		this.ModelState = DemoIntroductionDialogueModelState.GetEmpty();
-		
-		
+
+
 	}
-	
-	
+
+
 	protected BuildFakeDatabase(): void {
-		
-		
+
+
 		const billingContactId = GenerateID();
 		const billingCompanyId = GenerateID();
-		
+
 		// database objects to save
 		const billingCompanies: Record<string, IBillingCompanies> = {};
 		const billingContacts: Record<string, IBillingContacts> = {};
@@ -148,7 +144,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 		const billingSessions: Record<string, IBillingSessions> = {};
 		const billingSubscriptions: Record<string, IBillingSubscriptions> = {};
 		const billingSubscriptionsProvisioningStatus: Record<string, IBillingSubscriptionsProvisioningStatus> = {};
-		
+
 		const agents: Record<string, IAgent> = {};
 		const assignments: Record<string, IAssignment> = {};
 		const assignmentStatus: Record<string, IAssignmentStatus> = {};
@@ -170,28 +166,28 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 		const settingsUser: Record<string, ISettingsUser> = {};
 		const products: Record<string, IProduct> = {};
 		const skills: Record<string, ISkill> = {};
-		
+
 		// Begin generated objects
-		
-		
+
+
 		const dpAgent1 = Agent.GetEmpty();
 		if (dpAgent1.id) {
 			agents[dpAgent1.id] = dpAgent1;
 		}
-		
-		
+
+
 		const dpContact1 = Contact.GetEmpty();
 		if (dpContact1.id) {
 			contacts[dpContact1.id] = dpContact1;
 		}
-		
-		
+
+
 		const dpCompany1 = Company.GetEmpty();
 		if (dpCompany1.id) {
 			companies[dpCompany1.id] = dpCompany1;
 		}
-		
-		
+
+
 		const billingContact: IBillingContacts = {
 			fullName: 'James Mackenzie',
 			email: 'jmackenzie@example.com',
@@ -208,25 +204,25 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			json: {},
 		};
 		billingContacts[billingContact.uuid] = billingContact;
-		
+
 		// Permissions, grant company owner to demo.
-		
+
 		// Create group owner
-		
+
 		const grpOwner = BillingPermissionsGroups.GetEmpty();
 		grpOwner.id = GenerateID();
 		grpOwner.name = 'Demo Group';
 		grpOwner.json = { hidden: false };
 		billingPermissionsGroups[grpOwner.id] = grpOwner;
-		
+
 		const grpMembership = BillingPermissionsGroupsMemberships.GetEmpty();
 		grpMembership.id = GenerateID();
 		grpMembership.groupId = grpOwner.id;
 		grpMembership.contactId = billingContact.uuid;
 		grpMembership.json = {};
 		billingPermissionsGroupsMemberships[grpMembership.id] = grpMembership;
-		
-		
+
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -237,7 +233,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -248,7 +244,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -259,7 +255,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -270,7 +266,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -281,7 +277,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -292,7 +288,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -303,7 +299,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -314,7 +310,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -325,7 +321,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -336,7 +332,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -347,7 +343,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -358,7 +354,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -369,7 +365,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -380,7 +376,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -391,7 +387,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -402,7 +398,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -413,7 +409,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -424,7 +420,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -435,7 +431,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -446,7 +442,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -457,7 +453,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -468,7 +464,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -479,7 +475,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -490,7 +486,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -501,7 +497,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -512,7 +508,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -523,7 +519,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -534,7 +530,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -545,7 +541,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -556,7 +552,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -567,7 +563,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -578,7 +574,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -589,7 +585,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -600,7 +596,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -611,7 +607,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -622,7 +618,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -633,7 +629,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -644,7 +640,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -655,7 +651,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -666,7 +662,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -677,7 +673,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -688,7 +684,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -698,7 +694,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.json = {};
 			perm.groupId = grpOwner.id;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -708,7 +704,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.json = {};
 			perm.groupId = grpOwner.id;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -719,7 +715,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -730,7 +726,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -741,7 +737,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -752,7 +748,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -763,7 +759,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -774,7 +770,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -785,7 +781,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -796,7 +792,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -807,7 +803,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -818,7 +814,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -829,7 +825,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -840,7 +836,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -851,7 +847,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -862,7 +858,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -873,7 +869,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -884,7 +880,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -895,7 +891,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -906,7 +902,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -917,7 +913,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -928,7 +924,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -939,7 +935,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -950,7 +946,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -961,7 +957,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -972,7 +968,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -983,7 +979,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -994,7 +990,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1005,7 +1001,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1016,7 +1012,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1027,7 +1023,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1038,7 +1034,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1049,7 +1045,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1060,7 +1056,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1071,7 +1067,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1082,7 +1078,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1093,7 +1089,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1104,7 +1100,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1115,7 +1111,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1126,7 +1122,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1137,7 +1133,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1148,7 +1144,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1159,7 +1155,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1170,7 +1166,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1181,7 +1177,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1192,7 +1188,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1203,7 +1199,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1214,7 +1210,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1225,7 +1221,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1236,7 +1232,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1247,7 +1243,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1258,7 +1254,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1269,7 +1265,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1280,7 +1276,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1291,7 +1287,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1302,7 +1298,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1313,7 +1309,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1324,7 +1320,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1335,7 +1331,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1346,7 +1342,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1357,7 +1353,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1368,7 +1364,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1379,7 +1375,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1390,7 +1386,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1401,7 +1397,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1412,7 +1408,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1423,7 +1419,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1434,7 +1430,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1445,7 +1441,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1456,7 +1452,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1467,7 +1463,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1478,7 +1474,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1489,7 +1485,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1500,7 +1496,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1511,7 +1507,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1522,7 +1518,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1533,7 +1529,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1544,7 +1540,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1555,7 +1551,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1566,7 +1562,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1577,7 +1573,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1588,7 +1584,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1599,7 +1595,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1610,7 +1606,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1621,7 +1617,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1632,7 +1628,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1643,7 +1639,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1654,7 +1650,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1665,7 +1661,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1676,7 +1672,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1687,7 +1683,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1698,7 +1694,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1709,7 +1705,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1720,7 +1716,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1731,7 +1727,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1742,7 +1738,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1753,7 +1749,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1764,7 +1760,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1775,7 +1771,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1786,7 +1782,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1797,7 +1793,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1808,7 +1804,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1819,7 +1815,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
+
 		{
 			const perm = BillingPermissionsBool.GetEmpty();
 			perm.uuid = GenerateID();
@@ -1830,10 +1826,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			perm.groupId = grpOwner.id;
 			billingPermissionsBool[perm.uuid] = perm;
 		}
-		
-		
-		
-		
+
+
+
+
 		const billingCompany: IBillingCompanies = {
 			uuid: billingCompanyId,
 			fullName: 'A/C Electrical',
@@ -1855,13 +1851,13 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			},
 		};
 		billingCompanies[billingCompany.uuid] = billingCompany;
-		
+
 		dpAgent1.json.name = billingContact.fullName;
 		dpAgent1.json.title = 'Company Owner';
 		//dpAgent1.employmentStatusId
 		dpAgent1.json.hourlyWage = 36.50;
 		dpAgent1.json.notificationSMSNumber = '5555555555';
-		
+
 		dpContact1.json.name = billingContact.fullName;
 		dpContact1.json.title = dpAgent1.json.title;
 		dpContact1.json.companyId = dpCompany1.id || null;
@@ -1887,14 +1883,14 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				value: '123 Smith Street',
 			},
 		];
-		
-		
-		
+
+
+
 		dpCompany1.json.name = billingCompany.fullName;
 		//dpCompany1.json.logoURI = '';
 		//dpCompany1.json.websiteURI = '';
-		
-		
+
+
 		// billingCurrency
 		{
 			const currency1: IBillingCurrency = {
@@ -1903,7 +1899,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				json: {},
 			};
 			billingCurrency[currency1.uuid] = currency1;
-			
+
 			const currency2: IBillingCurrency = {
 				uuid: GenerateID(),
 				currency: 'USD',
@@ -1911,8 +1907,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			};
 			billingCurrency[currency2.uuid] = currency2;
 		}
-		
-		
+
+
 		// billingIndustries
 		{
 			const industry1: IBillingIndustries = {
@@ -1922,7 +1918,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			};
 			billingIndustries[industry1.uuid] = industry1;
 		}
-		
+
 		// billingInvoices
 		// billingJournalEntries
 		// billingJournalEntriesType
@@ -1933,12 +1929,12 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 		// billingPermissionsBool
 		// billingPermissionsGroups
 		// billingPermissionsGroupsMemberships
-		
+
 		// billingSessions
 		{
 			const session1: IBillingSessions = {
 				uuid: GenerateID(),
-				contactId: billingContact.uuid, 
+				contactId: billingContact.uuid,
 				agentDescription: 'Fake Demo Sesion',
 				ipAddress: '127.0.0.1',
 				createdUtc: DateTime.utc().toISO(),
@@ -1948,13 +1944,13 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			billingSessions[session1.uuid] = session1;
 			this.$store.commit('SetSession', session1.uuid);
 		}
-		
+
 		// billingSubscriptions
 		// billingSubscriptionsProvisioningStatus
-		
-		
+
+
 		// Supporting tables.
-		
+
 		// assignmentStatus
 		let assignmentStatusAssigned;
 		let assignmentStatusToBeScheduled;
@@ -1966,7 +1962,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusBillable.json.isDefault = true;
 				assignmentStatus[assignmentStatusBillable.id] = assignmentStatusBillable;
 			}
-			
+
 			assignmentStatusAssigned = AssignmentStatus.GetEmpty();
 			if (assignmentStatusAssigned && assignmentStatusAssigned.id) {
 				assignmentStatusAssigned.json.isOpen = true;
@@ -1975,7 +1971,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusAssigned.json.isDefault = true;
 				assignmentStatus[assignmentStatusAssigned.id] = assignmentStatusAssigned;
 			}
-			
+
 			const assignmentStatusWoV = AssignmentStatus.GetEmpty();
 			if (assignmentStatusWoV && assignmentStatusWoV.id) {
 				assignmentStatusWoV.json.isOpen = true;
@@ -1984,8 +1980,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusWoV.json.isDefault = true;
 				assignmentStatus[assignmentStatusWoV.id] = assignmentStatusWoV;
 			}
-			
-			
+
+
 			const assignmentStatusInProgress = AssignmentStatus.GetEmpty();
 			if (assignmentStatusInProgress && assignmentStatusInProgress.id) {
 				assignmentStatusInProgress.json.name = 'In Progress';
@@ -1995,8 +1991,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusInProgress.json.isInProgress = true;
 				assignmentStatus[assignmentStatusInProgress.id] = assignmentStatusInProgress;
 			}
-			
-			
+
+
 			const assignmentStatusBillableReview = AssignmentStatus.GetEmpty();
 			if (assignmentStatusBillableReview && assignmentStatusBillableReview.id) {
 				assignmentStatusBillableReview.json.name = 'Billable Review';
@@ -2004,8 +2000,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusBillableReview.json.isDefault = true;
 				assignmentStatus[assignmentStatusBillableReview.id] = assignmentStatusBillableReview;
 			}
-			
-			
+
+
 			const assignmentStatusWoC = AssignmentStatus.GetEmpty();
 			if (assignmentStatusWoC && assignmentStatusWoC.id) {
 				assignmentStatusWoC.json.name = 'Waiting on Client';
@@ -2014,8 +2010,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusWoC.json.isDefault = true;
 				assignmentStatus[assignmentStatusWoC.id] = assignmentStatusWoC;
 			}
-			
-			
+
+
 			const assignmentStatusToBePicked = AssignmentStatus.GetEmpty();
 			if (assignmentStatusToBePicked && assignmentStatusToBePicked.id) {
 				assignmentStatusToBePicked.json.name = 'To Be Picked';
@@ -2023,8 +2019,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusToBePicked.json.isDefault = true;
 				assignmentStatus[assignmentStatusToBePicked.id] = assignmentStatusToBePicked;
 			}
-			
-			
+
+
 			const assignmentStatusReOpened = AssignmentStatus.GetEmpty();
 			if (assignmentStatusReOpened && assignmentStatusReOpened.id) {
 				assignmentStatusReOpened.json.name = 'Re-opened';
@@ -2034,8 +2030,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusReOpened.json.isDefault = true;
 				assignmentStatus[assignmentStatusReOpened.id] = assignmentStatusReOpened;
 			}
-			
-			
+
+
 			const assignmentStatusNonBillable = AssignmentStatus.GetEmpty();
 			if (assignmentStatusNonBillable && assignmentStatusNonBillable.id) {
 				assignmentStatusNonBillable.json.name = 'Non Billable';
@@ -2043,8 +2039,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusNonBillable.json.isDefault = true;
 				assignmentStatus[assignmentStatusNonBillable.id] = assignmentStatusNonBillable;
 			}
-			
-			
+
+
 			const assignmentStatusScheduled = AssignmentStatus.GetEmpty();
 			if (assignmentStatusScheduled && assignmentStatusScheduled.id) {
 				assignmentStatusScheduled.json.name = 'Scheduled';
@@ -2053,16 +2049,16 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusScheduled.json.isDefault = true;
 				assignmentStatus[assignmentStatusScheduled.id] = assignmentStatusScheduled;
 			}
-			
-			
+
+
 			const assignmentStatusClosed = AssignmentStatus.GetEmpty();
 			if (assignmentStatusClosed && assignmentStatusClosed.id) {
 				assignmentStatusClosed.json.name = 'Closed';
 				assignmentStatusClosed.json.isDefault = true;
 				assignmentStatus[assignmentStatusClosed.id] = assignmentStatusClosed;
 			}
-			
-			
+
+
 			assignmentStatusToBeScheduled = AssignmentStatus.GetEmpty();
 			if (assignmentStatusToBeScheduled && assignmentStatusToBeScheduled.id) {
 				assignmentStatusToBeScheduled.json.name = 'To Be Scheduled';
@@ -2071,10 +2067,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignmentStatusToBeScheduled.json.isDefault = true;
 				assignmentStatus[assignmentStatusToBeScheduled.id] = assignmentStatusToBeScheduled;
 			}
-			
+
 		}
-		
-		
+
+
 		// agentsEmploymentStatus
 		let agentsEmploymentStatusCurrentEmployee;
 		{
@@ -2083,563 +2079,615 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				agentsEmploymentStatusNonEmployee.json.name = 'Non Employee';
 				agentsEmploymentStatus[agentsEmploymentStatusNonEmployee.id] = agentsEmploymentStatusNonEmployee;
 			}
-			
-			
+
+
 			const agentsEmploymentStatusCurrentContractor = EmploymentStatus.GetEmpty();
 			if (agentsEmploymentStatusCurrentContractor && agentsEmploymentStatusCurrentContractor.id) {
 				agentsEmploymentStatusCurrentContractor.json.name = 'Current Contractor';
 				agentsEmploymentStatus[agentsEmploymentStatusCurrentContractor.id] = agentsEmploymentStatusCurrentContractor;
 			}
-			
-			
+
+
 			const agentsEmploymentStatusFormerEmployee = EmploymentStatus.GetEmpty();
 			if (agentsEmploymentStatusFormerEmployee && agentsEmploymentStatusFormerEmployee.id) {
 				agentsEmploymentStatusFormerEmployee.json.name = 'Former Employee';
 				agentsEmploymentStatus[agentsEmploymentStatusFormerEmployee.id] = agentsEmploymentStatusFormerEmployee;
 			}
-			
-			
+
+
 			agentsEmploymentStatusCurrentEmployee = EmploymentStatus.GetEmpty();
 			if (agentsEmploymentStatusCurrentEmployee && agentsEmploymentStatusCurrentEmployee.id) {
 				agentsEmploymentStatusCurrentEmployee.json.name = 'Current Employee';
 				agentsEmploymentStatus[agentsEmploymentStatusCurrentEmployee.id] = agentsEmploymentStatusCurrentEmployee;
 			}
-			
-			
+
+
 			const agentsEmploymentStatusFormerContractor = EmploymentStatus.GetEmpty();
 			if (agentsEmploymentStatusFormerContractor && agentsEmploymentStatusFormerContractor.id) {
 				agentsEmploymentStatusFormerContractor.json.name = 'Former Contractor';
 				agentsEmploymentStatus[agentsEmploymentStatusFormerContractor.id] = agentsEmploymentStatusFormerContractor;
 			}
-			
+
 		}
-		
+
 		// labourSubtypeHolidays
 		{
 			const christmas = LabourSubtypeHoliday.GetEmpty();
 			if (christmas.id) {
-				_.merge(christmas, { json: {
-					name: 'Christmas',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, held on December 25.',
-					isStaticDate: true,
-					staticDateMonth: 12,
-					staticDateDay: 25,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(christmas, {
+					json: {
+						name: 'Christmas',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, held on December 25.',
+						isStaticDate: true,
+						staticDateMonth: 12,
+						staticDateDay: 25,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[christmas.id] = christmas;
 			}
-			
+
 			const goodFriday = LabourSubtypeHoliday.GetEmpty();
 			if (goodFriday.id) {
-				_.merge(goodFriday, { json: {
-					name: 'Good Friday',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, 2 days before Easter Sunday.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: true,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(goodFriday, {
+					json: {
+						name: 'Good Friday',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, 2 days before Easter Sunday.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: true,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[goodFriday.id] = goodFriday;
 			}
-			
-			
+
+
 			const victoriaDay = LabourSubtypeHoliday.GetEmpty();
 			if (victoriaDay.id) {
-				_.merge(victoriaDay, { json: {
-					name: 'Victoria Day',
-					icon: 'fa-calendar-day',
-					description: 'Federal Holiday, held on last Monday preceding May 25.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: true,
-					mondayBeforeDateMonth: 5,
-					mondayBeforeDateDay: 25,
-				}});
+				_.merge(victoriaDay, {
+					json: {
+						name: 'Victoria Day',
+						icon: 'fa-calendar-day',
+						description: 'Federal Holiday, held on last Monday preceding May 25.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: true,
+						mondayBeforeDateMonth: 5,
+						mondayBeforeDateDay: 25,
+					}
+				});
 				labourSubtypeHolidays[victoriaDay.id] = victoriaDay;
 			}
-			
-			
+
+
 			const rememberanceDay = LabourSubtypeHoliday.GetEmpty();
 			if (rememberanceDay.id) {
-				_.merge(rememberanceDay, { json: {
-					name: 'Rememberance Day',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, except NS MB ON QC, held on November 11th.',
-					isStaticDate: true,
-					staticDateMonth: 11,
-					staticDateDay: 11,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(rememberanceDay, {
+					json: {
+						name: 'Rememberance Day',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, except NS MB ON QC, held on November 11th.',
+						isStaticDate: true,
+						staticDateMonth: 11,
+						staticDateDay: 11,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[rememberanceDay.id] = rememberanceDay;
 			}
-			
-			
+
+
 			const newYearsDay = LabourSubtypeHoliday.GetEmpty();
 			if (newYearsDay.id) {
-				_.merge(newYearsDay, { json: {
-					name: 'New Year\'s Day',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, held on January 1.',
-					isStaticDate: true,
-					staticDateMonth: 1,
-					staticDateDay: 1,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(newYearsDay, {
+					json: {
+						name: 'New Year\'s Day',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, held on January 1.',
+						isStaticDate: true,
+						staticDateMonth: 1,
+						staticDateDay: 1,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[newYearsDay.id] = newYearsDay;
 			}
-			
-			
+
+
 			const boxingDay = LabourSubtypeHoliday.GetEmpty();
 			if (boxingDay.id) {
-				_.merge(boxingDay, { json: {
-					name: 'Boxing Day',
-					icon: 'fa-calendar-day',
-					description: 'Boxing Day, held on December 26.',
-					isStaticDate: true,
-					staticDateMonth: 12,
-					staticDateDay: 26,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(boxingDay, {
+					json: {
+						name: 'Boxing Day',
+						icon: 'fa-calendar-day',
+						description: 'Boxing Day, held on December 26.',
+						isStaticDate: true,
+						staticDateMonth: 12,
+						staticDateDay: 26,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[boxingDay.id] = boxingDay;
 			}
-			
-			
+
+
 			const familyDay = LabourSubtypeHoliday.GetEmpty();
 			if (familyDay.id) {
-				_.merge(familyDay, { json: {
-					name: 'Louis Riel Day (MB) Family Day (BC, AB, ON, NB, SK) Heritage Day (NS) Islander Day (PE)',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, except QC, NL, and Territories, held on the 3rd Monday in Feburary.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: true,
-					thirdMondayMonth: 2,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(familyDay, {
+					json: {
+						name: 'Louis Riel Day (MB) Family Day (BC, AB, ON, NB, SK) Heritage Day (NS) Islander Day (PE)',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, except QC, NL, and Territories, held on the 3rd Monday in Feburary.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: true,
+						thirdMondayMonth: 2,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[familyDay.id] = familyDay;
 			}
-			
-			
+
+
 			const canadaDay = LabourSubtypeHoliday.GetEmpty();
 			if (canadaDay.id) {
-				_.merge(canadaDay, { json: {
-					name: 'Canada Day',
-					icon: 'fa-calendar-day',
-					description: 'Federal Holiday, held on July 1.',
-					isStaticDate: true,
-					staticDateMonth: 7,
-					staticDateDay: 1,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(canadaDay, {
+					json: {
+						name: 'Canada Day',
+						icon: 'fa-calendar-day',
+						description: 'Federal Holiday, held on July 1.',
+						isStaticDate: true,
+						staticDateMonth: 7,
+						staticDateDay: 1,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[canadaDay.id] = canadaDay;
 			}
-			
-			
+
+
 			const labourDay = LabourSubtypeHoliday.GetEmpty();
 			if (labourDay.id) {
-				_.merge(labourDay, { json: {
-					name: 'Labour Day',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, held on the 1st Monday in September.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: true,
-					firstMondayMonth: 9,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(labourDay, {
+					json: {
+						name: 'Labour Day',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, held on the 1st Monday in September.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: true,
+						firstMondayMonth: 9,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[labourDay.id] = labourDay;
 			}
-			
-			
+
+
 			const civicHoliday = LabourSubtypeHoliday.GetEmpty();
 			if (civicHoliday.id) {
-				_.merge(civicHoliday, { json: {
-					name: 'Civic Holiday',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, except NS MB and PEI, held on the 1st Monday in August.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: true,
-					firstMondayMonth: 8,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: false,
-					secondMondayMonth: null,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(civicHoliday, {
+					json: {
+						name: 'Civic Holiday',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, except NS MB and PEI, held on the 1st Monday in August.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: true,
+						firstMondayMonth: 8,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: false,
+						secondMondayMonth: null,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[civicHoliday.id] = civicHoliday;
 			}
-			
-			
+
+
 			const thanksgiving = LabourSubtypeHoliday.GetEmpty();
 			if (thanksgiving.id) {
-				_.merge(thanksgiving, { json: {
-					name: 'Thanksgiving',
-					icon: 'fa-calendar-day',
-					description: 'Stat Holiday, except Atlantic Provinces, held on the 2nd Monday in October.',
-					isStaticDate: false,
-					staticDateMonth: null,
-					staticDateDay: null,
-					isObservationDay: false,
-					observationDayStatic: false,
-					observationDayStaticMonth: null,
-					observationDayStaticDay: null,
-					observationDayActivateIfWeekend: false,
-					isFirstMondayInMonthDate: false,
-					firstMondayMonth: null,
-					isGoodFriday: false,
-					isThirdMondayInMonthDate: false,
-					thirdMondayMonth: null,
-					isSecondMondayInMonthDate: true,
-					secondMondayMonth: 10,
-					isMondayBeforeDate: false,
-					mondayBeforeDateMonth: null,
-					mondayBeforeDateDay: null,
-				}});
+				_.merge(thanksgiving, {
+					json: {
+						name: 'Thanksgiving',
+						icon: 'fa-calendar-day',
+						description: 'Stat Holiday, except Atlantic Provinces, held on the 2nd Monday in October.',
+						isStaticDate: false,
+						staticDateMonth: null,
+						staticDateDay: null,
+						isObservationDay: false,
+						observationDayStatic: false,
+						observationDayStaticMonth: null,
+						observationDayStaticDay: null,
+						observationDayActivateIfWeekend: false,
+						isFirstMondayInMonthDate: false,
+						firstMondayMonth: null,
+						isGoodFriday: false,
+						isThirdMondayInMonthDate: false,
+						thirdMondayMonth: null,
+						isSecondMondayInMonthDate: true,
+						secondMondayMonth: 10,
+						isMondayBeforeDate: false,
+						mondayBeforeDateMonth: null,
+						mondayBeforeDateDay: null,
+					}
+				});
 				labourSubtypeHolidays[thanksgiving.id] = thanksgiving;
 			}
-			
+
 		}
-		
+
 		// labourSubtypeException
 		{
 			const bereavement = LabourSubtypeException.GetEmpty();
 			if (bereavement.id) {
-				_.merge(bereavement, { json: {
-					name: 'Bereavement',
-					description: 'Time off when someone has died.',
-					icon: 'nature_people',
-				}});
+				_.merge(bereavement, {
+					json: {
+						name: 'Bereavement',
+						description: 'Time off when someone has died.',
+						icon: 'nature_people',
+					}
+				});
 				labourSubtypeException[bereavement.id] = bereavement;
 			}
-			
-			
+
+
 			const sick = LabourSubtypeException.GetEmpty();
 			if (sick.id) {
-				_.merge(sick, { json: {
-					name: 'Sick',
-					description: 'Time off due to sickness.',
-					icon: 'local_hospital',
-				}});
+				_.merge(sick, {
+					json: {
+						name: 'Sick',
+						description: 'Time off due to sickness.',
+						icon: 'local_hospital',
+					}
+				});
 				labourSubtypeException[sick.id] = sick;
 			}
-			
-			
+
+
 			const personalDay = LabourSubtypeException.GetEmpty();
 			if (personalDay.id) {
-				_.merge(personalDay, { json: {
-					name: 'Personal Day',
-					description: 'Time off for unspecified reasons.',
-					icon: 'bathtub',
-				}});
+				_.merge(personalDay, {
+					json: {
+						name: 'Personal Day',
+						description: 'Time off for unspecified reasons.',
+						icon: 'bathtub',
+					}
+				});
 				labourSubtypeException[personalDay.id] = personalDay;
 			}
-			
-			
+
+
 			const familyLeave = LabourSubtypeException.GetEmpty();
 			if (familyLeave.id) {
-				_.merge(familyLeave, { json: {
-					name: 'Family Leave',
-					description: 'Time off to deal with family issues, such as children being sick, etc...',
-					icon: 'child_friendly',
-				}});
+				_.merge(familyLeave, {
+					json: {
+						name: 'Family Leave',
+						description: 'Time off to deal with family issues, such as children being sick, etc...',
+						icon: 'child_friendly',
+					}
+				});
 				labourSubtypeException[familyLeave.id] = familyLeave;
 			}
-			
-			
+
+
 			const weather = LabourSubtypeException.GetEmpty();
 			if (weather.id) {
-				_.merge(weather, { json: {
-					name: 'Weather',
-					description: 'Time off due to bad weather.',
-					icon: 'ac_unit',
-				}});
+				_.merge(weather, {
+					json: {
+						name: 'Weather',
+						description: 'Time off due to bad weather.',
+						icon: 'ac_unit',
+					}
+				});
 				labourSubtypeException[weather.id] = weather;
 			}
-			
+
 		}
-		
+
 		// labourSubtypeNonBillable
 		{
 			const other = LabourSubtypeNonBillable.GetEmpty();
 			if (other.id) {
-				_.merge(other, { json: {
-					name: 'Other',
-					description: 'Some other non billable task.',
-					icon: 'info',
-				}});
+				_.merge(other, {
+					json: {
+						name: 'Other',
+						description: 'Some other non billable task.',
+						icon: 'info',
+					}
+				});
 				labourSubtypeNonBillable[other.id] = other;
 			}
-			
-			
+
+
 			const training = LabourSubtypeNonBillable.GetEmpty();
 			if (training.id) {
-				_.merge(training, { json: {
-					name: 'Training',
-					description: 'Time spent learning something.',
-					icon: 'info',
-				}});
+				_.merge(training, {
+					json: {
+						name: 'Training',
+						description: 'Time spent learning something.',
+						icon: 'info',
+					}
+				});
 				labourSubtypeNonBillable[training.id] = training;
 			}
-			
-			
+
+
 			const programming = LabourSubtypeNonBillable.GetEmpty();
 			if (programming.id) {
-				_.merge(programming, { json: {
-					name: 'Programming',
-					description: 'The writing of computer programs or other technical work.',
-					icon: 'info',
-				}});
+				_.merge(programming, {
+					json: {
+						name: 'Programming',
+						description: 'The writing of computer programs or other technical work.',
+						icon: 'info',
+					}
+				});
 				labourSubtypeNonBillable[programming.id] = programming;
 			}
-			
-			
+
+
 			const meeting = LabourSubtypeNonBillable.GetEmpty();
 			if (meeting.id) {
-				_.merge(meeting, { json: {
-					name: 'Meeting',
-					description: 'A company meeting that cannot be billed to a 3rd party.',
-					icon: 'people',
-				}});
+				_.merge(meeting, {
+					json: {
+						name: 'Meeting',
+						description: 'A company meeting that cannot be billed to a 3rd party.',
+						icon: 'people',
+					}
+				});
 				labourSubtypeNonBillable[meeting.id] = meeting;
 			}
-			
-			
+
+
 			const administration = LabourSubtypeNonBillable.GetEmpty();
 			if (administration.id) {
-				_.merge(administration, { json: {
-					name: 'Administration',
-					description: 'Clerical tasks, including drafting documents, telephones, scheduling, project management.',
-					icon: '',
-				}});
+				_.merge(administration, {
+					json: {
+						name: 'Administration',
+						description: 'Clerical tasks, including drafting documents, telephones, scheduling, project management.',
+						icon: '',
+					}
+				});
 				labourSubtypeNonBillable[administration.id] = administration;
 			}
-			
+
 		}
-		
+
 		// labourTypes
 		let billable;
 		{
 			billable = LabourType.GetEmpty();
 			if (billable.id) {
-				_.merge(billable, { json: {
-					name: 'Billable',
-					icon: 'attach_money',
-					description: 'Time that will be billed to a client.',
-					default: true,
-					isBillable: true,
-					isHoliday: false,
-					isNonBillable: false,
-					isException: false,
-					isPayOutBanked: false,
-				}});
+				_.merge(billable, {
+					json: {
+						name: 'Billable',
+						icon: 'attach_money',
+						description: 'Time that will be billed to a client.',
+						default: true,
+						isBillable: true,
+						isHoliday: false,
+						isNonBillable: false,
+						isException: false,
+						isPayOutBanked: false,
+					}
+				});
 				labourTypes[billable.id] = billable;
 			}
-			
-			
+
+
 			const exception = LabourType.GetEmpty();
 			if (exception.id) {
-				_.merge(exception, { json: {
-					name: 'Exception',
-					icon: 'info',
-					description: 'Non planned events.',
-					default: true,
-					isBillable: false,
-					isHoliday: false,
-					isNonBillable: false,
-					isException: true,
-					isPayOutBanked: false,
-				}});
+				_.merge(exception, {
+					json: {
+						name: 'Exception',
+						icon: 'info',
+						description: 'Non planned events.',
+						default: true,
+						isBillable: false,
+						isHoliday: false,
+						isNonBillable: false,
+						isException: true,
+						isPayOutBanked: false,
+					}
+				});
 				labourTypes[exception.id] = exception;
 			}
-			
-			
+
+
 			const holiday = LabourType.GetEmpty();
 			if (holiday.id) {
-				_.merge(holiday, { json: {
-					name: 'Holiday',
-					icon: 'beach_access',
-					description: 'Re-occuring standard days off, paid and not paid.',
-					default: true,
-					isBillable: false,
-					isHoliday: true,
-					isNonBillable: false,
-					isException: false,
-					isPayOutBanked: false,
-				}});
+				_.merge(holiday, {
+					json: {
+						name: 'Holiday',
+						icon: 'beach_access',
+						description: 'Re-occuring standard days off, paid and not paid.',
+						default: true,
+						isBillable: false,
+						isHoliday: true,
+						isNonBillable: false,
+						isException: false,
+						isPayOutBanked: false,
+					}
+				});
 				labourTypes[holiday.id] = holiday;
 			}
-			
-			
+
+
 			const payOutBanked = LabourType.GetEmpty();
 			if (payOutBanked.id) {
-				_.merge(payOutBanked, { json: {
-					name: 'Pay Out Banked',
-					icon: '360',
-					description: '',
-					default: true,
-					isBillable: false,
-					isHoliday: false,
-					isNonBillable: false,
-					isException: false,
-					isPayOutBanked: true,
-				}});
+				_.merge(payOutBanked, {
+					json: {
+						name: 'Pay Out Banked',
+						icon: '360',
+						description: '',
+						default: true,
+						isBillable: false,
+						isHoliday: false,
+						isNonBillable: false,
+						isException: false,
+						isPayOutBanked: true,
+					}
+				});
 				labourTypes[payOutBanked.id] = payOutBanked;
 			}
-			
-			
+
+
 			const nonBillable = LabourType.GetEmpty();
 			if (nonBillable.id) {
-				_.merge(nonBillable, { json: {
-					name: 'Non Billable',
-					icon: 'money_off',
-					description: 'Time that will be billed to your company.',
-					default: true,
-					isBillable: false,
-					isHoliday: false,
-					isNonBillable: true,
-					isException: false,
-					isPayOutBanked: false,
-				}});
+				_.merge(nonBillable, {
+					json: {
+						name: 'Non Billable',
+						icon: 'money_off',
+						description: 'Time that will be billed to your company.',
+						default: true,
+						isBillable: false,
+						isHoliday: false,
+						isNonBillable: true,
+						isException: false,
+						isPayOutBanked: false,
+					}
+				});
 				labourTypes[nonBillable.id] = nonBillable;
 			}
-			
+
 		}
-		
+
 		// projectStatus
 		let quoting;
 		let awaitingPayment;
@@ -2648,137 +2696,157 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 		{
 			const writtenOff = ProjectStatus.GetEmpty();
 			if (writtenOff.id) {
-				_.merge(writtenOff, { json: {
-					name: 'Written Off',
-					isOpen: false,
-					isAwaitingPayment: false,
-					isClosed: true,
-					isNewProjectStatus: false,
-				}});
+				_.merge(writtenOff, {
+					json: {
+						name: 'Written Off',
+						isOpen: false,
+						isAwaitingPayment: false,
+						isClosed: true,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[writtenOff.id] = writtenOff;
 			}
-			
-			
+
+
 			const arears = ProjectStatus.GetEmpty();
 			if (arears.id) {
-				_.merge(arears, { json: {
-					name: 'Arears',
-					isOpen: false,
-					isAwaitingPayment: true,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(arears, {
+					json: {
+						name: 'Arears',
+						isOpen: false,
+						isAwaitingPayment: true,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[arears.id] = arears;
 			}
-			
-			
+
+
 			const terminated = ProjectStatus.GetEmpty();
 			if (terminated.id) {
-				_.merge(terminated, { json: {
-					name: 'Terminated',
-					isOpen: false,
-					isAwaitingPayment: false,
-					isClosed: true,
-					isNewProjectStatus: false,
-				}});
+				_.merge(terminated, {
+					json: {
+						name: 'Terminated',
+						isOpen: false,
+						isAwaitingPayment: false,
+						isClosed: true,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[terminated.id] = terminated;
 			}
-			
-			
+
+
 			awaitingPayment = ProjectStatus.GetEmpty();
 			if (awaitingPayment.id) {
-				_.merge(awaitingPayment, { json: {
-					name: 'Awaiting Payment',
-					isOpen: false,
-					isAwaitingPayment: true,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(awaitingPayment, {
+					json: {
+						name: 'Awaiting Payment',
+						isOpen: false,
+						isAwaitingPayment: true,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[awaitingPayment.id] = awaitingPayment;
 			}
-			
-			
+
+
 			const complete = ProjectStatus.GetEmpty();
 			if (complete.id) {
-				_.merge(complete, { json: {
-					name: 'Complete',
-					isOpen: false,
-					isAwaitingPayment: false,
-					isClosed: true,
-					isNewProjectStatus: false,
-				}});
+				_.merge(complete, {
+					json: {
+						name: 'Complete',
+						isOpen: false,
+						isAwaitingPayment: false,
+						isClosed: true,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[complete.id] = complete;
 			}
-			
-			
+
+
 			inProgress = ProjectStatus.GetEmpty();
 			if (inProgress.id) {
-				_.merge(inProgress, { json: {
-					name: 'In Progress',
-					isOpen: true,
-					isAwaitingPayment: false,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(inProgress, {
+					json: {
+						name: 'In Progress',
+						isOpen: true,
+						isAwaitingPayment: false,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[inProgress.id] = inProgress;
 			}
-			
-			
+
+
 			quoting = ProjectStatus.GetEmpty();
 			if (quoting.id) {
-				_.merge(quoting, { json: {
-					name: 'Quoting',
-					isOpen: true,
-					isAwaitingPayment: false,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(quoting, {
+					json: {
+						name: 'Quoting',
+						isOpen: true,
+						isAwaitingPayment: false,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[quoting.id] = quoting;
 			}
-			
-			
+
+
 			const roughIn = ProjectStatus.GetEmpty();
 			if (roughIn.id) {
-				_.merge(roughIn, { json: {
-					name: 'Rough In',
-					isOpen: true,
-					isAwaitingPayment: false,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(roughIn, {
+					json: {
+						name: 'Rough In',
+						isOpen: true,
+						isAwaitingPayment: false,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[roughIn.id] = roughIn;
 			}
-			
-			
+
+
 			const finishing = ProjectStatus.GetEmpty();
 			if (finishing.id) {
-				_.merge(finishing, { json: {
-					name: 'Finishing',
-					isOpen: true,
-					isAwaitingPayment: false,
-					isClosed: false,
-					isNewProjectStatus: false,
-				}});
+				_.merge(finishing, {
+					json: {
+						name: 'Finishing',
+						isOpen: true,
+						isAwaitingPayment: false,
+						isClosed: false,
+						isNewProjectStatus: false,
+					}
+				});
 				projectStatus[finishing.id] = finishing;
 			}
-			
-			
+
+
 			created = ProjectStatus.GetEmpty();
 			if (created.id) {
-				_.merge(created, { json: {
-					name: 'Created',
-					isOpen: true,
-					isAwaitingPayment: false,
-					isClosed: false,
-					isNewProjectStatus: true,
-				}});
+				_.merge(created, {
+					json: {
+						name: 'Created',
+						isOpen: true,
+						isAwaitingPayment: false,
+						isClosed: false,
+						isNewProjectStatus: true,
+					}
+				});
 				projectStatus[created.id] = created;
 			}
-			
+
 		}
-		
+
 		// agents
-		
+
 		// dpAgent1 already exists for company owner.
 		let agentSeanMartin;
 		let agentStanleyRiley;
@@ -2792,8 +2860,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				agentSeanMartin.json.notificationSMSNumber = '(337) 519-6737';
 				agents[agentSeanMartin.id] = agentSeanMartin;
 			}
-			
-			
+
+
 			agentStanleyRiley = Agent.GetEmpty();
 			if (agentStanleyRiley.id) {
 				agentStanleyRiley.json.name = 'Stanley C. Riley';
@@ -2803,9 +2871,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				agentStanleyRiley.json.notificationSMSNumber = '(337) 519-6875';
 				agents[agentStanleyRiley.id] = agentStanleyRiley;
 			}
-			
+
 		}
-		
+
 		// companies
 		let kitchenContractors;
 		let honestDave;
@@ -2824,79 +2892,79 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				kitchenContractors.json.name = 'Kitchen Contractors';
 				companies[kitchenContractors.id] = kitchenContractors;
 			}
-			
-			
+
+
 			honestDave = Company.GetEmpty();
 			if (honestDave.id) {
 				honestDave.json.name = 'Honest Dave\'s Construction';
 				companies[honestDave.id] = honestDave;
 			}
-			
-			
+
+
 			raiseTheRoof = Company.GetEmpty();
 			if (raiseTheRoof.id) {
 				raiseTheRoof.json.name = 'RAISE THE ROOF Builders';
 				companies[raiseTheRoof.id] = raiseTheRoof;
 			}
-			
-			
+
+
 			bobBuilders = Company.GetEmpty();
 			if (bobBuilders.id) {
 				bobBuilders.json.name = 'Bob and his Builders';
 				companies[bobBuilders.id] = bobBuilders;
 			}
-			
-			
+
+
 			ohCrap = Company.GetEmpty();
 			if (ohCrap.id) {
 				ohCrap.json.name = 'Oh Crap Plumbing';
 				companies[ohCrap.id] = ohCrap;
 			}
-			
-			
+
+
 			throneMasters = Company.GetEmpty();
 			if (throneMasters.id) {
 				throneMasters.json.name = 'Throne Masters';
 				companies[throneMasters.id] = throneMasters;
 			}
-			
-			
+
+
 			getFramed = Company.GetEmpty();
 			if (getFramed.id) {
 				getFramed.json.name = 'Get Framed Incorporated';
 				companies[getFramed.id] = getFramed;
 			}
-			
-			
+
+
 			thinkInsideTheBox = Company.GetEmpty();
 			if (thinkInsideTheBox.id) {
 				thinkInsideTheBox.json.name = 'Think inside the Box Co.';
 				companies[thinkInsideTheBox.id] = thinkInsideTheBox;
 			}
-			
-			
+
+
 			ductsUnlimited = Company.GetEmpty();
 			if (ductsUnlimited.id) {
 				ductsUnlimited.json.name = 'Ducts Unlimited';
 				companies[ductsUnlimited.id] = ductsUnlimited;
 			}
-			
-			
+
+
 			getVented = Company.GetEmpty();
 			if (getVented.id) {
 				getVented.json.name = 'Get Vented';
 				companies[getVented.id] = getVented;
 			}
-			
-			
+
+
 			justFineDesign = Company.GetEmpty();
 			if (justFineDesign.id) {
 				justFineDesign.json.name = 'Just Fine Design';
 				companies[justFineDesign.id] = justFineDesign;
 			}
-			
+
 		}
-		
+
 		// contacts
 		let contactSeanMartin;
 		let contactStanleyRiley;
@@ -2916,8 +2984,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactSeanMartin.id] = contactSeanMartin;
 			}
-			
-			
+
+
 			contactStanleyRiley = Contact.GetEmpty();
 			if (contactStanleyRiley.id) {
 				contactStanleyRiley.json.name = agentStanleyRiley.json.name;
@@ -2933,9 +3001,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactStanleyRiley.id] = contactStanleyRiley;
 			}
-			
+
 		}
-		
+
 		// kitchenContractors contacts
 		let contactJamesMalone;
 		let contactCodyTalty;
@@ -2956,8 +3024,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactJamesMalone.id] = contactJamesMalone;
 			}
-			
-			
+
+
 			contactCodyTalty = Contact.GetEmpty();
 			if (contactCodyTalty.id) {
 				contactCodyTalty.json.name = 'Cody Talty';
@@ -2973,8 +3041,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactCodyTalty.id] = contactCodyTalty;
 			}
-			
-			
+
+
 			contactRayWare = Contact.GetEmpty();
 			if (contactRayWare.id) {
 				contactRayWare.json.name = 'Ray S. Ware';
@@ -2990,9 +3058,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactRayWare.id] = contactRayWare;
 			}
-			
+
 		}
-		
+
 		// honestDave contacts
 		let contactDaveWheeler;
 		{
@@ -3011,9 +3079,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactDaveWheeler.id] = contactDaveWheeler;
 			}
-			
+
 		}
-		
+
 		// raiseTheRoof contacts
 		let contactBennyHeidelberg;
 		{
@@ -3032,9 +3100,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactBennyHeidelberg.id] = contactBennyHeidelberg;
 			}
-			
+
 		}
-		
+
 		// bobBuilders contacts
 		let contactFredricKeller;
 		{
@@ -3053,9 +3121,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactFredricKeller.id] = contactFredricKeller;
 			}
-			
+
 		}
-		
+
 		// ohCrap contacts
 		let contactChristopherMurray;
 		{
@@ -3074,9 +3142,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactChristopherMurray.id] = contactChristopherMurray;
 			}
-			
+
 		}
-		
+
 		// throneMasters contacts
 		let contactCliffordFelix;
 		let contactCharlaFoley;
@@ -3097,8 +3165,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactCliffordFelix.id] = contactCliffordFelix;
 			}
-			
-			
+
+
 			contactCharlaFoley = Contact.GetEmpty();
 			if (contactCharlaFoley.id) {
 				contactCharlaFoley.json.name = 'Charla E. Foley';
@@ -3114,8 +3182,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactCharlaFoley.id] = contactCharlaFoley;
 			}
-			
-			
+
+
 			contactJamesGarcia = Contact.GetEmpty();
 			if (contactJamesGarcia.id) {
 				contactJamesGarcia.json.name = 'James Y. Garcia';
@@ -3131,9 +3199,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactJamesGarcia.id] = contactJamesGarcia;
 			}
-			
+
 		}
-		
+
 		// getFramed contacts
 		let contactHaroldMcDonald;
 		let contactGuyGrounds;
@@ -3153,8 +3221,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactHaroldMcDonald.id] = contactHaroldMcDonald;
 			}
-			
-			
+
+
 			contactGuyGrounds = Contact.GetEmpty();
 			if (contactGuyGrounds.id) {
 				contactGuyGrounds.json.name = 'Guy S. Grounds';
@@ -3170,10 +3238,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactGuyGrounds.id] = contactGuyGrounds;
 			}
-			
+
 		}
-		
-		
+
+
 		// thinkInsideTheBox contacts
 		let contactJohnKrieger;
 		{
@@ -3192,10 +3260,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactJohnKrieger.id] = contactJohnKrieger;
 			}
-			
+
 		}
-		
-		
+
+
 		// ductsUnlimited contacts
 		let contactChristopherSims;
 		{
@@ -3214,10 +3282,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactChristopherSims.id] = contactChristopherSims;
 			}
-			
+
 		}
-		
-		
+
+
 		// getVented contacts
 		let contactRudolphMorris;
 		{
@@ -3236,10 +3304,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactRudolphMorris.id] = contactRudolphMorris;
 			}
-			
+
 		}
-		
-		
+
+
 		// justFineDesign contacts
 		let contactWilliamWoodford;
 		{
@@ -3258,12 +3326,12 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactWilliamWoodford.id] = contactWilliamWoodford;
 			}
-			
+
 		}
-		
-		
+
+
 		// homeowners
-		
+
 		let contactHaroldCurry;
 		let contactGeorgianaAtkinson;
 		let contactLindaPhaneuf;
@@ -3282,8 +3350,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactHaroldCurry.id] = contactHaroldCurry;
 			}
-			
-			
+
+
 			contactGeorgianaAtkinson = Contact.GetEmpty();
 			if (contactGeorgianaAtkinson.id) {
 				contactGeorgianaAtkinson.json.name = 'Georgiana Atkinson';
@@ -3296,8 +3364,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactGeorgianaAtkinson.id] = contactGeorgianaAtkinson;
 			}
-			
-			
+
+
 			contactLindaPhaneuf = Contact.GetEmpty();
 			if (contactLindaPhaneuf.id) {
 				contactLindaPhaneuf.json.name = 'Linda Phaneuf';
@@ -3310,8 +3378,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactLindaPhaneuf.id] = contactLindaPhaneuf;
 			}
-			
-			
+
+
 			contactRobinBergman = Contact.GetEmpty();
 			if (contactRobinBergman.id) {
 				contactRobinBergman.json.name = 'Robin Bergman';
@@ -3324,10 +3392,10 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactRobinBergman.id] = contactRobinBergman;
 			}
-			
-			
-			
-			
+
+
+
+
 			contactJordanMcPeak = Contact.GetEmpty();
 			if (contactJordanMcPeak.id) {
 				contactJordanMcPeak.json.name = 'Jordan McPeak';
@@ -3340,33 +3408,33 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				];
 				contacts[contactJordanMcPeak.id] = contactJordanMcPeak;
 			}
-			
+
 		}
-		
-		
-		
+
+
+
 		// ALL PROJECTS
 		{
 			// projects
 			// projectNotes
 			// assignments
-			
-			
+
+
 			const todayLocal = DateTime.local();
-				
+
 			const todayPlus1WeekMonday830 = DateTime.fromObject(
 				{
 					weekNumber: todayLocal.weekNumber + 1,
 					weekday: 1,
 					hour: 8,
 					minute: 30,
-				}, 
+				},
 				{
 					zone: 'local',
 				},
 			);
-			
-			
+
+
 			const kitchenReno1 = Project.GetEmpty();
 			if (kitchenReno1.id) {
 				kitchenReno1.json.name = 'Kitchen Reno';
@@ -3390,7 +3458,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: throneMasters.id || null,
 					},
 				];
-				
+
 				kitchenReno1.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3414,32 +3482,32 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 					},
 				];
 				kitchenReno1.json.hasStartISO8601 = true;
-				
-				
-				
+
+
+
 				kitchenReno1.json.startISO8601 = todayPlus1WeekMonday830.toISO();
 				kitchenReno1.json.startTimeMode = 'time';
-				
+
 				const todayP1WeekFruday1630 = DateTime.fromObject({
 					weekNumber: todayLocal.weekNumber + 1,
 					weekday: 5,
 					hour: 16,
 					minute: 30,
-					}, 
+				},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				kitchenReno1.json.hasEndISO8601 = true;
 				kitchenReno1.json.endISO8601 = todayP1WeekFruday1630.toISO();
 				kitchenReno1.json.endTimeMode = 'time';
 				projects[kitchenReno1.id] = kitchenReno1;
 			}
-			
-			
-			
-			
+
+
+
+
 			// Notes
 			const kitchenReno1Note1 = ProjectNote.GetEmpty();
 			if (kitchenReno1Note1.id) {
@@ -3452,8 +3520,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				kitchenReno1Note1.json.contentType = 'styled-text';
 				projectNotes[kitchenReno1Note1.id] = kitchenReno1Note1;
 			}
-			
-			
+
+
 			// Assignments
 			const assignments1 = Assignment.GetEmpty();
 			if (assignments1.id) {
@@ -3469,8 +3537,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignments1.json.workRequested = 'Standard kitchen reno, plans on site.';
 				assignments[assignments1.id] = assignments1;
 			}
-			
-			
+
+
 			const assignments2 = Assignment.GetEmpty();
 			if (assignments2.id) {
 				assignments2.json.hasStartISO8601 = true;
@@ -3485,23 +3553,23 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignments2.json.workRequested = 'Standard kitchen reno, plans on site.';
 				assignments[assignments2.id] = assignments2;
 			}
-			
+
 		} // kitchenReno1
 		{
 			const todayLocal = DateTime.local();
-			
+
 			const todayPlus1WeekMonday830 = DateTime.fromObject(
 				{
 					weekNumber: todayLocal.weekNumber + 2,
 					weekday: 1,
 					hour: 8,
 					minute: 30,
-				}, 
+				},
 				{
 					zone: 'local',
 				},
 			);
-			
+
 			// projects
 			// projectNotes
 			// assignments
@@ -3528,7 +3596,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: ohCrap.id || null,
 					},
 				];
-				
+
 				basementReno.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3552,28 +3620,28 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 					},
 				];
 				basementReno.json.hasStartISO8601 = true;
-				
+
 				basementReno.json.startISO8601 = todayPlus1WeekMonday830.toISO();
 				basementReno.json.startTimeMode = 'time';
-				
+
 				const todayP1WeekFruday1630 = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber + 2,
 						weekday: 5,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				basementReno.json.hasEndISO8601 = true;
 				basementReno.json.endISO8601 = todayP1WeekFruday1630.toISO();
 				basementReno.json.endTimeMode = 'time';
 				projects[basementReno.id] = basementReno;
 			}
-			
+
 			// Notes
 			const note1 = ProjectNote.GetEmpty();
 			if (note1.id) {
@@ -3586,8 +3654,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				note1.json.contentType = 'styled-text';
 				projectNotes[note1.id] = note1;
 			}
-			
-			
+
+
 			// Assignments
 			const assignments1 = Assignment.GetEmpty();
 			if (assignments1.id) {
@@ -3603,8 +3671,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignments1.json.workRequested = 'Standard basement reno, plans at shop.';
 				assignments[assignments1.id] = assignments1;
 			}
-			
-			
+
+
 			const assignments2 = Assignment.GetEmpty();
 			if (assignments2.id) {
 				assignments2.json.hasStartISO8601 = true;
@@ -3619,25 +3687,25 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignments2.json.workRequested = 'Standard basement reno, plans at shop.';
 				assignments[assignments2.id] = assignments2;
 			}
-			
+
 		} // basementReno
 		let bathroomReno;
 		let bathroomRenoAssignment1;
 		{
 			const todayLocal = DateTime.local();
-			
+
 			const todayPlus1WeekMonday830 = DateTime.fromObject(
 				{
 					weekNumber: todayLocal.weekNumber - 2,
 					weekday: 1,
 					hour: 8,
 					minute: 30,
-				}, 
+				},
 				{
 					zone: 'local',
 				},
 			);
-			
+
 			// projects
 			// projectNotes
 			// assignments
@@ -3664,7 +3732,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: ohCrap.id || null,
 					},
 				];
-				
+
 				bathroomReno.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3688,33 +3756,33 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 					},
 				];
 				bathroomReno.json.hasStartISO8601 = true;
-				
-				
-				
+
+
+
 				bathroomReno.json.startISO8601 = todayPlus1WeekMonday830.toISO();
 				bathroomReno.json.startTimeMode = 'time';
-				
+
 				const todayP1WeekFruday1630 = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber - 2,
 						weekday: 5,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				bathroomReno.json.hasEndISO8601 = true;
 				bathroomReno.json.endISO8601 = todayP1WeekFruday1630.toISO();
 				bathroomReno.json.endTimeMode = 'time';
 				projects[bathroomReno.id] = bathroomReno;
-				
+
 				console.log('bathroomReno', bathroomReno);
 			}
-			
-			
+
+
 			// Notes
 			const note1 = ProjectNote.GetEmpty();
 			if (note1.id) {
@@ -3727,8 +3795,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				note1.json.contentType = 'styled-text';
 				projectNotes[note1.id] = note1;
 			}
-			
-			
+
+
 			// Assignments
 			bathroomRenoAssignment1 = Assignment.GetEmpty();
 			if (bathroomRenoAssignment1.id) {
@@ -3744,8 +3812,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				bathroomRenoAssignment1.json.workRequested = 'Standard basement reno, plans at shop.';
 				assignments[bathroomRenoAssignment1.id] = bathroomRenoAssignment1;
 			}
-			
-			
+
+
 			const assignments2 = Assignment.GetEmpty();
 			if (assignments2.id) {
 				assignments2.json.hasStartISO8601 = true;
@@ -3760,25 +3828,25 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignments2.json.workRequested = 'Standard basement reno, plans at shop.';
 				assignments[assignments2.id] = assignments2;
 			}
-			
+
 		} // bathroomReno
 		let garageWiringServiceReplacement;
 		let garageServiceReplacementAssignment;
 		{
 			const todayLocal = DateTime.local();
-			
+
 			const startLocal = DateTime.fromObject(
 				{
 					weekNumber: todayLocal.weekNumber,
 					weekday: 1,
 					hour: 8,
 					minute: 30,
-				}, 
+				},
 				{
 					zone: 'local',
 				},
 			);
-			
+
 			// projects
 			// projectNotes
 			// assignments
@@ -3800,7 +3868,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: bobBuilders.id || null,
 					},
 				];
-				
+
 				garageWiringServiceReplacement.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3819,31 +3887,31 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 					},
 				];
 				garageWiringServiceReplacement.json.hasStartISO8601 = true;
-				
-				
-				
+
+
+
 				garageWiringServiceReplacement.json.startISO8601 = startLocal.toISO();
 				garageWiringServiceReplacement.json.startTimeMode = 'time';
-				
+
 				const endLocal = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber,
 						weekday: 5,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				garageWiringServiceReplacement.json.hasEndISO8601 = true;
 				garageWiringServiceReplacement.json.endISO8601 = endLocal.toISO();
 				garageWiringServiceReplacement.json.endTimeMode = 'time';
 				projects[garageWiringServiceReplacement.id] = garageWiringServiceReplacement;
 			}
-			
-			
+
+
 			// Notes
 			const note1 = ProjectNote.GetEmpty();
 			if (note1.id) {
@@ -3856,8 +3924,8 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				note1.json.contentType = 'styled-text';
 				projectNotes[note1.id] = note1;
 			}
-			
-			
+
+
 			// Assignments
 			garageServiceReplacementAssignment = Assignment.GetEmpty();
 			if (garageServiceReplacementAssignment.id) {
@@ -3873,9 +3941,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				garageServiceReplacementAssignment.json.workRequested = 'Garage replacement and 200A service replacement.';
 				assignments[garageServiceReplacementAssignment.id] = garageServiceReplacementAssignment;
 			}
-			
+
 		} // garageWiringServiceReplacement
-		
+
 		// Some small oneoff projects.
 		let lightingFixtureReplacement;
 		{
@@ -3883,7 +3951,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			if (lightingFixtureReplacement.id) {
 				lightingFixtureReplacement.json.name = 'Replace Light Fixture';
 				lightingFixtureReplacement.json.statusId = created.id || null;
-				
+
 				lightingFixtureReplacement.json.addresses = [
 					{
 						id: GenerateID(),
@@ -3891,7 +3959,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: '619 Burke Street',
 					},
 				];
-				
+
 				lightingFixtureReplacement.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3899,11 +3967,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: contactRobinBergman.id || null,
 					},
 				];
-				
+
 				projects[lightingFixtureReplacement.id] = lightingFixtureReplacement;
 			}
-			
-			
+
+
 			const assignment1 = Assignment.GetEmpty();
 			if (assignment1.id) {
 				assignment1.json.statusId = assignmentStatusToBeScheduled.id || null;
@@ -3911,7 +3979,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignment1.json.workRequested = 'Replace Lighting Fixture';
 				assignments[assignment1.id] = assignment1;
 			}
-			
+
 		}
 		let outsidePlug;
 		{
@@ -3919,7 +3987,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			if (outsidePlug.id) {
 				outsidePlug.json.name = 'Outside Plug';
 				outsidePlug.json.statusId = created.id || null;
-				
+
 				outsidePlug.json.addresses = [
 					{
 						id: GenerateID(),
@@ -3927,7 +3995,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: '880 Howard River Rd',
 					},
 				];
-				
+
 				outsidePlug.json.contacts = [
 					{
 						id: GenerateID(),
@@ -3935,11 +4003,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						value: contactJordanMcPeak.id || null,
 					},
 				];
-				
+
 				projects[outsidePlug.id] = outsidePlug;
 			}
-			
-			
+
+
 			const assignment1 = Assignment.GetEmpty();
 			if (assignment1.id) {
 				assignment1.json.statusId = assignmentStatusToBeScheduled.id || null;
@@ -3947,18 +4015,18 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				assignment1.json.workRequested = 'Install Outside Plug';
 				assignments[assignment1.id] = assignment1;
 			}
-			
+
 		}
-		
-		
+
+
 		// estimatingManHours
-		
-		
+
+
 		// labour
 		{
 			const todayLocal = DateTime.local();
-			
-			
+
+
 			// Bathoom Reno
 			{
 				const startLocal = DateTime.fromObject(
@@ -3967,12 +4035,12 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						weekday: 1,
 						hour: 8,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				// const endLocal = DateTime.fromObject(
 				// 	{
 				// 		weekNumber: todayLocal.weekNumber,
@@ -3984,7 +4052,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				// 		zone: 'local',
 				// 	},
 				// );
-				
+
 				if (todayLocal > startLocal && todayLocal.day !== startLocal.day) {
 					const entry = Labour.GetEmpty();
 					if (entry.id) {
@@ -4000,11 +4068,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 						labour[entry.id] = entry;
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			{
 				const startLocal = DateTime.fromObject(
 					{
@@ -4012,12 +4080,12 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						weekday: 2,
 						hour: 8,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				// const endLocal = DateTime.fromObject(
 				// 	{
 				// 		weekNumber: todayLocal.weekNumber,
@@ -4029,7 +4097,7 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 				// 		zone: 'local',
 				// 	},
 				// );
-				
+
 				if (todayLocal > startLocal && todayLocal.day !== startLocal.day) {
 					const entry = Labour.GetEmpty();
 					if (entry.id) {
@@ -4045,11 +4113,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 						labour[entry.id] = entry;
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			{
 				const startLocal = DateTime.fromObject(
 					{
@@ -4057,24 +4125,24 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						weekday: 3,
 						hour: 8,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				const endLocal = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber,
 						weekday: 3,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				if (todayLocal > startLocal && todayLocal.day !== startLocal.day) {
 					const entry = Labour.GetEmpty();
 					if (entry.id) {
@@ -4090,11 +4158,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 						labour[entry.id] = entry;
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			{
 				const startLocal = DateTime.fromObject(
 					{
@@ -4102,24 +4170,24 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						weekday: 4,
 						hour: 8,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				const endLocal = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber,
 						weekday: 4,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				if (todayLocal > startLocal && todayLocal.day !== startLocal.day) {
 					const entry = Labour.GetEmpty();
 					if (entry.id) {
@@ -4135,11 +4203,11 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 						labour[entry.id] = entry;
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			{
 				const startLocal = DateTime.fromObject(
 					{
@@ -4147,24 +4215,24 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						weekday: 5,
 						hour: 8,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				const endLocal = DateTime.fromObject(
 					{
 						weekNumber: todayLocal.weekNumber,
 						weekday: 5,
 						hour: 16,
 						minute: 30,
-					}, 
+					},
 					{
 						zone: 'local',
 					},
 				);
-				
+
 				if (todayLocal > startLocal && todayLocal.day !== startLocal.day) {
 					const entry = Labour.GetEmpty();
 					if (entry.id) {
@@ -4180,16 +4248,16 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 						entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 						labour[entry.id] = entry;
 					}
-					
+
 				}
-				
+
 			}
-			
-			
+
+
 			// Add an active entry for today.
 			{
 				const startLocal = todayLocal.minus({ hours: 2.25 });
-				
+
 				const entry = Labour.GetEmpty();
 				if (entry.id) {
 					entry.json.projectId = garageWiringServiceReplacement.id || null;
@@ -4203,40 +4271,40 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 					entry.json.isEnteredThroughTelephoneCompanyAccess = false;
 					labour[entry.id] = entry;
 				}
-				
+
 			}
-			
-			
+
+
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		// materials
-		
-		
+
+
 		// settingsDefault
 		// settingsProvisioning
 		// settingsUser
 		// products
 		// skills
-		
-		
-		
+
+
+
 		for (const [key, value] of Object.entries(billingCompanies)) {
 			const mod = value as any;
 			mod.json = JSON.stringify(mod.json);
@@ -4428,9 +4496,9 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 			mod.json = JSON.stringify(mod.json);
 			skills[key] = mod;
 		}
-		
-		
-		
+
+
+
 		this.$store.commit('UpdateBillingCompaniesRemote', billingCompanies);
 		this.$store.commit('UpdateBillingContactsRemote', billingContacts);
 		this.$store.commit('UpdateBillingCouponCodesRemote', billingCouponCodes);
@@ -4470,6 +4538,6 @@ export default class DemoIntroductionDialogue extends DialogueBase {
 		this.$store.commit('UpdateProductsRemote', products);
 		this.$store.commit('UpdateSkillsRemote', skills);
 	}
-	
+
 }
 </script>

@@ -1,35 +1,23 @@
 <template>
 	<div>
-		<v-app-bar
-			v-if="showAppBar"
-			color="#747389"
-			dark
-			fixed
-			app
-			clipped-right
-			>
-			<v-progress-linear
-				v-if="isLoadingData"
-				:indeterminate="true"
-				absolute
-				top
-				color="white"
-			></v-progress-linear>
-			<v-app-bar-nav-icon @click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
+		<v-app-bar v-if="showAppBar" color="#747389" dark fixed app clipped-right>
+			<v-progress-linear v-if="isLoadingData" :indeterminate="true" absolute top
+				color="white"></v-progress-linear>
+			<v-app-bar-nav-icon
+				@click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
 				<v-icon>menu</v-icon>
 			</v-app-bar-nav-icon>
-			
-			<v-toolbar-title class="white--text">Company Account<span v-if="FullName">: {{FullName}}</span></v-toolbar-title>
+
+			<v-toolbar-title class="white--text">Company Account<span v-if="FullName">:
+					{{ FullName }}</span></v-toolbar-title>
 
 			<v-spacer></v-spacer>
 
 			<!--<OpenGlobalSearchButton />-->
-			
+
 			<NotificationBellButton />
 			<HelpMenuButton>
-				<v-list-item
-					@click="OnlineHelpFiles()"
-					>
+				<v-list-item @click="OnlineHelpFiles()">
 					<v-list-item-icon>
 						<v-icon>book</v-icon>
 					</v-list-item-icon>
@@ -44,11 +32,7 @@
 
 			<v-menu bottom left offset-y>
 				<template v-slot:activator="{ on }">
-					<v-btn
-					dark
-					icon
-					v-on="on"
-					>
+					<v-btn dark icon v-on="on">
 						<v-icon>more_vert</v-icon>
 					</v-btn>
 				</template>
@@ -77,47 +61,33 @@
 					</v-list-item> -->
 				</v-list>
 			</v-menu>
-			
-			
+
+
 			<template v-slot:extension>
-				<v-tabs
-					v-model="tab"
-					
-					background-color="transparent"
-					align-with-title
-					show-arrows
-					>
+				<v-tabs v-model="tab" background-color="transparent" align-with-title show-arrows>
 					<v-tabs-slider color="white"></v-tabs-slider>
 
-					<v-tab
-						:disabled="!value"
-						@click="$router.replace({query: { ...$route.query, tab: 'Licenses'}}).catch(((e) => {}));"
-						>
+					<v-tab :disabled="!value"
+						@click="$router.replace({ query: { ...$route.query, tab: 'Licenses' } }).catch(((e) => { }));">
 						Licenses
 					</v-tab>
 				</v-tabs>
 			</template>
-			
+
 		</v-app-bar>
 
-		<v-breadcrumbs
-			v-if="breadcrumbs"
-			:items="breadcrumbs"
+		<v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs"
 			style="padding-bottom: 0px; padding-top: 15px; background: white;">
 			<template v-slot:divider>
 				<v-icon>mdi-forward</v-icon>
 			</template>
 		</v-breadcrumbs>
-		
-		<v-alert
-			v-if="connectionStatus != 'Connected'"
-			type="error"
-			elevation="2"
-			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;"
-			>
+
+		<v-alert v-if="connectionStatus != 'Connected'" type="error" elevation="2"
+			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;">
 			Disconnected from server.
 		</v-alert>
-		
+
 		<div v-if="!value" style="margin-top: 20px;" class="fadeIn404">
 			<v-container>
 				<v-row>
@@ -141,23 +111,17 @@
 			</v-container>
 		</div>
 		<div v-else>
-			<v-tabs
-				v-if="!showAppBar"
-				v-model="tab"
-				background-color="transparent"
-				grow
-				show-arrows
-				style="display:none;"
-				>
+			<v-tabs v-if="!showAppBar" v-model="tab" background-color="transparent" grow show-arrows
+				style="display:none;">
 				<v-tab>
 					Licenses
 				</v-tab>
 			</v-tabs>
-				
+
 			<v-tabs-items v-model="tab" style="background: transparent;">
 				<v-tab-item style="flex: 1;">
 					<v-card flat>
-						
+
 						<v-form ref="generalForm" autocomplete="newpassword">
 							<v-container>
 								<v-row>
@@ -167,51 +131,38 @@
 								</v-row>
 								<v-row>
 									<v-col cols="12" sm="8" offset-sm="2">
-										<v-switch
-											v-model="LicencedProjectsSchedulingTime"
+										<v-switch v-model="LicencedProjectsSchedulingTime"
 											label="Projects, Scheduling, and Time"
 											:disabled="!LicencedProjectsSchedulingTime && UsedProjectsSchedulingTimeLicenses >= TotalProjectsSchedulingTimeLicenses"
 											:hint="`You are currently using ${this.UsedProjectsSchedulingTimeLicenses} out of a max of ${this.TotalProjectsSchedulingTimeLicenses} projects, scheduling, and time licenses.`"
-											persistent-hint
-											/>
+											persistent-hint />
 									</v-col>
-									
-									
+
+
 								</v-row>
 								<v-row>
 									<v-col cols="12" sm="8" offset-sm="2">
-										<v-switch
-											v-model="LicencedOnCall"
-											label="On Call Responder"
+										<v-switch v-model="LicencedOnCall" label="On Call Responder"
 											:disabled="!LicencedOnCall && UsedOnCallLicenses >= TotalOnCallLicenses"
 											:hint="`You are currently using ${this.UsedOnCallLicenses} out of a max of ${this.TotalOnCallLicenses} on-call responder licenses.`"
-											persistent-hint
-											/>
+											persistent-hint />
 									</v-col>
-									
-									
+
+
 								</v-row>
-								
+
 							</v-container>
 						</v-form>
 
 					</v-card>
 				</v-tab-item>
-				
+
 			</v-tabs-items>
 		</div>
-		
-		<v-footer
-			v-if="showFooter"
-			color="#747389"
-			class="white--text"
-			app
-			inset
-			>
-			<v-row
-				no-gutters
-				>
-				
+
+		<v-footer v-if="showFooter" color="#747389" class="white--text" app inset>
+			<v-row no-gutters>
+
 			</v-row>
 		</v-footer>
 	</div>
@@ -259,7 +210,7 @@ import { BillingContacts, IBillingContacts } from '@/Data/Billing/BillingContact
 		ReloadButton,
 		NotificationBellButton,
 	},
-	
+
 })
 export default class BillingContactLicensesEditor extends EditorBase {
 
@@ -270,185 +221,185 @@ export default class BillingContactLicensesEditor extends EditorBase {
 	@Prop({ default: null }) public readonly breadcrumbs!: IBreadcrumb[] | null;
 	@Prop({ default: null }) declare public readonly preselectTabName: string | null;
 	@Prop({ default: false }) public readonly isMakingNew!: boolean;
-	
+
 	public $refs!: {
 		generalForm: Vue,
 	};
-	
+
 	protected GetDemoMode = GetDemoMode;
 	protected ValidateRequiredField = ValidateRequiredField;
 	protected CSVDownloadContact = CSVDownloadContact;
 	protected DialoguesOpen = Dialogues.Open;
 	protected PermissionsKeyToDisplayName = PermissionsKeyToDisplayName;
 	protected loadingData = false;
-	
-	
-	
+
+
+
 	protected debounceId: ReturnType<typeof setTimeout> | null = null;
-	
-	
-	
+
+
+
 	public GetValidatedForms(): VForm[] {
 		return [
 			this.$refs.generalForm as VForm,
 		];
 	}
-	
-	
-	
+
+
+
 	protected GetTabNameToIndexMap(): Record<string, number> {
 		return {
 			General: 0,
 			general: 0,
 		};
 	}
-	
+
 	@Watch('value')
 	protected valueChanged(val: string, oldVal: string): void {// eslint-disable-line @typescript-eslint/no-unused-vars
-		
+
 		this.LoadData();
-		
+
 		console.log('valueChanged', val);
 	}
-	
+
 	protected MountedAfter(): void {
-		
+
 		this.LoadData();
-		
+
 	}
-	
-	
-	
+
+
+
 	protected LoadData(): void {
-		
+
 		//console.log('loaddata')
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-				
+
 				const promises: Array<Promise<any>> = [];
-			
+
 				if (this.value && this.value.applicationData) {
-				
-					if (this.value.applicationData.dispatchPulseContactId && 
+
+					if (this.value.applicationData.dispatchPulseContactId &&
 						!IsNullOrEmpty(this.value.applicationData.dispatchPulseContactId)) {
-						
+
 						const contact = Contact.ForId(this.value.applicationData.dispatchPulseContactId);
 						if (!contact) {
-							
+
 							// Request contact.
 							const rtr = Contact.FetchForId(this.value.applicationData.dispatchPulseContactId);
 							if (rtr.completeRequestPromise) {
 								promises.push(rtr.completeRequestPromise);
 							}
-							
+
 						}
-						
+
 					}
-					if (this.value.applicationData.dispatchPulseAgentId && 
+					if (this.value.applicationData.dispatchPulseAgentId &&
 						!IsNullOrEmpty(this.value.applicationData.dispatchPulseAgentId)) {
-						
+
 						const agent = Agent.ForId(this.value.applicationData.dispatchPulseAgentId);
 						if (!agent) {
-							
+
 							// Request agent.
 							const rtr = Agent.FetchForId(this.value.applicationData.dispatchPulseAgentId);
 							if (rtr.completeRequestPromise) {
 								promises.push(rtr.completeRequestPromise);
 							}
-							
+
 						}
-						
+
 					}
-					
+
 				}
-				
-				
+
+
 				if (promises.length > 0) {
-					
+
 					this.loadingData = true;
-					
+
 					Promise.all(promises).finally(() => {
 						this.loadingData = false;
 					});
 				} else {
 					this.loadingData = false;
 				}
-				
-				
+
+
 			});
 		});
 	}
-	
+
 	protected SignalChanged(): void {
-		
+
 		// Debounce
-		
+
 		if (this.debounceId) {
 			clearTimeout(this.debounceId);
 			this.debounceId = null;
 		}
-		
+
 		this.debounceId = setTimeout(() => {
 			this.$emit('input', this.value);
 		}, 250);
 	}
-	
+
 	protected get LicencedProjectsSchedulingTime(): boolean {
-		
-		if (!this.value || 
+
+		if (!this.value ||
 			!this.value.json ||
 			!this.value.json.licenseAssignedProjectsSchedulingTime) {
 			return false;
 		}
-		
+
 		return this.value.json.licenseAssignedProjectsSchedulingTime;
 	}
-	
+
 	protected set LicencedProjectsSchedulingTime(flag: boolean) {
-		
+
 		if (!this.value) {
 			console.error('set LicencedProjectsSchedulingTime !this.value');
 			return;
 		}
-		
+
 		if (!this.value.json) {
 			this.value.json = {};
 		}
-		
+
 		this.value.json.licenseAssignedProjectsSchedulingTime = flag;
-		
+
 		this.SignalChanged();
 	}
-	
+
 	protected get UsedProjectsSchedulingTimeLicenses(): number {
 		const allAccounts = BillingContacts.All();
-		
+
 		if (!allAccounts ||
 			Object.keys(allAccounts).length === 0) {
 			return 0;
 		}
-		
+
 		let i = 0;
 		for (const account of Object.values(allAccounts)) {
 			if (account.json.licenseAssignedProjectsSchedulingTime) {
 				i++;
 			}
 		}
-		
+
 		return i;
 	}
-	
+
 	protected get TotalProjectsSchedulingTimeLicenses(): number {
-		
+
 		const subs: IBillingSubscriptions[] = BillingSubscriptions.GetAll();
 		if (null === subs || subs.length === 0) {
 			return 0;
 		}
-		
+
 		let count = 0;
-		
+
 		for (const sub of subs) {
-			
+
 			const pkgId = sub.packageId;
 			if (null === pkgId || IsNullOrEmpty(pkgId)) {
 				continue;
@@ -457,43 +408,43 @@ export default class BillingContactLicensesEditor extends EditorBase {
 			if (null === pkg) {
 				continue;
 			}
-			
+
 			count += pkg.provisionDispatchPulseUsers;
 		}
-		
+
 		return count;
-		
+
 	}
-	
+
 	protected get UsedOnCallLicenses(): number {
 		const allAccounts = BillingContacts.All();
-		
+
 		if (!allAccounts ||
 			Object.keys(allAccounts).length === 0) {
 			return 0;
 		}
-		
+
 		let i = 0;
 		for (const account of Object.values(allAccounts)) {
 			if (account.json.licenseAssignedOnCall) {
 				i++;
 			}
 		}
-		
+
 		return i;
 	}
-	
+
 	protected get TotalOnCallLicenses(): number {
-		
+
 		const subs: IBillingSubscriptions[] = BillingSubscriptions.GetAll();
 		if (null === subs || subs.length === 0) {
 			return 0;
 		}
-		
+
 		let count = 0;
-		
+
 		for (const sub of subs) {
-			
+
 			const pkgId = sub.packageId;
 			if (null === pkgId || IsNullOrEmpty(pkgId)) {
 				continue;
@@ -502,64 +453,63 @@ export default class BillingContactLicensesEditor extends EditorBase {
 			if (null === pkg) {
 				continue;
 			}
-			
+
 			if (!pkg.json || !pkg.json.ProvisionOnCallUsers) {
 				continue;
 			}
-			
+
 			count += pkg.json.ProvisionOnCallUsers;
 		}
-		
+
 		return count;
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	protected get LicencedOnCall(): boolean {
-		
-		if (!this.value || 
+
+		if (!this.value ||
 			!this.value.json ||
 			!this.value.json.licenseAssignedOnCall) {
 			return false;
 		}
-		
+
 		return this.value.json.licenseAssignedOnCall;
 	}
-	
+
 	protected set LicencedOnCall(flag: boolean) {
-		
+
 		if (!this.value) {
 			console.error('set LicencedOnCall !this.value');
 			return;
 		}
-		
+
 		if (!this.value.json) {
 			this.value.json = {};
 		}
-		
+
 		this.value.json.licenseAssignedOnCall = flag;
-		
+
 		this.SignalChanged();
 	}
-	
-	
+
+
 	protected OnlineHelpFiles(): void {
 		//console.log('OpenOnlineHelp()');
-		
+
 		window.open(
 			'https://www.dispatchpulse.com/support/',
 			'_blank');
 	}
-	
+
 }
 
 </script>
-<style scoped>
-</style>
+<style scoped></style>

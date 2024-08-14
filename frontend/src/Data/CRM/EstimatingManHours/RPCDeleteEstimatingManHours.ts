@@ -1,9 +1,9 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IDeleteEstimatingManHoursPayload extends IIdempotencyRequest {
 	estimatingManHoursDelete: string[];
@@ -18,19 +18,27 @@ export class RPCDeleteEstimatingManHours extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'DeleteEstimatingManHours';
+		return "DeleteEstimatingManHours";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'DeleteEstimatingManHoursCB';
+		return "DeleteEstimatingManHoursCB";
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IDeleteEstimatingManHoursCB): boolean {
-		
-		if (payload.estimatingManHoursDelete && payload.estimatingManHoursDelete.length > 0) {
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IDeleteEstimatingManHoursCB
+	): boolean {
+		if (
+			payload.estimatingManHoursDelete &&
+			payload.estimatingManHoursDelete.length > 0
+		) {
 			// Default action
-			store.commit('DeleteEstimatingManHoursRemote', payload.estimatingManHoursDelete);
+			store.commit(
+				"DeleteEstimatingManHoursRemote",
+				payload.estimatingManHoursDelete
+			);
 		}
-		
+
 		return true;
 	}
 }

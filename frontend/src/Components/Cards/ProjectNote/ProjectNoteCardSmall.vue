@@ -1,111 +1,58 @@
 <template>
-	<v-card
-		outlined
-		:class="{
-			'note-card': true,
-			'entry-resolved': Resolved,
-			'entry-no-longer-relevant': NoLongerRelevant,
-		}"
-		>
+	<v-card outlined :class="{
+		'note-card': true,
+		'entry-resolved': Resolved,
+		'entry-no-longer-relevant': NoLongerRelevant,
+	}">
 		<div style="flex: 1">
-			<ContentStyledText 
-				v-if="value.json.contentType == 'styled-text'"
-				v-model="value.json.content"
-				:strikethrough="NoLongerRelevant"
-				/>
-			<ContentCheckbox
-				v-else-if="value.json.contentType == 'checkbox'"
-				v-model="value.json.content"
-				:note="value"
-				/>
-			<ContentImage
-				v-else-if="value.json.contentType == 'image'"
-				v-model="value.json.content"
-				/>
-			<ContentVideo
-				v-else-if="value.json.contentType == 'video'"
-				v-model="value.json.content"
-				/>
-			<v-card-text
-				v-if="Tags"
-				class="internal-notice"
-				>
-				
-				<v-chip 
-					label
-					outlined
-					small
-					style="margin-right: 5px;"
-					v-for="(tag, index) in Tags"
-					:key="index"
-					top
-					>
-					{{tag}}
+			<ContentStyledText v-if="value.json.contentType == 'styled-text'" v-model="value.json.content"
+				:strikethrough="NoLongerRelevant" />
+			<ContentCheckbox v-else-if="value.json.contentType == 'checkbox'" v-model="value.json.content"
+				:note="value" />
+			<ContentImage v-else-if="value.json.contentType == 'image'" v-model="value.json.content" />
+			<ContentVideo v-else-if="value.json.contentType == 'video'" v-model="value.json.content" />
+			<v-card-text v-if="Tags" class="internal-notice">
+
+				<v-chip label outlined small style="margin-right: 5px;" v-for="(tag, index) in Tags" :key="index" top>
+					{{ tag }}
 				</v-chip>
-				
-				<v-chip 
-					v-if="HasAssignment"
-					label
-					outlined
-					small
-					style="margin-right: 5px;"
-					top
-					color="primary"
-					:to="`/section/assignments/${value.json.assignmentId}?tab=General`"
-					>
+
+				<v-chip v-if="HasAssignment" label outlined small style="margin-right: 5px;" top color="primary"
+					:to="`/section/assignments/${value.json.assignmentId}?tab=General`">
 					Assignment
 				</v-chip>
-				
-				<v-tooltip
-					v-if="rootProject && rootProject.id !== value.json.projectId"
-					top
-					>
+
+				<v-tooltip v-if="rootProject && rootProject.id !== value.json.projectId" top>
 					<template v-slot:activator="{ on }" v-on="on">
-						<v-chip 
-							label
-							outlined
-							small
-							style="margin-right: 5px;"
-							v-on="on"
-							color="primary"
-							@click.stop.prevent.once=""
-							:to="`/section/projects/${value.json.projectId}?tab=General`"
-							>
+						<v-chip label outlined small style="margin-right: 5px;" v-on="on" color="primary"
+							@click.stop.prevent.once="" :to="`/section/projects/${value.json.projectId}?tab=General`">
 							From a Child Project
 						</v-chip>
 					</template>
-					<span>{{ProjectNameForId(value.id) || 'No Name'}}</span>
+					<span>{{ ProjectNameForId(value.id) || 'No Name' }}</span>
 				</v-tooltip>
-				
+
 			</v-card-text>
 			<v-card-text style="padding-top: 0px; padding-bottom: 0px; margin-top: 5px; margin-bottom: 5px;">
-				<div class="caption">Posted by {{OriginalName}} at {{OriginalTime}}.</div>
+				<div class="caption">Posted by {{ OriginalName }} at {{ OriginalTime }}.</div>
 				<div class="caption" v-if="LastModifiedName != OriginalName || LastModifiedTime != OriginalTime">
-					Edited by {{LastModifiedName}} at {{LastModifiedTime}}.
+					Edited by {{ LastModifiedName }} at {{ LastModifiedTime }}.
 				</div>
 			</v-card-text>
-			
-			
-			
+
+
+
 		</div>
 		<v-menu bottom left>
 			<template v-slot:activator="{ on }">
-				<v-btn
-					icon
-					v-on="on"
-					style="margin:10px;"
-					:disabled="disabled"
-					>
+				<v-btn icon v-on="on" style="margin:10px;" :disabled="disabled">
 					<v-icon>more_vert</v-icon>
 				</v-btn>
 			</template>
 
 			<v-list dense>
-				<v-list-item
-					v-if="!Resolved"
-					:disabled="Resolved || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('Resolved', value.id)"
-					>
+				<v-list-item v-if="!Resolved" :disabled="Resolved || disabled || !PermProjectNotesCanPush()"
+					@click="$emit('Resolved', value.id)">
 					<v-list-item-icon>
 						<v-icon>done</v-icon>
 					</v-list-item-icon>
@@ -113,11 +60,8 @@
 						<v-list-item-title>Mark Resolved</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				<v-list-item
-					v-if="Resolved"
-					:disabled="!Resolved || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('NotResolved', value.id)"
-					>
+				<v-list-item v-if="Resolved" :disabled="!Resolved || disabled || !PermProjectNotesCanPush()"
+					@click="$emit('NotResolved', value.id)">
 					<v-list-item-icon>
 						<v-icon>done</v-icon>
 					</v-list-item-icon>
@@ -125,13 +69,11 @@
 						<v-list-item-title>Mark Not Resolved</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				
-				
-				<v-list-item
-					v-if="!NoLongerRelevant"
+
+
+				<v-list-item v-if="!NoLongerRelevant"
 					:disabled="NoLongerRelevant || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('NoLongerRelevant', value.id)"
-					>
+					@click="$emit('NoLongerRelevant', value.id)">
 					<v-list-item-icon>
 						<v-icon>cancel</v-icon>
 					</v-list-item-icon>
@@ -139,11 +81,9 @@
 						<v-list-item-title>Mark No Longer Relevant</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				<v-list-item
-					v-if="NoLongerRelevant"
+				<v-list-item v-if="NoLongerRelevant"
 					:disabled="!NoLongerRelevant || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('Relevant', value.id)"
-					>
+					@click="$emit('Relevant', value.id)">
 					<v-list-item-icon>
 						<v-icon>cancel</v-icon>
 					</v-list-item-icon>
@@ -151,12 +91,9 @@
 						<v-list-item-title>Mark Relevant</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				
-				<v-list-item
-					v-if="!InternalOnly"
-					:disabled="InternalOnly || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('MarkInternalOnly', value.id)"
-					>
+
+				<v-list-item v-if="!InternalOnly" :disabled="InternalOnly || disabled || !PermProjectNotesCanPush()"
+					@click="$emit('MarkInternalOnly', value.id)">
 					<v-list-item-icon>
 						<v-icon>business</v-icon>
 					</v-list-item-icon>
@@ -164,11 +101,8 @@
 						<v-list-item-title>Mark Internal Only</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				<v-list-item
-					v-if="InternalOnly"
-					:disabled="!InternalOnly || disabled || !PermProjectNotesCanPush()"
-					@click="$emit('MarkNotInternalOnly', value.id)"
-					>
+				<v-list-item v-if="InternalOnly" :disabled="!InternalOnly || disabled || !PermProjectNotesCanPush()"
+					@click="$emit('MarkNotInternalOnly', value.id)">
 					<v-list-item-icon>
 						<v-icon>business</v-icon>
 					</v-list-item-icon>
@@ -176,15 +110,13 @@
 						<v-list-item-title>Mark Not Internal Only</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				
-				
-				
-				
+
+
+
+
 				<v-divider />
-				<v-list-item
-					@click="$emit('DeleteEntry', value.id)"
-					:disabled="disabled || !PermProjectNotesCanDelete()"
-					>
+				<v-list-item @click="$emit('DeleteEntry', value.id)"
+					:disabled="disabled || !PermProjectNotesCanDelete()">
 					<v-list-item-icon>
 						<v-icon>delete</v-icon>
 					</v-list-item-icon>
@@ -192,7 +124,7 @@
 						<v-list-item-title>Delete Note</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				
+
 			</v-list>
 		</v-menu>
 	</v-card>
@@ -222,82 +154,82 @@ import { IProjectNoteVideo } from '@/Data/CRM/ProjectNoteVideo/ProjectNoteVideo'
 	},
 })
 export default class ProjectNoteCardSmall extends CardBase {
-	
+
 	@Prop({ default: null }) public readonly value!: IProjectNote;
 	@Prop({ default: null }) public readonly rootProject!: IProject;
-	
+
 	protected ProjectNameForId = Project.NameForId;
 	protected PermProjectNotesCanPush = ProjectNote.PermProjectNotesCanPush;
 	protected PermProjectNotesCanDelete = ProjectNote.PermProjectNotesCanDelete;
-	
+
 	constructor() {
 		super();
-		
+
 		//console.log('ProjectNoteCard', this.value.json.contentType);
 	}
-	
+
 	protected ToggleCheckbox(): void {
-		
+
 		const clone = _.cloneDeep(this.value) as IProjectNote;
 		if (!clone ||
 			!clone.id) {
 			return;
 		}
-		
+
 		clone.lastModifiedISO8601 = DateTime.utc().toISO();
 		clone.json.lastModifiedBillingId = BillingContacts.CurrentBillingContactId();
-		
+
 		(clone.json.content as IProjectNoteCheckbox).checkboxState = !(clone.json.content as IProjectNoteCheckbox).checkboxState; // tslint:disable-line
-		
+
 		const payload: Record<string, IProjectNote> = {};
 		payload[clone.id] = clone;
 		ProjectNote.UpdateIds(payload);
 	}
-	
+
 	get LastModifiedTime(): string | null {
-		
+
 		if (!this.value ||
-			!this.value.lastModifiedISO8601 || 
+			!this.value.lastModifiedISO8601 ||
 			IsNullOrEmpty(this.value.lastModifiedISO8601)
-			) {
+		) {
 			return null;
 		}
-		
-		const d =  DateTime.fromISO(this.value.lastModifiedISO8601);
+
+		const d = DateTime.fromISO(this.value.lastModifiedISO8601);
 		return d.toLocaleString(DateTime.DATETIME_FULL);
 	}
-	
+
 	get LastModifiedName(): string | null {
-		
+
 		if (!this.value ||
-			!this.value.json || 
+			!this.value.json ||
 			!this.value.json.lastModifiedBillingId ||
 			IsNullOrEmpty(this.value.json.lastModifiedBillingId)
-			) {
+		) {
 			return null;
 		}
-		
+
 		const contact = BillingContacts.ForId(this.value.json.lastModifiedBillingId);
 		if (!contact) {
 			return null;
 		}
 		return contact.fullName;
 	}
-	
+
 	get LastModifiedInitials(): string | null {
-		
+
 		const name: string | null = this.LastModifiedName;
 		if (name == null) {
 			return null;
 		}
-		
+
 		const matches = name.match(/\b(\w)/g);
 		if (matches == null) {
 			return null;
 		}
-		
+
 		let result = '';
-		
+
 		for (const part of matches) {
 			if (result.length >= 2) {
 				break;
@@ -305,71 +237,71 @@ export default class ProjectNoteCardSmall extends CardBase {
 			if (IsNullOrEmpty(part)) {
 				continue;
 			}
-			
+
 			result += part.toUpperCase();
 		}
-		
+
 		return IsNullOrEmpty(result) ? null : result;
 	}
-	
-	
+
+
 	get HasAssignment(): boolean {
-		
+
 		if (!this.value ||
 			!this.value.json
-			) {
+		) {
 			return false;
 		}
-		
+
 		return !!this.value.json.assignmentId;
 	}
-	
-	
+
+
 	get OriginalTime(): string | null {
-		
+
 		if (!this.value ||
-			!this.value.json || 
+			!this.value.json ||
 			!this.value.json.originalISO8601 ||
 			IsNullOrEmpty(this.value.json.originalISO8601)
-			) {
+		) {
 			return null;
 		}
-		
-		const d =  DateTime.fromISO(this.value.json.originalISO8601);
+
+		const d = DateTime.fromISO(this.value.json.originalISO8601);
 		return d.toLocaleString(DateTime.DATETIME_FULL);
 	}
-	
+
 	get OriginalName(): string | null {
-		
+
 		if (!this.value ||
-			!this.value.json || 
+			!this.value.json ||
 			!this.value.json.originalBillingId ||
 			IsNullOrEmpty(this.value.json.originalBillingId)
-			) {
+		) {
 			return null;
 		}
-		
+
 		const contact = BillingContacts.ForId(this.value.json.originalBillingId);
 		if (!contact) {
 			return null;
 		}
 		return contact.fullName;
 	}
-	
+
 	get OriginalInitials(): string | null {
-		
+
 		const name: string | null = this.OriginalName;
 		if (name == null) {
 			return null;
 		}
-		
+
 		const matches = name.match(/\b(\w)/g);
 		if (matches == null) {
 			return null;
 		}
-		
+
 		let result = '';
-		
+
 		for (const part of matches) {
 			if (result.length >= 2) {
 				break;
@@ -377,51 +309,51 @@ export default class ProjectNoteCardSmall extends CardBase {
 			if (IsNullOrEmpty(part)) {
 				continue;
 			}
-			
+
 			result += part.toUpperCase();
 		}
-		
+
 		return IsNullOrEmpty(result) ? null : result;
 	}
-	
+
 	get InternalOnly(): boolean {
-		
+
 		if (!this.value ||
 			!this.value.json
-			) {
+		) {
 			return false;
 		}
-		
+
 		return this.value.json.internalOnly;
 	}
-	
+
 	get Resolved(): boolean {
-		
+
 		if (!this.value ||
 			!this.value.json
-			) {
+		) {
 			return false;
 		}
-		
+
 		return this.value.json.resolved;
 	}
-	
-	
+
+
 	get NoLongerRelevant(): boolean {
-		
+
 		if (!this.value ||
 			!this.value.json
-			) {
+		) {
 			return false;
 		}
-		
+
 		return this.value.json.noLongerRelevant;
 	}
-	
+
 	get Tags(): string[] {
-		
+
 		const ret = [];
-		
+
 		if (this.InternalOnly) {
 			ret.push('Internal Only');
 		}
@@ -431,64 +363,64 @@ export default class ProjectNoteCardSmall extends CardBase {
 		if (this.NoLongerRelevant) {
 			ret.push('No Longer Relevant');
 		}
-		
+
 		return ret;
-		
+
 	}
-	
+
 	get TagsCommaSeparated(): string | null {
-		
+
 		let ret = '';
 		const tags = this.Tags;
-		
+
 		for (let i = 0; i < tags.length; i++) {
-			
+
 			if (i !== 0) {
 				ret += ', ';
 			}
-			
+
 			if (i !== 0 && i === tags.length - 1) {
 				ret += 'and ';
 			}
-			
+
 			ret += tags[i];
-			
-			
+
+
 		}
-		
+
 		if (IsNullOrEmpty(ret)) {
 			return null;
 		}
-		
+
 		return ret;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	get IsYoutube(): boolean {
 		const content = this.value.json.content as IProjectNoteVideo;
-		
+
 		return -1 !== content.uri.indexOf('youtube');
 	}
-	
+
 	get YouTubeVideoID(): string | null {
 		const content = this.value.json.content as IProjectNoteVideo;
 		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
 		const match = content.uri.match(regExp);
-	
+
 		if (match && match[2].length === 11) {
 			return match[2];
 		} else {
 			return null;
 		}
 	}
-	
+
 }
 </script>
 <style scoped>
@@ -497,8 +429,9 @@ export default class ProjectNoteCardSmall extends CardBase {
 	margin-bottom: 10px;
 	display: flex;
 }
+
 .internal-notice {
-	
+
 	margin: 0px;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -506,14 +439,15 @@ export default class ProjectNoteCardSmall extends CardBase {
 	padding-bottom: 0px;
 	font-size: 12px;
 }
+
 .entry-resolved {
-	
+
 	opacity: 0.5;
 	/* background-color: rgba(89,143,36,0.2); */
 }
 
 .entry-no-longer-relevant {
-	
+
 	opacity: 0.5;
 	/* background-color: rgba(142,42,35,0.2); */
 }

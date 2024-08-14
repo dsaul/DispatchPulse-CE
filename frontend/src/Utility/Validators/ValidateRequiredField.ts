@@ -1,6 +1,5 @@
-
-import IsNullOrEmpty from '@/Utility/IsNullOrEmpty';
+import IsNullOrEmpty from "@/Utility/IsNullOrEmpty";
 
 export default (val: string): string | boolean => {
-	return IsNullOrEmpty(val) ? 'Field is required.' : true;
+	return IsNullOrEmpty(val) ? "Field is required." : true;
 };

@@ -1,10 +1,10 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { ICompany } from './Company';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { ICompany } from "./Company";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IRequestCompaniesPayload extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
@@ -19,24 +19,27 @@ export class RPCRequestCompanies extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'RequestCompanies';
+		return "RequestCompanies";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'RequestCompaniesCB';
+		return "RequestCompaniesCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestCompaniesCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IRequestCompaniesCB
+	): boolean {
 		if (!payload.companies) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting companies #2.`));
+					new Error(`Error requesting companies #2.`)
+				);
 			}
 			return false;
 		}
-	
+
 		// Default action
-		store.commit('UpdateCompaniesRemote', payload.companies);
-		
+		store.commit("UpdateCompaniesRemote", payload.companies);
+
 		return true;
 	}
 }

@@ -1,2 +1,1 @@
-
-declare module 'vue-scroll-sync';
+declare module "vue-scroll-sync";

@@ -1,9 +1,9 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IDeleteMaterialsPayload extends IIdempotencyRequest {
 	materialsDelete: string[];
@@ -18,19 +18,21 @@ export class RPCDeleteMaterials extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'DeleteMaterials';
+		return "DeleteMaterials";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'DeleteMaterialsCB';
+		return "DeleteMaterialsCB";
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IDeleteMaterialsCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IDeleteMaterialsCB
+	): boolean {
 		if (payload.materialsDelete && payload.materialsDelete.length > 0) {
 			// Default action
-			store.commit('DeleteMaterialsRemote', payload.materialsDelete);
+			store.commit("DeleteMaterialsRemote", payload.materialsDelete);
 		}
-		
+
 		return true;
 	}
 }

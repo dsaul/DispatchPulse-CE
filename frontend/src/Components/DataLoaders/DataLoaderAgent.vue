@@ -17,65 +17,63 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 
 @Component({
 	components: {
-		
+
 	},
-	
+
 })
 
 export default class DataLoaderAgent extends Vue {
-	
-	
-	@Prop({	default: null }) public readonly agentId!: string;
-	
-	
+
+
+	@Prop({ default: null }) public readonly agentId!: string;
+
+
 	protected loadingData = false;
-	
-	
+
+
 	public mounted(): void {
 		this.LoadData();
 	}
-	
+
 	public LoadData(): void {
-		
+
 		//console.log('loaddata')
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-				
+
 				if (null == Agent.ForId(this.agentId)) {
-				
+
 					const promises: Array<Promise<any>> = [];
-					
+
 					if (Agent.PermAgentsCanRequest()) {
 						const rtr = Agent.FetchForId(this.agentId);
 						if (rtr.completeRequestPromise) {
 							promises.push(rtr.completeRequestPromise);
 						}
 					}
-					
+
 					if (promises.length > 0) {
-						
+
 						this.loadingData = true;
-						
+
 						Promise.all(promises).finally(() => {
 							this.loadingData = false;
 						});
 					}
-					
-					
+
+
 				}
-				
+
 			});
 		});
 	}
-	
+
 	@Watch('agentId')
 	protected agentIdChanged(val: string, oldVal: string): void { // eslint-disable-line @typescript-eslint/no-unused-vars
 		this.LoadData();
 	}
-	
+
 }
 
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

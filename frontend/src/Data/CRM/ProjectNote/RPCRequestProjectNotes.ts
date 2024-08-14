@@ -1,10 +1,10 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IProjectNote } from './ProjectNote';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IProjectNote } from "./ProjectNote";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IRequestProjectNotesPayload extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
@@ -21,24 +21,27 @@ export class RPCRequestProjectNotes extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'RequestProjectNotes';
+		return "RequestProjectNotes";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'RequestProjectNotesCB';
+		return "RequestProjectNotesCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestProjectNotesCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IRequestProjectNotesCB
+	): boolean {
 		if (!payload.projectNotes) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting project notes #2.`));
+					new Error(`Error requesting project notes #2.`)
+				);
 			}
 			return false;
 		}
-		
+
 		// Default action
-		store.commit('UpdateProjectNotesRemote', payload.projectNotes);
-		
+		store.commit("UpdateProjectNotesRemote", payload.projectNotes);
+
 		return true;
 	}
 }

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 export interface IRegisterAdditionalUser {
 	id: string;
@@ -12,11 +12,11 @@ export interface IRegisterAdditionalUser {
 
 export interface IRegisterDialogueModelState {
 	currentDialogueStep: number;
-	
+
 	ip: string | null;
 	currency: string | null;
 	perUserCost: number | null;
-	
+
 	companyName: string | null;
 	companyAbbreviation: string | null;
 	companyAbbreviationInUse: boolean;
@@ -28,7 +28,7 @@ export interface IRegisterDialogueModelState {
 	companyAddressProvince: string | null;
 	companyAddressPostalCode: string | null;
 	companyAddressCountry: string | null;
-	
+
 	mainContactFullName: string | null;
 	mainContactEMail: string | null;
 	mainContactPhoneNumber: string | null;
@@ -37,35 +37,36 @@ export interface IRegisterDialogueModelState {
 	mainContactPasswordHash: string | null;
 	mainContactEMailMarketing: boolean;
 	mainContactEMailTutorials: boolean;
-	
+
 	otherAccountsToAdd: IRegisterAdditionalUser[];
-	
+
 	registeredBillingCompanyId: string | null;
 	registeredBillingContactId: string | null;
 	registeredBillingSessionId: string | null;
-	
+
 	stripeIntentClientSecret: string | null;
-	
-	billingFrequency: 'Monthly' | 'Quarterly' | 'Annually' | null;
+
+	billingFrequency: "Monthly" | "Quarterly" | "Annually" | null;
 	summaryRunningTotal: number;
 }
 
 export class RegisterDialogueModelState {
-	
-	public static GetMerged(mergeValues: Record<string, any>): IRegisterDialogueModelState {
+	public static GetMerged(
+		mergeValues: Record<string, any>
+	): IRegisterDialogueModelState {
 		const ret = this.GetEmpty();
 		_.merge(ret, mergeValues);
 		return ret;
 	}
-	
+
 	public static GetEmpty(): IRegisterDialogueModelState {
 		const ret: IRegisterDialogueModelState = {
 			currentDialogueStep: 1,
-			
+
 			ip: null,
 			currency: null,
 			perUserCost: null,
-			
+
 			companyName: null,
 			companyAbbreviation: null,
 			companyAbbreviationInUse: false,
@@ -77,7 +78,7 @@ export class RegisterDialogueModelState {
 			companyAddressProvince: null,
 			companyAddressPostalCode: null,
 			companyAddressCountry: null,
-			
+
 			mainContactFullName: null,
 			mainContactEMail: null,
 			mainContactPhoneNumber: null,
@@ -86,29 +87,22 @@ export class RegisterDialogueModelState {
 			mainContactPasswordHash: null,
 			mainContactEMailMarketing: false,
 			mainContactEMailTutorials: false,
-			
+
 			otherAccountsToAdd: [],
-			
+
 			registeredBillingCompanyId: null,
 			registeredBillingContactId: null,
 			registeredBillingSessionId: null,
-			
+
 			stripeIntentClientSecret: null,
-			
-			billingFrequency: 'Annually',
-			
-			summaryRunningTotal: 0,
+
+			billingFrequency: "Annually",
+
+			summaryRunningTotal: 0
 		};
-		
+
 		return ret;
 	}
-	
 }
 
-
-
-
- 
-
 export default {};
-

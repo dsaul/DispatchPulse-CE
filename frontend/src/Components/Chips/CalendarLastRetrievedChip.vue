@@ -1,11 +1,6 @@
 <template>
-	<v-chip
-		label
-		outlined
-		style="margin: 4px;"
-		small
-		>
-		{{RetrievedDate}}
+	<v-chip label outlined style="margin: 4px;" small>
+		{{ RetrievedDate }}
 	</v-chip>
 </template>
 
@@ -18,13 +13,13 @@ import { ICalendar } from '@/Data/CRM/Calendar/Calendar';
 
 @Component({
 	components: {
-		
+
 	},
 })
 export default class CalendarLastRetrievedChip extends Vue {
-	
+
 	@Prop({ default: null }) public readonly calendar!: ICalendar | null;
-	
+
 	protected get RetrievedDate(): string {
 		if (!this.calendar ||
 			!this.calendar.json ||
@@ -32,11 +27,11 @@ export default class CalendarLastRetrievedChip extends Vue {
 			IsNullOrEmpty(this.calendar.json.iCalFileLastRetrievedISO8601)) {
 			return 'Never';
 		}
-		
+
 		const dt = DateTime.fromISO(this.calendar.json.iCalFileLastRetrievedISO8601);
 		return dt.toLocaleString(DateTime.DATETIME_FULL);
 	}
-	
-	
+
+
 }
 </script>

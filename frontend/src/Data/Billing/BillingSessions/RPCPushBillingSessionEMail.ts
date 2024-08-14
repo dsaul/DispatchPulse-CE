@@ -1,8 +1,7 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
-
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IPushBillingSessionEMailPayload extends IIdempotencyRequest {
 	eMail: string | null;
@@ -17,26 +16,26 @@ export class RPCPushBillingSessionEMail extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'PushBillingSessionEMail';
+		return "PushBillingSessionEMail";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'PushBillingSessionEMailCB';
+		return "PushBillingSessionEMailCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushBillingSessionEMailCB): boolean {
-		
-		if (!payload.hasOwnProperty('saved')) {
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IPushBillingSessionEMailCB
+	): boolean {
+		if (!payload.hasOwnProperty("saved")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error saving email #2.`));
+					new Error(`Error saving email #2.`)
+				);
 			}
 			return false;
 		}
-	
+
 		// Default action
-		
-	
-	
-		
+
 		return true;
 	}
 }

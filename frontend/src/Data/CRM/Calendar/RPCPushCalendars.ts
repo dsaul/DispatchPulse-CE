@@ -1,8 +1,8 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
-import { ICalendar } from './Calendar';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { ICalendar } from "./Calendar";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IPushCalendarsPayload extends IIdempotencyRequest {
 	calendars: Record<string, ICalendar>;
@@ -17,24 +17,27 @@ export class RPCPushCalendars extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'PushCalendars';
+		return "PushCalendars";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'PushCalendarsCB';
+		return "PushCalendarsCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPushCalendarsCB): boolean {
-		
-		if (!payload.hasOwnProperty('calendars')) {
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IPushCalendarsCB
+	): boolean {
+		if (!payload.hasOwnProperty("calendars")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error modifying calendars #2.`));
+					new Error(`Error modifying calendars #2.`)
+				);
 			}
 			return false;
 		}
 
 		// Default action
 		//store.commit('UpdateCalendarRemote', payload.calendars);
-		
+
 		return true;
 	}
 }

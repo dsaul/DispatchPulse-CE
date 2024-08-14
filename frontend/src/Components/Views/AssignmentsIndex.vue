@@ -1,19 +1,15 @@
 <template>
-	
-	<div >
-	
-		<v-app-bar color="#747389" dark fixed app clipped-right >
-			<v-progress-linear
-				v-if="IsLoadingData"
-				:indeterminate="true"
-				absolute
-				top
-				color="white"
-			></v-progress-linear>
-			<v-app-bar-nav-icon @click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
+
+	<div>
+
+		<v-app-bar color="#747389" dark fixed app clipped-right>
+			<v-progress-linear v-if="IsLoadingData" :indeterminate="true" absolute top
+				color="white"></v-progress-linear>
+			<v-app-bar-nav-icon
+				@click.stop="$store.state.drawers.showNavigation = !$store.state.drawers.showNavigation">
 				<v-icon>menu</v-icon>
 			</v-app-bar-nav-icon>
-			
+
 			<v-toolbar-title class="white--text">Assignments</v-toolbar-title>
 
 			<v-spacer></v-spacer>
@@ -28,20 +24,14 @@
 
 			<v-menu bottom left offset-y>
 				<template v-slot:activator="{ on }">
-					<v-btn
-					dark
-					icon
-					v-on="on"
-					>
+					<v-btn dark icon v-on="on">
 						<v-icon>more_vert</v-icon>
 					</v-btn>
 				</template>
 
 				<v-list dense>
-					<v-list-item
-						@click="DoPrint()"
-						:disabled="connectionStatus != 'Connected' || !PermCRMReportAssignmentPDF()"
-						>
+					<v-list-item @click="DoPrint()"
+						:disabled="connectionStatus != 'Connected' || !PermCRMReportAssignmentPDF()">
 						<v-list-item-icon>
 							<v-icon>print</v-icon>
 						</v-list-item-icon>
@@ -49,10 +39,7 @@
 							<v-list-item-title>Print/Report&hellip;</v-list-item-title>
 						</v-list-item-content>
 					</v-list-item>
-					<v-list-item
-						@click="CSVDownloadAssignments()"
-						:disabled="!PermCRMExportAssignmentCSV()"
-						>
+					<v-list-item @click="CSVDownloadAssignments()" :disabled="!PermCRMExportAssignmentCSV()">
 						<v-list-item-icon>
 							<v-icon>import_export</v-icon>
 						</v-list-item-icon>
@@ -62,129 +49,79 @@
 					</v-list-item>
 				</v-list>
 			</v-menu>
-			
-			
+
+
 			<template v-slot:extension>
-				<v-tabs
-				v-model="tab"
-				
-				background-color="transparent"
-				align-with-title
-				show-arrows
-				>
+				<v-tabs v-model="tab" background-color="transparent" align-with-title show-arrows>
 					<v-tabs-slider color="white"></v-tabs-slider>
 
-					<v-tab
-						@click="$router.replace({query: { ...$route.query, tab: 'Scheduler'}}).catch(((e) => {}));"
-						class="e2e-assignments-index-tab-scheduler"
-						>
+					<v-tab @click="$router.replace({ query: { ...$route.query, tab: 'Scheduler' } }).catch(((e) => { }));"
+						class="e2e-assignments-index-tab-scheduler">
 						Scheduler
 					</v-tab>
-					<v-tab
-						@click="$router.replace({query: { ...$route.query, tab: 'Unassigned'}}).catch(((e) => {}));"
-						class="e2e-assignments-index-tab-unassigned"
-						>
+					<v-tab @click="$router.replace({ query: { ...$route.query, tab: 'Unassigned' } }).catch(((e) => { }));"
+						class="e2e-assignments-index-tab-unassigned">
 						Unassigned
 					</v-tab>
-					<v-tab
-						@click="$router.replace({query: { ...$route.query, tab: 'Open'}}).catch(((e) => {}));"
-						class="e2e-assignments-index-tab-open"
-						>
+					<v-tab @click="$router.replace({ query: { ...$route.query, tab: 'Open' } }).catch(((e) => { }));"
+						class="e2e-assignments-index-tab-open">
 						Open
 					</v-tab>
-					<v-tab
-						@click="$router.replace({query: { ...$route.query, tab: 'Closed'}}).catch(((e) => {}));"
-						class="e2e-assignments-index-tab-closed"
-						>
+					<v-tab @click="$router.replace({ query: { ...$route.query, tab: 'Closed' } }).catch(((e) => { }));"
+						class="e2e-assignments-index-tab-closed">
 						Closed
 					</v-tab>
 				</v-tabs>
 			</template>
-			
+
 		</v-app-bar>
-		
-		<v-breadcrumbs :items="breadcrumbs" style="background: white; padding-bottom: 5px; padding-top: 15px; z-index:1;">
+
+		<v-breadcrumbs :items="breadcrumbs"
+			style="background: white; padding-bottom: 5px; padding-top: 15px; z-index:1;">
 			<template v-slot:divider>
 				<v-icon>mdi-forward</v-icon>
 			</template>
 		</v-breadcrumbs>
-		
-		<v-alert
-			v-if="connectionStatus != 'Connected'"
-			type="error"
-			elevation="2"
-			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;"
-			>
+
+		<v-alert v-if="connectionStatus != 'Connected'" type="error" elevation="2"
+			style="margin-top: 10px; margin-left: 15px; margin-right: 15px;">
 			Disconnected from server.
 		</v-alert>
-			
+
 		<v-tabs-items v-model="tab" style="background: transparent;">
 			<v-tab-item style="flex: 1;display:flex; flex-direction: column;">
-				<Scheduler 
-					v-if="PermAssignmentCanRequest()"
-					ref="scheduler"
-					:date="schedulerDate"
-					@OnDateChanged="OnSchedulerDateChanged"
-					/>
+				<Scheduler v-if="PermAssignmentCanRequest()" ref="scheduler" :date="schedulerDate"
+					@OnDateChanged="OnSchedulerDateChanged" />
 			</v-tab-item>
 			<v-tab-item style="flex: 1;">
-				<AssignmentsList
-					ref="unassignedList"
-					:showOnlyUnassigned="true"
-					:focusIsProject="true"
-					:disabled="connectionStatus != 'Connected'"
-					/>
+				<AssignmentsList ref="unassignedList" :showOnlyUnassigned="true" :focusIsProject="true"
+					:disabled="connectionStatus != 'Connected'" />
 			</v-tab-item>
 			<v-tab-item style="flex: 1;">
-				<AssignmentsList
-					ref="openList"
-					:showOnlyOpenAssignments="true"
-					:focusIsProject="true"
-					:disabled="connectionStatus != 'Connected'"
-					/>
+				<AssignmentsList ref="openList" :showOnlyOpenAssignments="true" :focusIsProject="true"
+					:disabled="connectionStatus != 'Connected'" />
 			</v-tab-item>
 			<v-tab-item style="flex: 1;">
-				<AssignmentsList
-					ref="closedList"
-					:showOnlyClosedAssignments="true"
-					:focusIsProject="true"
-					:disabled="connectionStatus != 'Connected'"
-					/>
+				<AssignmentsList ref="closedList" :showOnlyClosedAssignments="true" :focusIsProject="true"
+					:disabled="connectionStatus != 'Connected'" />
 			</v-tab-item>
 		</v-tabs-items>
-		<AddAssignmentDialogue2 
-			v-model="addAssignmentModel"
-			:isOpen="addAssignmentOpen"
-			@Save="SaveAddAssignment"
-			@Cancel="CancelAddAssignment"
-			ref="addAssignmentDialogue"
-			/>
+		<AddAssignmentDialogue2 v-model="addAssignmentModel" :isOpen="addAssignmentOpen" @Save="SaveAddAssignment"
+			@Cancel="CancelAddAssignment" ref="addAssignmentDialogue" />
 		<v-footer color="#747389" class="white--text" app inset>
-			<v-row
-			no-gutters
-			>
-				<v-btn
-					color="white"
-					text
-					rounded
-					@click="OnClickNewCall()"
-					:disabled="connectionStatus != 'Connected' || !PermProjectsCanPush() || !PermContactsCanPush() || !PermAssignmentCanPush()"
-					>
+			<v-row no-gutters>
+				<v-btn color="white" text rounded @click="OnClickNewCall()"
+					:disabled="connectionStatus != 'Connected' || !PermProjectsCanPush() || !PermContactsCanPush() || !PermAssignmentCanPush()">
 					<v-icon left dark>call</v-icon>
 					New Call
 				</v-btn>
-				
-				
+
+
 				<v-spacer />
-				
-				<AddMenuButton
-					:disabled="connectionStatus != 'Connected'"
-					>
-					<v-list-item
-						@click="OpenAddAssignment()"
-						class="e2e-add-assignment-menu-item"
-						:disabled="connectionStatus != 'Connected' || !PermAssignmentCanPush()"
-						>
+
+				<AddMenuButton :disabled="connectionStatus != 'Connected'">
+					<v-list-item @click="OpenAddAssignment()" class="e2e-add-assignment-menu-item"
+						:disabled="connectionStatus != 'Connected' || !PermAssignmentCanPush()">
 						<v-list-item-icon>
 							<v-icon>local_shipping</v-icon>
 						</v-list-item-icon>
@@ -234,7 +171,7 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 	},
 })
 export default class AsssignmentsIndex extends ViewBase {
-	
+
 	public $refs!: {
 		scheduler: Scheduler,
 		unassignedList: AssignmentsList,
@@ -242,7 +179,7 @@ export default class AsssignmentsIndex extends ViewBase {
 		closedList: AssignmentsList,
 		addAssignmentDialogue: AddAssignmentDialogue2,
 	};
-	
+
 	public tab = 0;
 	public tabNameToIndex: Record<string, number> = {
 		'Scheduler': 0,
@@ -257,8 +194,8 @@ export default class AsssignmentsIndex extends ViewBase {
 		'closed': 3,
 	};
 
-	
-	
+
+
 	public breadcrumbs = [
 		{
 			text: 'Dashboard',
@@ -280,17 +217,17 @@ export default class AsssignmentsIndex extends ViewBase {
 	protected PermAssignmentCanPush = Assignment.PermAssignmentCanPush;
 	protected PermCRMReportAssignmentPDF = Assignment.PermCRMReportAssignmentPDF;
 	protected PermCRMExportAssignmentCSV = Assignment.PermCRMExportAssignmentCSV;
-	
+
 	protected schedulerDate: string = DateTime.local().toFormat('yyyy-MM-dd');
-	
+
 	protected loadingData = false;
-	
+
 	protected addAssignmentModel: IAssignment | null = null;
 	protected addAssignmentOpen = false;
-	
-	
+
+
 	public get IsLoadingData(): boolean {
-		
+
 		if (this.$refs.scheduler && this.$refs.scheduler.IsLoadingData) {
 			return true;
 		}
@@ -305,13 +242,13 @@ export default class AsssignmentsIndex extends ViewBase {
 		}
 		return this.loadingData;
 	}
-	
-	
-	
+
+
+
 	public ReLoadData(): void {
-		
+
 		this.LoadData();
-		
+
 		if (this.$refs.scheduler) {
 			this.$refs.scheduler.LoadData();
 		}
@@ -324,33 +261,33 @@ export default class AsssignmentsIndex extends ViewBase {
 		if (this.$refs.closedList) {
 			this.$refs.closedList.LoadData();
 		}
-		
+
 	}
-	
-	
+
+
 	public LoadData(): void {
-		
+
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-				
+
 				this.loadingData = true;
-			
+
 				setTimeout(() => {
 					this.loadingData = false;
 				}, 250);
-				
+
 			});
 		});
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	protected MountedAfter(): void {
 		this.SwitchToTabFromRoute();
-		
+
 		// Import the date from the query string.
 		if (IsNullOrEmpty(this.$route.query.schedulerDate as string | null)) {
 			this.schedulerDate = DateTime.local().toFormat('yyyy-MM-dd');
@@ -360,7 +297,7 @@ export default class AsssignmentsIndex extends ViewBase {
 
 		this.LoadData();
 	}
-	
+
 	protected SwitchToTabFromRoute(): void {
 		// Select the tab in the query string.
 		if (IsNullOrEmpty(this.$route.query.tab as string | null)) {
@@ -370,87 +307,82 @@ export default class AsssignmentsIndex extends ViewBase {
 			this.tab = index;
 		}
 	}
-	
+
 	protected OnClickNewCall(): void {
 		console.log('OnClickNewCall()');
-		
-		Dialogues.Open({ 
-			name: 'NewCallDialogue', 
+
+		Dialogues.Open({
+			name: 'NewCallDialogue',
 			state: {},
 		});
 	}
-	
+
 	protected DoPrint(): void {
-		
-		Dialogues.Open({ 
-			name: 'AssignmentReportDialogue', 
+
+		Dialogues.Open({
+			name: 'AssignmentReportDialogue',
 			state: {
 				allLoadedProjects: false,
 			},
 		});
-		
+
 	}
-	
+
 	protected OnSchedulerDateChanged(newDate: string): void {
 		this.schedulerDate = newDate;
-		
-		
-		
-		
-		this.$router.replace({query: { ...this.$route.query, schedulerDate: newDate}}).catch((() => {
+
+
+
+
+		this.$router.replace({ query: { ...this.$route.query, schedulerDate: newDate } }).catch((() => {
 			//
 		}));
 	}
-	
+
 	protected OpenAddAssignment(): void {
-		
+
 		//console.debug('OpenAddAssignment');
-		
+
 		this.addAssignmentModel = Assignment.GetEmpty();
 		this.addAssignmentOpen = true;
-		
+
 		requestAnimationFrame(() => {
 			if (this.$refs.addAssignmentDialogue) {
 				this.$refs.addAssignmentDialogue.SwitchToTabFromRoute();
 			}
 		});
 	}
-	
+
 	protected CancelAddAssignment(): void {
-		
+
 		//console.debug('CancelAddAssignment');
-		
+
 		this.addAssignmentOpen = false;
-		
+
 	}
-	
+
 	protected SaveAddAssignment(): void {
-		
+
 		//console.debug('SaveAddAssignment');
-		
+
 		this.addAssignmentOpen = false;
-		
+
 		if (!this.addAssignmentModel || !this.addAssignmentModel.id || IsNullOrEmpty(this.addAssignmentModel.id)) {
-			console.error('!this.addAssignmentModel || !this.addAssignmentModel.id ' + 
+			console.error('!this.addAssignmentModel || !this.addAssignmentModel.id ' +
 				'|| IsNullOrEmpty(this.addAssignmentModel.id)');
 			return;
 		}
-		
+
 		const payload: Record<string, IAssignment> = {};
 		payload[this.addAssignmentModel.id] = this.addAssignmentModel;
 		Assignment.UpdateIds(payload);
-		
+
 		this.$router.push(`/section/assignments/${this.addAssignmentModel.id}?tab=General`).catch(((e: Error) => { }));// eslint-disable-line
-		
+
 	}
-	
-	
+
+
 }
 </script>
 
-<style scoped>
-
-
-
-	
-</style>
+<style scoped></style>

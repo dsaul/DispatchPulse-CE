@@ -1,1 +1,1 @@
-declare module 'vue-content-placeholders';
+declare module "vue-content-placeholders";

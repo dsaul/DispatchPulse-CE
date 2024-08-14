@@ -1,9 +1,9 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IDeleteLabourPayload extends IIdempotencyRequest {
 	labourDelete: string[];
@@ -18,19 +18,21 @@ export class RPCDeleteLabour extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'DeleteLabour';
+		return "DeleteLabour";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'DeleteLabourCB';
+		return "DeleteLabourCB";
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IDeleteLabourCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IDeleteLabourCB
+	): boolean {
 		if (payload.labourDelete && payload.labourDelete.length > 0) {
 			// Default action
-			store.commit('DeleteLabourRemote', payload.labourDelete);
+			store.commit("DeleteLabourRemote", payload.labourDelete);
 		}
-		
+
 		return true;
 	}
 }

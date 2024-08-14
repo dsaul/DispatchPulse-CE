@@ -1,13 +1,7 @@
 <template>
-	<v-btn
-		class="ma-2"
-		:loading="loading"
-		:disabled="disabled || loading"
-		color="green"
-		style="color: white;"
-		@click="OnClick"
-		>
-		Register {{DIDNumber.json.DIDNumber}}
+	<v-btn class="ma-2" :loading="loading" :disabled="disabled || loading" color="green" style="color: white;"
+		@click="OnClick">
+		Register {{ DIDNumber.json.DIDNumber }}
 	</v-btn>
 </template>
 
@@ -23,40 +17,40 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
 	components: {
-		
+
 	},
 })
 export default class RegisterDIDButton extends Vue {
-	
+
 	@Prop({ default: null }) public readonly DIDNumber!: IDID | null;
 	@Prop({ default: false }) public readonly disabled!: boolean;
 	@Prop({ default: '' }) public readonly didRegisterPasscode!: string;
-	
+
 	protected loading = false;
-	
+
 	protected mounted(): void {
-		
+
 		//
-		
+
 	}
-	
+
 	protected OnClick(): void {
-		
+
 		if (!this.DIDNumber) {
 			console.error('!this.DIDNumber');
 			return;
 		}
-		
+
 		console.log('OnClick');
-		
+
 		const contact = BillingContacts.ForCurrentSession();
 		if (!contact) {
 			console.error('!contact');
 			return;
 		}
-		
+
 		this.loading = true;
-		
+
 		const rtr = DID.PerformPBXRegisterDID.Send({
 			billingCompanyId: contact.companyId,
 			did: this.DIDNumber.json.DIDNumber,
@@ -72,9 +66,9 @@ export default class RegisterDIDButton extends Vue {
 						autoClearInSeconds: 10,
 					});
 				}
-				
-				
-				
+
+
+
 				console.debug('IPerformPBXRegisterDIDCB', payload);
 			});
 			rtr.completeRequestPromise.finally(() => {
@@ -83,7 +77,7 @@ export default class RegisterDIDButton extends Vue {
 			});
 		}
 	}
-	
-	
+
+
 }
 </script>

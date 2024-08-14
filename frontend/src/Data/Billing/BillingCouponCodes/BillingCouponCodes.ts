@@ -1,7 +1,7 @@
-import GenerateID from '@/Utility/GenerateID';
-import _ from 'lodash';
-import { RPCRequestBillingCouponCodesForCurrentSession } from '@/Data/Billing/BillingCouponCodes/RPCRequestBillingCouponCodesForCurrentSession';
-import { RPCMethod } from '@/RPC/RPCMethod';
+import GenerateID from "@/Utility/GenerateID";
+import _ from "lodash";
+import { RPCRequestBillingCouponCodesForCurrentSession } from "@/Data/Billing/BillingCouponCodes/RPCRequestBillingCouponCodesForCurrentSession";
+import { RPCMethod } from "@/RPC/RPCMethod";
 
 export interface IBillingCouponCodes {
 	uuid: string;
@@ -13,19 +13,20 @@ export interface IBillingCouponCodes {
 	json: Record<string, any>;
 }
 
-
 export class BillingCouponCodes {
 	// RPC Methods
-	public static RequestBillingCouponCodesForCurrentSession = 
-	RPCMethod.Register<RPCRequestBillingCouponCodesForCurrentSession>(
-		new RPCRequestBillingCouponCodesForCurrentSession());
-		
-	public static GetMerged(mergeValues: Record<string, any>): IBillingCouponCodes {
+	public static RequestBillingCouponCodesForCurrentSession = RPCMethod.Register<
+		RPCRequestBillingCouponCodesForCurrentSession
+	>(new RPCRequestBillingCouponCodesForCurrentSession());
+
+	public static GetMerged(
+		mergeValues: Record<string, any>
+	): IBillingCouponCodes {
 		const ret = this.GetEmpty();
 		_.merge(ret, mergeValues);
 		return ret;
 	}
-	
+
 	public static GetEmpty(): IBillingCouponCodes {
 		const id = GenerateID();
 		const ret: IBillingCouponCodes = {
@@ -35,24 +36,15 @@ export class BillingCouponCodes {
 			months: null,
 			couponCode: null,
 			forbidNewApplications: false,
-			json: {},
+			json: {}
 		};
-		
+
 		return ret;
 	}
-	
+
 	public static ValidateObject(o: IBillingCouponCodes): IBillingCouponCodes {
-		
-		
-		
 		return o;
 	}
-	
 }
 
-
-
- 
-
 export default {};
-

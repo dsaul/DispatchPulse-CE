@@ -1,12 +1,13 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { ISettingsProvisioning } from './SettingsProvisioning';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { ISettingsProvisioning } from "./SettingsProvisioning";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
-export interface IRequestSettingsProvisioningPayload extends IIdempotencyRequest {
+export interface IRequestSettingsProvisioningPayload
+	extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
 }
 
@@ -15,28 +16,36 @@ export interface IRequestSettingsProvisioningCB extends IIdempotencyResponse {
 }
 
 export class RPCRequestSettingsProvisioning extends RPCMethod {
-	public Send(payload: IRequestSettingsProvisioningPayload): IRoundTripRequest {
+	public Send(
+		payload: IRequestSettingsProvisioningPayload
+	): IRoundTripRequest {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'RequestSettingsProvisioning';
+		return "RequestSettingsProvisioning";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'RequestSettingsProvisioningCB';
+		return "RequestSettingsProvisioningCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestSettingsProvisioningCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IRequestSettingsProvisioningCB
+	): boolean {
 		if (!payload.settingsProvisioning) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting settings provisioning #2.`));
+					new Error(`Error requesting settings provisioning #2.`)
+				);
 			}
 			return false;
 		}
-	
+
 		// Default action
-		store.commit('UpdateSettingsProvisioningRemote', payload.settingsProvisioning);
-		
+		store.commit(
+			"UpdateSettingsProvisioningRemote",
+			payload.settingsProvisioning
+		);
+
 		return true;
 	}
 }

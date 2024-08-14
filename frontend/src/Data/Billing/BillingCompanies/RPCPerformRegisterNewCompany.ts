@@ -1,11 +1,9 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
-
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IPerformRegisterNewCompany extends IIdempotencyRequest {
-	
 	name: string | null;
 	abbreviation: string | null;
 	industry: string | null;
@@ -16,7 +14,7 @@ export interface IPerformRegisterNewCompany extends IIdempotencyRequest {
 	addressProvince: string | null;
 	addressPostalCode: string | null;
 	addressCountry: string | null;
-	
+
 	mainContactEMail: string | null;
 	mainContactPhoneNumber: string | null;
 }
@@ -34,54 +32,58 @@ export class RPCPerformRegisterNewCompany extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'PerformRegisterNewCompany';
+		return "PerformRegisterNewCompany";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'PerformRegisterNewCompanyCB';
+		return "PerformRegisterNewCompanyCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IPerformRegisterNewCompanyCB): boolean {
-		
-		if (!payload.hasOwnProperty('created')) {
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IPerformRegisterNewCompanyCB
+	): boolean {
+		if (!payload.hasOwnProperty("created")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error registering new company #2.`));
+					new Error(`Error registering new company #2.`)
+				);
 			}
 			return false;
 		}
-		if (!payload.hasOwnProperty('billingCompanyId')) {
+		if (!payload.hasOwnProperty("billingCompanyId")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error registering new company #3.`));
+					new Error(`Error registering new company #3.`)
+				);
 			}
 			return false;
 		}
-		if (!payload.hasOwnProperty('billingContactId')) {
+		if (!payload.hasOwnProperty("billingContactId")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error registering new company #4.`));
+					new Error(`Error registering new company #4.`)
+				);
 			}
 			return false;
 		}
-		if (!payload.hasOwnProperty('billingSessionId')) {
+		if (!payload.hasOwnProperty("billingSessionId")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error registering new company #5.`));
+					new Error(`Error registering new company #5.`)
+				);
 			}
 			return false;
 		}
-		if (!payload.hasOwnProperty('stripeIntentClientSecret')) {
+		if (!payload.hasOwnProperty("stripeIntentClientSecret")) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error registering new company #6.`));
+					new Error(`Error registering new company #6.`)
+				);
 			}
 			return false;
 		}
-	
-	
+
 		// Default action
-		
-	
-		
+
 		return true;
 	}
 }

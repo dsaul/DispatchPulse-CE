@@ -1,10 +1,10 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { ILabourType } from './LabourType';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { ILabourType } from "./LabourType";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IRequestLabourTypesPayload extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
@@ -19,25 +19,27 @@ export class RPCRequestLabourTypes extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'RequestLabourTypes';
+		return "RequestLabourTypes";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'RequestLabourTypesCB';
+		return "RequestLabourTypesCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestLabourTypesCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IRequestLabourTypesCB
+	): boolean {
 		if (!payload.labourTypes) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting labour types #2.`));
+					new Error(`Error requesting labour types #2.`)
+				);
 			}
 			return false;
 		}
-	
+
 		// Default action
-		store.commit('UpdateLabourTypesRemote', payload.labourTypes);
-	
-		
+		store.commit("UpdateLabourTypesRemote", payload.labourTypes);
+
 		return true;
 	}
 }

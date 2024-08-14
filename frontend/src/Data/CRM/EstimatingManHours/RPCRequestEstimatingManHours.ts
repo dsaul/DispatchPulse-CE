@@ -1,10 +1,10 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IEstimatingManHours } from './EstimatingManHours';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IEstimatingManHours } from "./EstimatingManHours";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IRequestEstimatingManHoursPayload extends IIdempotencyRequest {
 	limitToIds?: string[] | null;
@@ -19,24 +19,30 @@ export class RPCRequestEstimatingManHours extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'RequestEstimatingManHours';
+		return "RequestEstimatingManHours";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'RequestEstimatingManHoursCB';
+		return "RequestEstimatingManHoursCB";
 	}
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IRequestEstimatingManHoursCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IRequestEstimatingManHoursCB
+	): boolean {
 		if (!payload.estimatingManHours) {
 			if (rtr && rtr._completeRequestPromiseReject) {
 				rtr._completeRequestPromiseReject(
-					new Error(`Error requesting man hours #2.`));
+					new Error(`Error requesting man hours #2.`)
+				);
 			}
 			return false;
 		}
-	
+
 		// Default action
-		store.commit('UpdateEstimatingManHoursRemote', payload.estimatingManHours);
-		
+		store.commit(
+			"UpdateEstimatingManHoursRemote",
+			payload.estimatingManHours
+		);
+
 		return true;
 	}
 }

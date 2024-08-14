@@ -1,5 +1,3 @@
-
-
-export default(): string[] => {
-	return ['(###) ###-#### x#######'];
+export default (): string[] => {
+	return ["(###) ###-#### x#######"];
 };

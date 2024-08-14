@@ -8,16 +8,16 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
 	props: {
-		
+
 	},
 })
 export default class CommitSessionGlobalButton extends Vue {
-	
+
 	// definite assignments as props
-	
-	
+
+
 	// data
-	
+
 	protected CommitSessionGlobal(): void {
 		console.log('CommitSessionGlobal()');
 	}

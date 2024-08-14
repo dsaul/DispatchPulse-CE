@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 export interface IDeleteProjectDialogueModelState {
 	redirectToIndex: boolean;
@@ -6,40 +6,37 @@ export interface IDeleteProjectDialogueModelState {
 }
 
 export class DeleteProjectDialogueModelState {
-	
-	public static GetMerged(mergeValues: Record<string, any>): IDeleteProjectDialogueModelState {
+	public static GetMerged(
+		mergeValues: Record<string, any>
+	): IDeleteProjectDialogueModelState {
 		const ret = this.GetEmpty();
 		_.merge(ret, mergeValues);
 		return ret;
 	}
-	
+
 	public static GetEmpty(): IDeleteProjectDialogueModelState {
 		const ret: IDeleteProjectDialogueModelState = {
 			redirectToIndex: false,
-			id: null,
+			id: null
 		};
-		
+
 		return ret;
 	}
-	
 }
 
-export const GenerateEmpty = (mergeValues?: Record<string, any> | null): IDeleteProjectDialogueModelState => {
+export const GenerateEmpty = (
+	mergeValues?: Record<string, any> | null
+): IDeleteProjectDialogueModelState => {
 	const ret: IDeleteProjectDialogueModelState = {
 		redirectToIndex: false,
-		id: null,
+		id: null
 	};
-	
-	
-	
+
 	if (mergeValues) {
 		_.merge(ret, mergeValues);
 	}
-	
+
 	return ret;
 };
 
- 
-
 export default {};
-

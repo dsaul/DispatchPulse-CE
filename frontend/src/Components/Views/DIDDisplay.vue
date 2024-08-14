@@ -1,16 +1,7 @@
 <template>
-	<DIDEditor
-		v-model="DID"
-		ref="editor"
-		:showAppBar="true"
-		:showFooter="true"
-		:breadcrumbs="Breadcrumbs"
-		:preselectTabName="$route.query.tab"
-		:isMakingNew="false"
-		:isLoadingData="loadingData"
-		@reload="LoadData()"
-		/>
-	
+	<DIDEditor v-model="DID" ref="editor" :showAppBar="true" :showFooter="true" :breadcrumbs="Breadcrumbs"
+		:preselectTabName="$route.query.tab" :isMakingNew="false" :isLoadingData="loadingData" @reload="LoadData()" />
+
 </template>
 
 <script lang="ts">
@@ -32,45 +23,45 @@ import { BillingPermissionsBool } from '@/Data/Billing/BillingPermissionsBool/Bi
 	},
 })
 export default class DIDDisplay extends ViewBase {
-	
+
 	public $refs!: {
 		editor: DIDEditor,
 	};
-	
+
 	protected loadingData = false;
-	
-	
+
+
 	public LoadData(): void {
-		
+
 		if (!this.$route.params.id || IsNullOrEmpty(this.$route.params.id)) {
 			return;
 		}
-		
+
 		SignalRConnection.Ready(() => {
 			BillingPermissionsBool.Ready(() => {
-				
+
 				const rtr = DID.FetchForId(this.$route.params.id);
 				if (rtr.completeRequestPromise) {
-					
+
 					this.loadingData = true;
-					
+
 					rtr.completeRequestPromise.finally(() => {
 						this.loadingData = false;
 					});
 				}
-				
+
 			});
 		});
 	}
-	
+
 	protected MountedAfter(): void {
-		
-		if (!this.$route.params.id 
+
+		if (!this.$route.params.id
 			|| IsNullOrEmpty(this.$route.params.id)
-			) {
+		) {
 			this.$router.push(`/section/DIDs/`).catch(((e: Error) => { }));// eslint-disable-line
 		}
-		
+
 		this.SwitchToTabFromRoute();
 		this.LoadData();
 	}
@@ -78,7 +69,7 @@ export default class DIDDisplay extends ViewBase {
 	protected SwitchToTabFromRoute(): void {
 		this.$refs.editor.SwitchToTabFromRoute();
 	}
-	
+
 	protected get Breadcrumbs(): Array<{
 		text: string;
 		disabled: boolean;
@@ -102,45 +93,45 @@ export default class DIDDisplay extends ViewBase {
 			},
 		];
 	}
-	
+
 	get DID(): IDID | null {
-		
+
 		//console.debug('this.$route.params.id', this.$route.params.id);
-		
+
 		const cal = DID.ForId(this.$route.params.id);
-		
+
 		if (!cal) {
 			return null;
 		}
 		return _.cloneDeep(cal) as IDID;
 	}
-	
-	
+
+
 	set DID(val: IDID | null) {
 		if (!val) {
 			return;
 		}
-		
+
 		val.lastModifiedISO8601 = DateTime.utc().toISO();
 		val.json.lastModifiedBillingId = BillingContacts.CurrentBillingContactId();
-		
+
 		const id = this.$route.params.id;
 		if (!id || IsNullOrEmpty(id)) {
 			console.error('!id || IsNullOrEmpty(id)');
 			return;
 		}
-		
+
 		const payload: Record<string, IDID> = {};
 		payload[id] = val;
 		DID.UpdateIds(payload);
 	}
 
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 }
 </script>

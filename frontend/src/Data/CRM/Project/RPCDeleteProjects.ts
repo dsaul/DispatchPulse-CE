@@ -1,9 +1,9 @@
-import { RPCMethod } from '@/RPC/RPCMethod';
-import IIdempotencyResponse from '@/RPC/IIdempotencyResponse';
-import IIdempotencyRequest from '@/RPC/IIdempotencyRequest';
+import { RPCMethod } from "@/RPC/RPCMethod";
+import IIdempotencyResponse from "@/RPC/IIdempotencyResponse";
+import IIdempotencyRequest from "@/RPC/IIdempotencyRequest";
 
-import store from '@/plugins/store/store';
-import { IRoundTripRequest } from '@/RPC/SignalRConnection';
+import store from "@/plugins/store/store";
+import { IRoundTripRequest } from "@/RPC/SignalRConnection";
 
 export interface IDeleteProjectsPayload extends IIdempotencyRequest {
 	projectsDelete: string[];
@@ -18,19 +18,21 @@ export class RPCDeleteProjects extends RPCMethod {
 		return super.Send(payload);
 	}
 	public GetServerMethodName(): string | null {
-		return 'DeleteProjects';
+		return "DeleteProjects";
 	}
 	public GetClientCallbackMethodName(): string | null {
-		return 'DeleteProjectsCB';
+		return "DeleteProjectsCB";
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public RecieveDefaultAction(rtr: IRoundTripRequest, payload: IDeleteProjectsCB): boolean {
-		
+	public RecieveDefaultAction(
+		rtr: IRoundTripRequest,
+		payload: IDeleteProjectsCB
+	): boolean {
 		if (payload.projectsDelete && payload.projectsDelete.length > 0) {
 			// Default action
-			store.commit('DeleteProjectsRemote', payload.projectsDelete);
+			store.commit("DeleteProjectsRemote", payload.projectsDelete);
 		}
-		
+
 		return true;
 	}
 }
