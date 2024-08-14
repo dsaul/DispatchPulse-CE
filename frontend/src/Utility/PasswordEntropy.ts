@@ -18,7 +18,6 @@ export default abstract class PasswordEntropy {
 			? PasswordEntropy.CalcEntropy(
 					PasswordEntropy.calcCharsetLength(string),
 					string.length
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
 			  )
 			: 0;
 	}
