@@ -3,8 +3,8 @@
 		<v-snackbar :value="currentSnackbarNotification != null" :timeout="-1" top :color="SnackbarColor()"
 			class="notification-bell-snackbar" absolute style="position: fixed;">
 
-			<span v-if="this.currentSnackbarNotification">{{ this.currentSnackbarNotification.message || 'No
-		message ? '}}</span>
+			<span v-if="this.currentSnackbarNotification">{{ this.currentSnackbarNotification.message || `No
+				message?`}}</span>
 
 			<template v-slot:action="{ attrs }">
 				<v-btn text v-bind="attrs" @click="ClearCurrent()">
